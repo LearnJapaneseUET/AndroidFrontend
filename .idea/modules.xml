@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/nihongo.iml" filepath="$PROJECT_DIR$/nihongo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/nihongo_android.iml" filepath="$PROJECT_DIR$/android/nihongo_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/untitled_654741121.iml" filepath="$PROJECT_DIR$/untitled_654741121.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/untitled_654741121_android.iml" filepath="$PROJECT_DIR$/android/untitled_654741121_android.iml" />
     </modules>
   </component>
 </project>
