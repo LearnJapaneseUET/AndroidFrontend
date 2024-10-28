@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "559365317834",
+    "project_id": "mobile-dd73f",
+    "storage_bucket": "mobile-dd73f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559365317834:android:304f9dce4cbfcc444cc033",
+        "android_client_info": {
+          "package_name": "com.mobile.nihongo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoiF-d1b6ih1QdroXVVizPp_GDCKCfVRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559365317834:android:ac93e70f03aa916d4cc033",
+        "android_client_info": {
+          "package_name": "com.uet.nihongo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoiF-d1b6ih1QdroXVVizPp_GDCKCfVRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
