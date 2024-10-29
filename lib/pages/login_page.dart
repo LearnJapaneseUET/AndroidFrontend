@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nihongo/components/my_button.dart';
 import 'package:nihongo/components/my_textfield.dart';
 import 'package:nihongo/components/square_tile.dart';
+import 'package:nihongo/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -170,14 +171,19 @@ class _LoginPageState extends State<LoginPage> {
                 // google + apple sign in buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     // google button
-                    SquareTile(imagePath: 'lib/images/google.png'),
+                    SquareTile(
+                      onTap: () => AuthService().signInWithGoogle(),
+                      imagePath: 'lib/images/google.png'),
 
                     SizedBox(width: 25),
 
                     // apple button
-                    SquareTile(imagePath: 'lib/images/apple.png')
+                    SquareTile(
+                      onTap: () {},
+                      imagePath: 'lib/images/apple.png'
+                    )
                   ],
                 ),
 
