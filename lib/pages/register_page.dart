@@ -21,10 +21,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final confirmPasswordController = TextEditingController();
 
   // sign user in method
-  void signUserUp() async{
+  void signUserUp() async {
     //show loading circle
     showDialog(
-      context: context, 
+      context: context,
       builder: (context) {
         return const Center(
           child: CircularProgressIndicator(),
@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
       // check if password is confirmed
       if (passwordController.text == confirmPasswordController.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, 
+          email: emailController.text,
           password: passwordController.text,
         );
       } else {
@@ -60,14 +60,13 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.purple,
-          title: Center(
-            child: Text(
-              message,
-              style: const TextStyle(color: Colors.white),
-            ),
-          )
-        );
+            backgroundColor: Colors.purple,
+            title: Center(
+              child: Text(
+                message,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ));
       },
     );
   }
@@ -174,16 +173,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     // google button
                     SquareTile(
-                      onTap: () => AuthService().signInWithGoogle(),
-                      imagePath: 'lib/images/google.png'),
+                        onTap: () => AuthService().signInWithGoogle(),
+                        imagePath: 'assets/images/google.png'),
 
                     SizedBox(width: 25),
 
                     // apple button
                     SquareTile(
-                      onTap: () {},
-                      imagePath: 'lib/images/apple.png'
-                    )
+                        onTap: () {}, imagePath: 'assets/images/google.png')
                   ],
                 ),
 
