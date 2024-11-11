@@ -1,29 +1,81 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nihongo/pages/dictionary_page.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
-
-  void signUserOut() {
-    FirebaseAuth.instance.signOut();
-  }
+  int _currentIndex = 0;
+  final tabs = [
+    DictionaryPage(),
+    Center(child: Text('Translate')),
+    Center(child: Text('Flashcard')),
+    Center(child: Text('Chatbot')),
+    Center(child: Text('Profile')),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [IconButton(
-          onPressed: signUserOut, 
-          icon: Icon(Icons.logout)
-          )
+      appBar: AppBar(   
+        backgroundColor: const Color(0xFF8980F0),
+        toolbarHeight: 10.0, 
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: tabs[_currentIndex],
+          ),
         ],
       ),
-      body: Center(child: Text(
-        "Logged in as: " + user.email!,
-        style: TextStyle(fontSize: 20),
-      )),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: '',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.translate),
+            label: '',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assignment),
+            label: '',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.wechat),
+            label: '',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '',
+            backgroundColor: Colors.purple,
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
     );
   }
+
+  List<Object> get newMethod => tabs;
 }
