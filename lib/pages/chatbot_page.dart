@@ -29,7 +29,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           Text(
             "ChatGPT",
             style: TextStyle(
-              fontSize: 28,
+              fontSize: 24,
               fontFamily: 'Noto Sans',
               fontWeight: FontWeight.w700,
               color: Colors.white,
