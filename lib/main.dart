@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       home: const AuthPage(),
       navigatorKey: navigatorKey,
       routes: {
-        '/notification_screen':(context) => const NotificationPage(),
+        '/notification_screen': (context) => const NotificationPage(),
       },
     );
   }

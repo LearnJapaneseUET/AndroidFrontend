@@ -21,19 +21,24 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color(0xFF8980F0),
       title: Row(
         children: [
-          Icon(Icons.rocket, color: Colors.blue, size: 30),
+          Icon(Icons.rocket, color: Colors.white, size: 28),
           SizedBox(width: 10),
           Text(
             "ChatGPT",
-            style: TextStyle(color: Colors.black, fontSize: 20),
+            style: TextStyle(
+              fontSize: 28,
+              fontFamily: 'Noto Sans',
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
           ),
           Spacer(),
           Text(
             "Online",
-            style: TextStyle(color: Colors.green, fontSize: 16),
+            style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ],
       ),
