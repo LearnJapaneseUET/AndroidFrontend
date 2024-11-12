@@ -4,7 +4,7 @@ import 'package:nihongo/pages/dictionary_page.dart';
 import 'package:nihongo/services/fetch_word_suggestion_service.dart';
 
 class searchWord extends SearchDelegate {
-  final FetchWordSuggesstion _suggesstionList = FetchWordSuggesstion();
+  final FetchWordSuggesstionService _suggesstionList = FetchWordSuggesstionService();
 
   @override
   List<Widget> buildActions(BuildContext context) {

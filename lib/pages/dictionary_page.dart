@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nihongo/components/dictionary/word_detail.dart';
 import 'package:nihongo/components/my_button.dart';
 import 'package:nihongo/components/my_textfield.dart';
 import 'package:nihongo/components/dictionary/nav_bar.dart';
 import 'package:nihongo/components/dictionary/detail_nav_bar.dart';
 import 'package:nihongo/components/dictionary/search_field.dart';
+import 'package:nihongo/models/word_detail_model.dart';
 import 'package:nihongo/models/word_suggestion_model.dart';
+import 'package:nihongo/services/fetch_word_detail_service.dart';
 import 'package:nihongo/services/fetch_word_suggestion_service.dart';
 class DictionaryPage extends StatefulWidget {
   final String? word;
@@ -15,16 +18,17 @@ class DictionaryPage extends StatefulWidget {
 }
 
 class _DictionaryPageState extends State<DictionaryPage> {
-  final searchFieldController = TextEditingController();
-  final tabs = [
-    Center(child: Text('Từ vựng')),
-    Center(child: Text('Chữ Hán')),
-    Center(child: Text('Mẫu câu')),
-  ];
   int selectedIndex = 0;
 
   @override
-  Widget build(BuildContext context) {   
+  Widget build(BuildContext context) {  
+    final tabs = [
+      // Center(child: Text('Từ vựng')),
+      WordDetailPage(word: widget.word),
+      Center(child: Text('Chữ Hán')),
+      Center(child: Text('Mẫu câu')),
+    ];
+
     return Column(
       children: [
         DecoratedBox(
@@ -74,10 +78,11 @@ class _DictionaryPageState extends State<DictionaryPage> {
           ),
         ),
         Expanded(
-          // child: Text('Hehe')
-          child: widget.word != null 
-            ? Text(widget.word!)
-            : const Text('Không có từ nào được cung cấp'),
+          // // child: Text('Hehe')
+          // child: widget.word != null 
+          //   ? Text(widget.word!)
+          //   : const Text('Không có từ nào được cung cấp'),  
+          child: tabs[selectedIndex],
         )
       ],
     );

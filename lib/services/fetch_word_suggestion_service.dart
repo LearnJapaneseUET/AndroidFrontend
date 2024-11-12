@@ -2,10 +2,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:nihongo/models/word_suggestion_model.dart';
 
-class FetchWordSuggesstion{
+class FetchWordSuggesstionService{
   var data = [];
   List<WordSuggestion> results = [];
-  String fetchurl = "https://supreme-cod-j6vp47rwjg725776-8000.app.github.dev/api/dictionary/suggestion/";
   
   Future<List<WordSuggestion>> getSugesstionList({required String searchWord}) async{
     var uri = Uri.https('supreme-cod-j6vp47rwjg725776-8000.app.github.dev', 'api/dictionary/suggestion/$searchWord');

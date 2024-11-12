@@ -5,10 +5,10 @@ class WordSuggestion {
 
   WordSuggestion({this.writing, this.furigana, this.meaning});
 
-  WordSuggestion.fromJson(Map<String, dynamic> data) {
-    writing = data['kanji'];
-    furigana = data['reading'];
-    meaning = data['meaning'];
+  WordSuggestion.fromJson(Map<String, dynamic> json) {
+    writing = json['kanji'];
+    furigana = json['reading'];
+    meaning = json['meaning'];
   }
 
   Map<String, dynamic> toJson() {

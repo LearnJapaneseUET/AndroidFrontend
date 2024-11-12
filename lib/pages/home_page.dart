@@ -27,14 +27,13 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color(0xFF8980F0),
         toolbarHeight: 10.0, 
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: tabs[_currentIndex],
-          ),
-        ],
+      body: Navigator(
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) => tabs[_currentIndex],
+          );
+        }
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
