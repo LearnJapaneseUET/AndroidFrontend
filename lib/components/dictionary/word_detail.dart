@@ -14,8 +14,8 @@ class WordDetailPage extends StatelessWidget {
       return const Center(child: Text('Từ vựng'));
     }
 
-    return FutureBuilder<List<WordDetail>>(
-      future: _wordExpandedDetailList.getWordExpandedDetailList(searchWord: word!),
+    return FutureBuilder<Meaning?>(
+      future: _wordExpandedDetailList.getWordExpandedDetail(searchWord: word!),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -24,41 +24,51 @@ class WordDetailPage extends StatelessWidget {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
 
-        // Lấy danh sách từ snapshot
-        List<WordDetail> data = snapshot.data!;
+        // Lấy Meaning từ snapshot
+        Meaning? meaning = snapshot.data;
 
         // Xử lý khi không có dữ liệu
-        if (data.isEmpty) {
+        if (meaning == null) {
           return const Center(child: Text('No data available.'));
         }
 
-        // Lấy thông tin từ WordDetail đầu tiên
-        WordDetail wordDetail = data[0];
-
         return Scaffold(
           appBar: AppBar(
-            title: Text(wordDetail.meaning.word),
+            title: Text(meaning.word),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView(
               children: [
-                Text(wordDetail.meaning.word),
-                Text(wordDetail.meaning.phonetic),
-                Text(wordDetail.meaning.shortMean),
-                ...wordDetail.examples.map((example) {
+                Text(meaning.phonetic),
+                Text(meaning.shortMean),
+                // Hiển thị các thông tin trong 'means'
+                ...meaning.means.map((meanDetail) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text('${example.content} - ${example.mean}'),
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Hiển thị 'mean' và 'kind'
+                        Text(meanDetail.kind),
+                        Text(meanDetail.mean),
+
+                        // Hiển thị các ví dụ
+                        ...meanDetail.examples.map((example) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text('${example.content} - ${example.mean}'),
+                          );
+                        }).toList(),
+                      ],
+                    ),
                   );
                 }).toList(),
-                // Hiển thị các bình luận tương tự
               ],
             ),
           ),
         );
       },
     );
-
   }
 }

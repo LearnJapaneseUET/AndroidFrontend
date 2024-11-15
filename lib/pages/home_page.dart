@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final User user = FirebaseAuth.instance.currentUser!;
   int _currentIndex = 0;
   final tabs = [
     DictionaryPage(),
@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("id");
+    print(user.uid);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF8980F0),

@@ -54,13 +54,13 @@ class Meaning {
 
 // Model cho MeanDetail
 class MeanDetail {
-  final String field;
+  // final String field;
   final String mean;
   final String kind;
   final List<Example> examples;
 
   MeanDetail({
-    required this.field,
+    // required this.field,
     required this.mean,
     required this.kind,
     required this.examples,
@@ -68,7 +68,7 @@ class MeanDetail {
 
   factory MeanDetail.fromJson(Map<String, dynamic> json) {
     return MeanDetail(
-      field: json['field'],
+      // field: json['field'],
       mean: json['mean'],
       kind: json['kind'],
       examples: (json['examples'] as List)
