@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nihongo/components/dictionary/example_detail.dart';
 import 'package:nihongo/components/dictionary/word_detail.dart';
 import 'package:nihongo/components/my_button.dart';
 import 'package:nihongo/components/my_textfield.dart';
@@ -26,7 +27,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
       // Center(child: Text('Từ vựng')),
       WordDetailPage(word: widget.word),
       Center(child: Text('Chữ Hán')),
-      Center(child: Text('Mẫu câu')),
+      WordExamplePage(word: widget.word),
     ];
 
     return Column(

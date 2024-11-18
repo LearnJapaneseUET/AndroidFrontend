@@ -26,7 +26,7 @@ class WordDetail {
 
 class Meaning {
   final String shortMean;
-  final int mobileId;
+  final int? mobileId; // Có thể null
   final String word;
   final String phonetic;
   final List<MeanDetail> means;
@@ -41,10 +41,10 @@ class Meaning {
 
   factory Meaning.fromJson(Map<String, dynamic> json) {
     return Meaning(
-      shortMean: json['short_mean'],
+      shortMean: json['short_mean'] ?? '',
       mobileId: json['mobileId'],
-      word: json['word'],
-      phonetic: json['phonetic'],
+      word: json['word'] ?? '',
+      phonetic: json['phonetic'] ?? '',
       means: (json['means'] as List)
           .map((item) => MeanDetail.fromJson(item))
           .toList(),
@@ -52,15 +52,12 @@ class Meaning {
   }
 }
 
-// Model cho MeanDetail
 class MeanDetail {
-  // final String field;
   final String mean;
   final String kind;
   final List<Example> examples;
 
   MeanDetail({
-    // required this.field,
     required this.mean,
     required this.kind,
     required this.examples,
@@ -68,9 +65,8 @@ class MeanDetail {
 
   factory MeanDetail.fromJson(Map<String, dynamic> json) {
     return MeanDetail(
-      // field: json['field'],
-      mean: json['mean'],
-      kind: json['kind'],
+      mean: json['mean'] ?? '',
+      kind: json['kind'] ?? '',
       examples: (json['examples'] as List)
           .map((item) => Example.fromJson(item))
           .toList(),

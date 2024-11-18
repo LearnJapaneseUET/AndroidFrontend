@@ -7,7 +7,7 @@ class FetchWordSuggesstionService{
   List<WordSuggestion> results = [];
   
   Future<List<WordSuggestion>> getSugesstionList({required String searchWord}) async{
-    var uri = Uri.https('supreme-cod-j6vp47rwjg725776-8000.app.github.dev', 'api/dictionary/suggestion/$searchWord');
+    var uri = Uri.https('nihongobenkyou.online', 'api/dictionary/suggestion/$searchWord');
     var response = await http.get(uri, headers: {"Accept": "application/json"});
     try {
       if (response.statusCode == 200) {
