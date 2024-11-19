@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nihongo/pages/dictionary_page.dart';
 import 'package:nihongo/pages/chatbot_page.dart';
+import 'package:nihongo/pages/library/library_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   final tabs = [
     DictionaryPage(),
     Center(child: Text('Translate')),
-    Center(child: Text('Flashcard')),
+    LibraryPage(),
     ChatbotPage(),
     Center(child: Text('Profile')),
   ];
