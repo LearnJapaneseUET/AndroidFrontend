@@ -5,14 +5,12 @@ import 'package:nihongo/components/my_button.dart';
 import 'package:nihongo/components/my_textfield.dart';
 import 'package:nihongo/components/dictionary/nav_bar.dart';
 import 'package:nihongo/components/dictionary/detail_nav_bar.dart';
-import 'package:nihongo/components/dictionary/search_field.dart';
 import 'package:nihongo/models/word_detail_model.dart';
 import 'package:nihongo/models/word_suggestion_model.dart';
 import 'package:nihongo/services/fetch_word_detail_service.dart';
 import 'package:nihongo/services/fetch_word_suggestion_service.dart';
 class DictionaryPage extends StatefulWidget {
-  final String? word;
-  const DictionaryPage({super.key,  this.word});
+  const DictionaryPage({super.key});
 
   @override
   State<DictionaryPage> createState() => _DictionaryPageState();
@@ -20,14 +18,22 @@ class DictionaryPage extends StatefulWidget {
 
 class _DictionaryPageState extends State<DictionaryPage> {
   int selectedIndex = 0;
+  String _receivedValue = "";  // Hàm sẽ nhận giá trị từ component con
+  
+  void updateSearchWord(String value) {
+    setState(() {
+      _receivedValue = value;
+      print(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {  
     final tabs = [
       // Center(child: Text('Từ vựng')),
-      WordDetailPage(word: widget.word),
+      WordDetailPage(word: _receivedValue),
       Center(child: Text('Chữ Hán')),
-      WordExamplePage(word: widget.word),
+      WordExamplePage(word: _receivedValue),
     ];
 
     return Column(
@@ -40,7 +46,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
             child: Column(
               children: [
-                const NavBar(),
+                NavBar(onValueChanged: updateSearchWord),
                 const SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
