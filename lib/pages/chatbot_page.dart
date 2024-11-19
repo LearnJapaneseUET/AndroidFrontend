@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nihongo/components/chat_field.dart';
 import 'package:nihongo/microphone/microphone.dart';
 
 class ChatbotPage extends StatelessWidget {
@@ -22,7 +21,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Color(0xFF8980F0),
+      backgroundColor: const Color(0xFF8980F0),
       title: const Row(
         children: [
           Icon(Icons.rocket, color: Colors.white, size: 28),

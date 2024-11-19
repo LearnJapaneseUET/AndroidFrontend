@@ -1,5 +1,3 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:nihongo/models/word_detail_model.dart';
 
 class FetchWordDetailService {
@@ -118,7 +116,7 @@ class FetchWordDetailService {
               comments: comments,
             );
     results.add(wordDetail);
-    print("wordDetail:${wordDetail}");
+    print("wordDetail:$wordDetail");
     print(results);
     return results;
     // var uri = Uri.https(
