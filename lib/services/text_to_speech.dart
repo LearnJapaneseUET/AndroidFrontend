@@ -28,11 +28,14 @@
 //   tts.printConfig();
 // }
 
-import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class TextToSpeech {
   late final String endpoint;
@@ -41,43 +44,53 @@ class TextToSpeech {
 
   // Load .env
   TextToSpeech() {
-    dotenv.load(fileName: ".env");
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await dotenv.load(fileName: ".env");
 
     // Get the endpoint from .env
     endpoint = dotenv.env['TTS_ENDPOINT'] ?? '';
     apiKey = dotenv.env['TTS_KEY'] ?? '';
     region = dotenv.env['TTS_REGION'] ?? '';
+
+    // Request storage permission
+    var status = await Permission.storage.request();
+    if (status != PermissionStatus.granted) {
+      debugPrint('debug: Storage permission denied.');
+    } else {
+      debugPrint('debug: Storage permission granted.');
+    }
   }
 
   // Print the configuration for debugging
   void printConfig() {
-    print('Endpoint: $endpoint');
-    print('API Key: $apiKey');
-    print('Region: $region');
+    debugPrint('debug: Endpoint: $endpoint');
+    debugPrint('debug: API Key: $apiKey');
+    debugPrint('debug: Region: $region');
   }
 
   // Convert text to speech and save it to a file
   Future<void> convertTextToSpeech(String text) async {
     // Define the API URL
-    final url = Uri.parse('$endpoint/cognitiveservices/v1');
+    final url = Uri.parse(
+        'https://$region.tts.speech.microsoft.com/cognitiveservices/v1');
 
     // Set the headers
     final headers = {
       'Content-Type': 'application/ssml+xml',
-      'Authorization': 'Bearer $apiKey',
+      'Ocp-Apim-Subscription-Key': apiKey,
       'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
-      'User-Agent': 'AzureTextToSpeechClient/1.0',
+      'User-Agent': 'curl',
     };
 
     // Define the SSML (Speech Synthesis Markup Language) body
     final ssml = '''
-    <?xml version="1.0" encoding="UTF-8"?>
-    <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <voice name="en-US-JessaNeural">
-            <prosody rate="0%" volume="100%">
-                $text
-            </prosody>
-        </voice>
+    <speak version='1.0' xml:lang='en-US'>
+      <voice xml:lang='en-US' xml:gender='Female' name='en-US-AvaMultilingualNeural'>
+        $text
+      </voice>
     </speak>
     ''';
 
@@ -90,7 +103,7 @@ class TextToSpeech {
 
     if (response.statusCode == 200) {
       // Success: the response contains the audio file
-      print('Text-to-Speech conversion successful!');
+      debugPrint('debug: Text-to-Speech conversion successful!');
 
       // Get the audio data from the response
       final audioData = response.bodyBytes;
@@ -99,15 +112,51 @@ class TextToSpeech {
       await _saveAudioToFile(audioData);
     } else {
       // If the request failed, print the error
-      print('Error: ${response.statusCode}, ${response.body}');
+      debugPrint('debug: Error: ${response.statusCode}, ${response.body}');
     }
   }
 
   // Save the audio data to a file
   Future<void> _saveAudioToFile(Uint8List audioData) async {
-    final file = File('output.mp3');
+    final directory = await getExternalStorageDirectory();
+    final filePath = '${directory?.path}/output.mp3';
+    final file = File(filePath);
     await file.writeAsBytes(audioData);
-    print('Audio saved as output.mp3');
+    debugPrint('debug: Audio saved as $filePath');
+  }
+
+  Future<void> _playAudioFile() async {
+    debugPrint('debug: Playing audio file...');
+    final player = AudioPlayer();
+    final directory = await getExternalStorageDirectory();
+    final filePath = '${directory?.path}/output.mp3';
+    debugPrint('debug: File path: $filePath');
+
+    // Play the audio file
+    await player.play(DeviceFileSource(filePath));
+    debugPrint('debug: Audio playback started successfully.');
+    player.onPlayerStateChanged.listen((state) {
+      if (state == PlayerState.completed) {
+        debugPrint('debug: Audio playback completed.');
+      } else if (state == PlayerState.stopped) {
+        debugPrint('debug: Audio playback stopped.');
+      } else if (state == PlayerState.paused) {
+        debugPrint('debug: Audio playback paused.');
+      } else if (state == PlayerState.playing) {
+        debugPrint('debug: Audio playback started successfully.');
+      }
+    });
+
+    // Optionally, handle completion or errors
+    player.onPlayerComplete.listen((event) {
+      debugPrint('debug: Audio playback completed.');
+    });
+  }
+
+  // Call convertTextToSpeech when text is submitted, then _saveAudioToFile, then playAudioFile
+  void processTTS(String text) async {
+    await convertTextToSpeech(text);
+    _playAudioFile();
   }
 }
 

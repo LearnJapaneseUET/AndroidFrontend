@@ -22,7 +22,7 @@ class Notebook extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => VocabPage(),
+            builder: (context) => const VocabPage(),
           ),
         );
       },
@@ -36,7 +36,7 @@ class Notebook extends StatelessWidget {
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1, color: Color(0xFFD3D9EA)),
+                side: const BorderSide(width: 1, color: Color(0xFFD3D9EA)),
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
@@ -50,7 +50,7 @@ class Notebook extends StatelessWidget {
                     width: double.infinity,
                     child: Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF2A2D37),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class Notebook extends StatelessWidget {
                   child: SizedBox(
                     child: Text(
                       wordCount,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF8980F0),
                         fontSize: 16,
                         fontFamily: 'Noto Sans',
@@ -77,7 +77,7 @@ class Notebook extends StatelessWidget {
                   width: double.infinity,
                   child: Text(
                     updateDate,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                       fontFamily: 'Noto Sans',

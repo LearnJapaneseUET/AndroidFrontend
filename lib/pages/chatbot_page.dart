@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nihongo/microphone/microphone.dart';
+import 'package:nihongo/services/text_to_speech.dart';
+
+// Create a TextToSpeech instance
+final textToSpeech = TextToSpeech();
 
 class ChatbotPage extends StatelessWidget {
   const ChatbotPage({super.key});
@@ -140,7 +144,28 @@ class ChatBottomNavigationBar extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
               ),
+              onSubmitted: (text) {
+                // debugPrint("Text submitted: $text");
+                // String test = textToSpeech.getEnpoint();
+                debugPrint("Text submitted: $text");
+                // textToSpeech.printConfig(textToSpeech.print);
+                // Call convertTextToSpeech when text is submitted
+                // textToSpeech.convertTextToSpeech(text);
+                // debugPrint("after submitted: $text");
+                textToSpeech.processTTS(text);
+              },
             ),
+          ),
+          IconButton(
+            // onPressed: Get text from TextField and call convertTextToSpeech
+            onPressed: () {
+              const text = "Xin chào";
+              // Change button color to green
+
+              // textToSpeech.processTTS(text);
+            },
+            icon: const Icon(Icons.send),
+            color: Colors.purple,
           ),
           const SizedBox(width: 10),
           const MicrophoneButton(), // Replaced mic button with MicrophoneButton

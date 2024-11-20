@@ -3,7 +3,8 @@ import 'package:nihongo/services/fetch_word_detail_service.dart';
 import 'package:nihongo/models/word_detail_model.dart';
 
 class WordDetailPage extends StatelessWidget {
-  final FetchWordDetailService _wordExpandedDetailList = FetchWordDetailService();
+  final FetchWordDetailService _wordExpandedDetailList =
+      FetchWordDetailService();
   final String? word;
 
   WordDetailPage({super.key, this.word});
@@ -111,8 +112,10 @@ class WordDetailPage extends StatelessWidget {
                         wordDetail.meaning.phonetic,
                         style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
-                      const SizedBox(height: 4.0), // Thêm khoảng cách giữa phonetic và nghĩa
-                      
+                      const SizedBox(
+                          height:
+                              4.0), // Thêm khoảng cách giữa phonetic và nghĩa
+
                       // Hiển thị các thông tin trong 'means'
                       ...wordDetail.meaning.means.map(
                         (meanDetail) => Column(
@@ -134,7 +137,7 @@ class WordDetailPage extends StatelessWidget {
                                 fontSize: 14.0,
                               ),
                             ),
-                            
+
                             // Hiển thị các ví dụ
                             if (meanDetail.examples.isNotEmpty) ...[
                               const SizedBox(height: 8.0),
@@ -144,7 +147,8 @@ class WordDetailPage extends StatelessWidget {
                                   children: [
                                     Text(
                                       example.transcription,
-                                      style: const TextStyle(color: Colors.grey),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
                                     ),
                                     const SizedBox(height: 5.0),
                                     Text(
@@ -162,7 +166,7 @@ class WordDetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      
+
                       // Khoảng cách trước Divider
                       const SizedBox(height: 20.0),
                       Divider(color: Colors.grey[300], thickness: 2),
@@ -171,7 +175,7 @@ class WordDetailPage extends StatelessWidget {
                         'Comments:',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      
+
                       // Hiển thị danh sách comments
                       ...wordDetail.comments.map(
                         (comment) => Padding(
@@ -181,21 +185,23 @@ class WordDetailPage extends StatelessWidget {
                             children: [
                               Text(
                                 '- ${comment.mean}',
-                                style: TextStyle(fontSize: 14.0),
+                                style: const TextStyle(fontSize: 14.0),
                               ),
-                              SizedBox(height: 4.0),
+                              const SizedBox(height: 4.0),
                               Row(
                                 children: [
-                                  Icon(Icons.thumb_up, size: 16.0, color: Colors.green),
-                                  SizedBox(width: 4.0),
+                                  const Icon(Icons.thumb_up,
+                                      size: 16.0, color: Colors.green),
+                                  const SizedBox(width: 4.0),
                                   Text('${comment.like}'),
-                                  SizedBox(width: 16.0),
-                                  Icon(Icons.thumb_down, size: 16.0, color: Colors.red),
-                                  SizedBox(width: 4.0),
+                                  const SizedBox(width: 16.0),
+                                  const Icon(Icons.thumb_down,
+                                      size: 16.0, color: Colors.red),
+                                  const SizedBox(width: 4.0),
                                   Text('${comment.dislike}'),
                                 ],
                               ),
-                              SizedBox(height: 4.0),
+                              const SizedBox(height: 4.0),
                               Text(
                                 'By: ${comment.username}',
                                 style: TextStyle(
@@ -207,7 +213,7 @@ class WordDetailPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ).toList(),
+                      ),
                     ],
                   ),
                 ),

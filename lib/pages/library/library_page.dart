@@ -22,13 +22,11 @@ class _LibraryPageState extends State<LibraryPage> {
       body: SlidingUpPanel(
         minHeight: 20,
         controller: _panelController,
-        panel: AddFlashcardPanel(),
-        body: libraryBody(),
+        panel: const AddFlashcardPanel(),
+        body: const libraryBody(),
       ),
     );
   }
-
-
 
   AppBar _appBar() {
     return AppBar(
@@ -39,28 +37,26 @@ class _LibraryPageState extends State<LibraryPage> {
           fontFamily: 'Noto Sans',
           fontWeight: FontWeight.w700,
           color: Colors.white,
-
         ),
       ),
-      backgroundColor: Color(0xFF8980F0),
-
+      backgroundColor: const Color(0xFF8980F0),
       actions: [
         IconButton(
-          icon: Icon(Icons.search, size: 24),
+          icon: const Icon(Icons.search, size: 24),
           color: Colors.white,
           onPressed: () {
             // do something
           },
         ),
         IconButton(
-          icon: Icon(Icons.add, size: 24),
+          icon: const Icon(Icons.add, size: 24),
           color: Colors.white,
           onPressed: () {
             _panelController.open();
           },
         ),
         IconButton(
-          icon: Icon(Icons.download_rounded, size: 24),
+          icon: const Icon(Icons.download_rounded, size: 24),
           color: Colors.white,
           onPressed: () {
             // do something
@@ -81,13 +77,12 @@ class libraryBody extends StatefulWidget {
 class _libraryBodyState extends State<libraryBody> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-
+    return SizedBox(
       height: double.infinity,
       width: double.infinity,
       child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
+        physics: const BouncingScrollPhysics(),
+        children: const [
           Notebook(
             title: "Notebook 1",
             wordCount: "100 words",

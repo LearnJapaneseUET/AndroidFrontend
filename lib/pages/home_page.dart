@@ -15,11 +15,11 @@ class _HomePageState extends State<HomePage> {
   final User user = FirebaseAuth.instance.currentUser!;
   int _currentIndex = 0;
   final tabs = [
-    DictionaryPage(),
-    Center(child: Text('Translate')),
-    LibraryPage(),
-    ChatbotPage(),
-    Center(child: Text('Profile')),
+    const DictionaryPage(),
+    const Center(child: Text('Translate')),
+    const LibraryPage(),
+    const ChatbotPage(),
+    const Center(child: Text('Profile')),
   ];
 
   @override
@@ -31,13 +31,11 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color(0xFF8980F0),
         toolbarHeight: 10.0,
       ),
-      body: Navigator(
-        onGenerateRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (context) => tabs[_currentIndex],
-          );
-        }
-      ),
+      body: Navigator(onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => tabs[_currentIndex],
+        );
+      }),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,

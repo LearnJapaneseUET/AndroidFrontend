@@ -10,7 +10,7 @@ class NotificationPage extends StatelessWidget {
     final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Notification")),
+      appBar: AppBar(title: const Text("Notification")),
       body: Column(
         children: [
           Text(message.notification!.title.toString()),
