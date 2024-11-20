@@ -87,9 +87,9 @@ class TextToSpeech {
 
     // Define the SSML (Speech Synthesis Markup Language) body
     final ssml = '''
-    <speak version='1.0' xml:lang='en-US'>
-      <voice xml:lang='en-US' xml:gender='Female' name='en-US-AvaMultilingualNeural'>
-        $text
+    <speak version='1.0' xml:lang='ja-JP'>
+      <voice xml:lang='ja-JP' xml:gender='Female' name='ja-JP-NanamiNeural'>
+      $text
       </voice>
     </speak>
     ''';
@@ -133,19 +133,13 @@ class TextToSpeech {
     debugPrint('debug: File path: $filePath');
 
     // Play the audio file
-    await player.play(DeviceFileSource(filePath));
-    debugPrint('debug: Audio playback started successfully.');
-    player.onPlayerStateChanged.listen((state) {
-      if (state == PlayerState.completed) {
-        debugPrint('debug: Audio playback completed.');
-      } else if (state == PlayerState.stopped) {
-        debugPrint('debug: Audio playback stopped.');
-      } else if (state == PlayerState.paused) {
-        debugPrint('debug: Audio playback paused.');
-      } else if (state == PlayerState.playing) {
-        debugPrint('debug: Audio playback started successfully.');
-      }
-    });
+    try {
+      // Path to the audio file in the device storage
+      await player.play(DeviceFileSource(filePath));
+      debugPrint('debug: Audio playback started successfully.');
+    } catch (e) {
+      debugPrint('debug: Error playing audio: $e');
+    }
 
     // Optionally, handle completion or errors
     player.onPlayerComplete.listen((event) {
