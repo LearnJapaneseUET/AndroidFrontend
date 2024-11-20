@@ -1,33 +1,3 @@
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:http/http.dart' as http;
-
-// class TextToSpeech {
-//   // Load .env
-//   TextToSpeech() {
-//     dotenv.load(fileName: ".env");
-
-//     // Get the endpoint from .env
-//     final String? endpoint = dotenv.env['TTS_ENDPOINT'];
-//     final String? apiKey = dotenv.env['TTS_KEY'];
-//     final String? region = dotenv.env['TTS_REGION'];
-//   }
-
-//   void printConfig() {
-//     final String? endpoint = dotenv.env['TTS_ENDPOINT'];
-//     final String? apiKey = dotenv.env['TTS_KEY'];
-//     final String? region = dotenv.env['TTS_REGION'];
-
-//     print('Endpoint: $endpoint');
-//     print('API Key: $apiKey');
-//     print('Region: $region');
-//   }
-// }
-
-// Future main() async {
-//   final TextToSpeech tts = TextToSpeech();
-//   tts.printConfig();
-// }
-
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -38,7 +8,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class TextToSpeech {
-  late final String endpoint;
   late final String apiKey;
   late final String region;
 
@@ -51,7 +20,6 @@ class TextToSpeech {
     await dotenv.load(fileName: ".env");
 
     // Get the endpoint from .env
-    endpoint = dotenv.env['TTS_ENDPOINT'] ?? '';
     apiKey = dotenv.env['TTS_KEY'] ?? '';
     region = dotenv.env['TTS_REGION'] ?? '';
 
@@ -66,7 +34,6 @@ class TextToSpeech {
 
   // Print the configuration for debugging
   void printConfig() {
-    debugPrint('debug: Endpoint: $endpoint');
     debugPrint('debug: API Key: $apiKey');
     debugPrint('debug: Region: $region');
   }
