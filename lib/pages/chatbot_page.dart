@@ -4,6 +4,7 @@ import 'package:nihongo/services/text_to_speech.dart';
 
 // Create a TextToSpeech instance
 final textToSpeech = TextToSpeech();
+const microphoneButton = MicrophoneButton();
 
 class ChatbotPage extends StatelessWidget {
   const ChatbotPage({super.key});
@@ -126,6 +127,8 @@ class ChatBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -133,6 +136,7 @@ class ChatBottomNavigationBar extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                 hintText: "Nhập tin nhắn...",
                 filled: true,
@@ -145,30 +149,20 @@ class ChatBottomNavigationBar extends StatelessWidget {
                 ),
               ),
               onSubmitted: (text) {
-                // debugPrint("Text submitted: $text");
-                // String test = textToSpeech.getEnpoint();
-                debugPrint("Text submitted: $text");
-                // textToSpeech.printConfig(textToSpeech.print);
-                // Call convertTextToSpeech when text is submitted
-                // textToSpeech.convertTextToSpeech(text);
-                // debugPrint("after submitted: $text");
-                textToSpeech.processTTS(text);
+                // Check if microphoneButton is recording
+                debugPrint(
+                    'MicrophoneButton isRecording: ${microphoneButton.isRecording}');
+              },
+              onChanged: (text) => {
+                debugPrint('debug: dmm $text'),
+              },
+              onTap: () => {
+                debugPrint('debug: onTap'),
               },
             ),
           ),
-          IconButton(
-            // onPressed: Get text from TextField and call convertTextToSpeech
-            onPressed: () {
-              const text = "Xin chào";
-              // Change button color to green
-
-              // textToSpeech.processTTS(text);
-            },
-            icon: const Icon(Icons.send),
-            color: Colors.purple,
-          ),
           const SizedBox(width: 10),
-          const MicrophoneButton(), // Replaced mic button with MicrophoneButton
+          microphoneButton,
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.photo_camera),

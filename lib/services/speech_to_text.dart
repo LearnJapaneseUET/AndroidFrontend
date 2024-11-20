@@ -30,7 +30,7 @@ class SpeechToText {
   Future<String> speechToText(String path) async {
     // Define the API URL
     final url = Uri.parse(
-        'https://$region.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed');
+        'https://$region.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=ja-JP&format=detailed');
 
     // Set the headers
     final headers = {
