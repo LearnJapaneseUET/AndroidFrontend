@@ -12,10 +12,10 @@ class WordSuggestion {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['kanji'] = this.writing;
-    data['reading'] = this.furigana;
-    data['meaning'] = this.meaning;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['kanji'] = writing;
+    data['reading'] = furigana;
+    data['meaning'] = meaning;
     return data;
   }
 }

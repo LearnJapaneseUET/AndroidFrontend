@@ -4,7 +4,6 @@ import 'bottom_indicator.dart';
 import 'input_field.dart';
 import 'create_button.dart';
 
-
 // Widget _addFlashcardPanel() {
 //   return Center(
 //     child: Column(
@@ -21,7 +20,7 @@ import 'create_button.dart';
 // }
 
 class AddFlashcardPanel extends StatelessWidget {
-  const AddFlashcardPanel({Key? key}) : super(key: key);
+  const AddFlashcardPanel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +28,9 @@ class AddFlashcardPanel extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Column(
         children: [
-          Align(
+          const Align(
             alignment: Alignment.topCenter,
-            child: const BottomIndicator(),
+            child: BottomIndicator(),
           ),
           Expanded(
             child: Container(
@@ -42,29 +41,29 @@ class AddFlashcardPanel extends StatelessWidget {
                   topRight: Radius.circular(24),
                 ),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                    padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Text(
                       'Thêm flashcard mới',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF2A2D37),
+                        color: Color(0xFF2A2D37),
                       ),
                     ),
                   ),
-                  const Divider(
+                  Divider(
                     color: Color(0xFFEDEFF5),
                     thickness: 1,
                     height: 16,
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                     child: InputField(hintText: 'Nhập tên'),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: CreateButton(text: 'Thêm'),
                   ),

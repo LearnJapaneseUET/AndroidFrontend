@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nihongo/microphone/microphone.dart';
+import 'package:nihongo/services/text_to_speech.dart';
+
+// Create a TextToSpeech instance
+final textToSpeech = TextToSpeech();
+const microphoneButton = MicrophoneButton();
 
 class ChatbotPage extends StatelessWidget {
   const ChatbotPage({super.key});
@@ -122,6 +127,8 @@ class ChatBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -129,6 +136,7 @@ class ChatBottomNavigationBar extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                 hintText: "Nhập tin nhắn...",
                 filled: true,
@@ -140,10 +148,21 @@ class ChatBottomNavigationBar extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
               ),
+              onSubmitted: (text) {
+                // Check if microphoneButton is recording
+                debugPrint(
+                    'MicrophoneButton isRecording: ${microphoneButton.isRecording}');
+              },
+              onChanged: (text) => {
+                debugPrint('debug: dmm $text'),
+              },
+              onTap: () => {
+                debugPrint('debug: onTap'),
+              },
             ),
           ),
           const SizedBox(width: 10),
-          const MicrophoneButton(), // Replaced mic button with MicrophoneButton
+          microphoneButton,
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.photo_camera),

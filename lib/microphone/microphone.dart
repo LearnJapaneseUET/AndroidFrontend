@@ -1,21 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:nihongo/services/speech_to_text.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+
+final speechToText = SpeechToText();
 
 class MicrophoneButton extends StatefulWidget {
   const MicrophoneButton({super.key});
 
   @override
   _MicrophoneButtonState createState() => _MicrophoneButtonState();
+
+  bool get isRecording => _MicrophoneButtonState().isRecording;
+  bool get isPlaying => _MicrophoneButtonState().isPlaying;
+  String get TTSResult => _MicrophoneButtonState().TTSResult;
 }
 
 class _MicrophoneButtonState extends State<MicrophoneButton> {
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
   final FlutterSoundPlayer _player = FlutterSoundPlayer();
   bool _isRecording = false;
+  bool get isRecording => _isRecording;
   bool _isPlaying = false;
+  bool get isPlaying => _isPlaying;
+  String _TTSresult = '';
+  String get TTSResult => _TTSresult;
+  set TTSResult(String value) {
+    setState(() {
+      _TTSresult = value;
+    });
+  }
+
   String? _filePath;
 
   @override
@@ -35,7 +52,7 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
     await _recorder.openRecorder();
     // Optionally, set a default path
     Directory tempDir = await getTemporaryDirectory();
-    _filePath = '${tempDir.path}/flutter_sound_example.aac';
+    _filePath = '${tempDir.path}/audio.wav';
   }
 
   Future<void> _initPlayer() async {
@@ -47,6 +64,20 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
     _recorder.closeRecorder();
     _player.closePlayer();
     super.dispose();
+  }
+
+  // Record audio in wav format
+  Future<void> _startRecordingSTT() async {
+    if (_filePath == null) return;
+
+    await _recorder.startRecorder(
+      toFile: _filePath,
+      codec: Codec.pcm16WAV, // You can choose different codecs
+    );
+    setState(() {
+      _isRecording = true;
+    });
+    debugPrint("Recording started");
   }
 
   Future<void> _startRecording() async {
@@ -67,7 +98,7 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
     setState(() {
       _isRecording = false;
     });
-    print("Recording stopped");
+    debugPrint("Recording stopped");
   }
 
   Future<void> _startPlayback() async {
@@ -80,13 +111,25 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
         setState(() {
           _isPlaying = false;
         });
-        print("Playback finished");
+        debugPrint("Playback finished");
       },
     );
     setState(() {
       _isPlaying = true;
     });
-    print("Playback started");
+    debugPrint("Playback started");
+  }
+
+  Future<String> _processSTT() async {
+    if (_filePath == null) return '';
+
+    final result = await speechToText.speechToText(_filePath!);
+    debugPrint("debug: $result");
+    setState(() {
+      _isRecording = false;
+    });
+
+    return result;
   }
 
   Future<void> _stopPlayback() async {
@@ -94,7 +137,7 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
     setState(() {
       _isPlaying = false;
     });
-    print("Playback stopped");
+    debugPrint("Playback stopped");
   }
 
   void _onPressed() async {
@@ -108,6 +151,25 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
     } else {
       // Start recording
       await _startRecording();
+    }
+  }
+
+  void _submitTextField(String text) {
+    // Assuming you have a TextEditingController for the TextField
+    TextEditingController textController = TextEditingController();
+    textController.text = text;
+    textController.clear();
+  }
+
+  void _onPressedSTT() async {
+    String result = '';
+
+    if (_isRecording) {
+      // Stop recording and start playback
+      await _stopRecording();
+      TTSResult = await _processSTT();
+    } else {
+      await _startRecordingSTT();
     }
   }
 
@@ -128,7 +190,7 @@ class _MicrophoneButtonState extends State<MicrophoneButton> {
     }
 
     return IconButton(
-      onPressed: _onPressed,
+      onPressed: _onPressedSTT,
       icon: Icon(icon),
       color: color,
       iconSize: 36.0,

@@ -3,7 +3,8 @@ import 'package:nihongo/services/fetch_word_detail_service.dart';
 import 'package:nihongo/models/word_detail_model.dart';
 
 class WordDetailPage extends StatelessWidget {
-  final FetchWordDetailService _wordExpandedDetailList = FetchWordDetailService();
+  final FetchWordDetailService _wordExpandedDetailList =
+      FetchWordDetailService();
   final String? word;
 
   WordDetailPage({super.key, this.word});

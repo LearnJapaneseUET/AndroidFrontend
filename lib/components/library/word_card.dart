@@ -8,13 +8,13 @@ class WordCard extends StatelessWidget {
   final String? note;
 
   const WordCard({
-    Key? key,
+    super.key,
     required this.number,
     required this.word,
     required this.pronunciation,
     required this.meaning,
     this.note,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,8 @@ class WordCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF5F6FA),
                       borderRadius: BorderRadius.circular(6),

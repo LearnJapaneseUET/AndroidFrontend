@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../components/library/word_card.dart';
 import 'add_word_page.dart';
 
-
 class VocabPage extends StatelessWidget {
   const VocabPage({super.key});
 
@@ -46,7 +45,8 @@ class VocabPage extends StatelessWidget {
                       number: '004',
                       word: '一',
                       pronunciation: 'yī',
-                      meaning: '"one" radical in Chinese characters; a (article); all; also; as soon as; entire; one (numeric); single; throughout; whole...',
+                      meaning:
+                          '"one" radical in Chinese characters; a (article); all; also; as soon as; entire; one (numeric); single; throughout; whole...',
                     ),
                     SizedBox(height: 12),
                     WordCard(
@@ -66,8 +66,6 @@ class VocabPage extends StatelessWidget {
   }
 }
 
-
-
 AppBar _appBar(context) {
   return AppBar(
     title: const Text(
@@ -79,17 +77,17 @@ AppBar _appBar(context) {
         color: Colors.white,
       ),
     ),
-    backgroundColor: Color(0xFF8980F0),
+    backgroundColor: const Color(0xFF8980F0),
     actions: [
       IconButton(
-        icon: Icon(Icons.search, size: 24 ),
+        icon: const Icon(Icons.search, size: 24),
         color: Colors.white,
         onPressed: () {
           // do something
         },
       ),
       IconButton(
-        icon: Icon(Icons.add, size: 24),
+        icon: const Icon(Icons.add, size: 24),
         color: Colors.white,
         onPressed: () {
           Navigator.push(
@@ -99,14 +97,14 @@ AppBar _appBar(context) {
         },
       ),
       IconButton(
-        icon: Icon(Icons.upload_rounded, size: 24),
+        icon: const Icon(Icons.upload_rounded, size: 24),
         color: Colors.white,
         onPressed: () {
           // do something
         },
       ),
       IconButton(
-        icon: Icon(Icons.card_membership, size: 24),
+        icon: const Icon(Icons.card_membership, size: 24),
         color: Colors.white,
         onPressed: () {
           // do something
