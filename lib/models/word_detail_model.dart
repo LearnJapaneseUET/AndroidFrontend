@@ -1,89 +1,96 @@
-class WordDetail {
-  final Meaning meaning;
-  final List<ExampleSimple> examples;
-  final List<Comment> comments;
+class WordDetailModel {
+  final Meaning? meaning;
+  final List<ExampleSimple>? examples;
+  final List<Comment>? comments;
 
-  WordDetail({
-    required this.meaning,
-    required this.examples,
-    required this.comments,
+  WordDetailModel({
+    this.meaning,
+    this.examples,
+    this.comments,
   });
 
-  factory WordDetail.fromJson(Map<String, dynamic> json) {
-    return WordDetail(
-      meaning: Meaning.fromJson(json['meaning']),
-      examples: (json['example'] as Map<String, dynamic>)
-          .values
-          .map((e) => ExampleSimple.fromJson(e))
-          .toList(), // Đảm bảo xử lý đúng kiểu dữ liệu
-      comments: (json['comment'] as Map<String, dynamic>)
-          .values
-          .map((c) => Comment.fromJson(c))
-          .toList(),
+  factory WordDetailModel.fromJson(Map<String, dynamic> json) {
+    return WordDetailModel(
+      meaning: json['meaning'] != null ? Meaning.fromJson(json['meaning']) : null,
+      examples: json['example'] != null
+          ? (json['example'] as Map<String, dynamic>)
+              .values
+              .map((e) => ExampleSimple.fromJson(e))
+              .toList()
+          : null,
+      comments: json['comment'] != null
+          ? (json['comment'] as Map<String, dynamic>)
+              .values
+              .map((c) => Comment.fromJson(c))
+              .toList()
+          : null,
     );
   }
 }
 
 class Meaning {
-  final String shortMean;
+  final String? shortMean;
   final int? mobileId; // Có thể null
-  final String word;
-  final String phonetic;
-  final List<MeanDetail> means;
+  final String? word;
+  final String? phonetic;
+  final List<MeanDetail>? means;
 
   Meaning({
-    required this.shortMean,
-    required this.mobileId,
-    required this.word,
-    required this.phonetic,
-    required this.means,
+    this.shortMean,
+    this.mobileId,
+    this.word,
+    this.phonetic,
+    this.means,
   });
 
   factory Meaning.fromJson(Map<String, dynamic> json) {
     return Meaning(
-      shortMean: json['short_mean'] ?? '',
+      shortMean: json['short_mean'],
       mobileId: json['mobileId'],
-      word: json['word'] ?? '',
-      phonetic: json['phonetic'] ?? '',
-      means: (json['means'] as List)
-          .map((item) => MeanDetail.fromJson(item))
-          .toList(),
+      word: json['word'],
+      phonetic: json['phonetic'],
+      means: json['means'] != null
+          ? (json['means'] as List)
+              .map((item) => MeanDetail.fromJson(item))
+              .toList()
+          : null,
     );
   }
 }
 
 class MeanDetail {
-  final String mean;
-  final String kind;
-  final List<Example> examples;
+  final String? mean;
+  final String? kind;
+  final List<Example>? examples;
 
   MeanDetail({
-    required this.mean,
-    required this.kind,
-    required this.examples,
+    this.mean,
+    this.kind,
+    this.examples,
   });
 
   factory MeanDetail.fromJson(Map<String, dynamic> json) {
     return MeanDetail(
-      mean: json['mean'] ?? '',
-      kind: json['kind'] ?? '',
-      examples: (json['examples'] as List)
-          .map((item) => Example.fromJson(item))
-          .toList(),
+      mean: json['mean'],
+      kind: json['kind'],
+      examples: json['examples'] != null
+          ? (json['examples'] as List)
+              .map((item) => Example.fromJson(item))
+              .toList()
+          : null,
     );
   }
 }
 
-// Model cho Example
 class Example {
-  final String content;
-  final String mean;
-  final String transcription;
+  final String? content;
+  final String? mean;
+  final String? transcription;
 
   Example({
-    required this.content,
-    required this.mean,
-    required this.transcription,
+    this.content,
+    this.mean,
+    this.transcription,
   });
 
   factory Example.fromJson(Map<String, dynamic> json) {
@@ -95,40 +102,37 @@ class Example {
   }
 }
 
-// Model cho Example ngoài
 class ExampleSimple {
-  final String content;
-  final String mean;
-  final String transcription;
+  final String? content;
+  final String? mean;
+  final String? transcription;
 
   ExampleSimple({
-    required this.content,
-    required this.mean,
-    required this.transcription,
+    this.content,
+    this.mean,
+    this.transcription,
   });
 
   factory ExampleSimple.fromJson(Map<String, dynamic> json) {
     return ExampleSimple(
-      content: json['content'],        // 'content' field from JSON
-      mean: json['mean'],              // 'mean' field from JSON
-      transcription: json['transcription'], // 'transcription' field from JSON
+      content: json['content'],
+      mean: json['mean'],
+      transcription: json['transcription'],
     );
   }
 }
 
-
-// Model cho Comment
 class Comment {
-  final String mean;
-  final int like;
-  final int dislike;
-  final String username;
+  final String? mean;
+  final int? like;
+  final int? dislike;
+  final String? username;
 
   Comment({
-    required this.mean,
-    required this.like,
-    required this.dislike,
-    required this.username,
+    this.mean,
+    this.like,
+    this.dislike,
+    this.username,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {

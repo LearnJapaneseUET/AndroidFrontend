@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nihongo/components/dictionary/example_detail.dart';
+import 'package:nihongo/components/dictionary/kanji_list.dart';
 import 'package:nihongo/components/dictionary/word_detail.dart';
 import 'package:nihongo/components/my_button.dart';
 import 'package:nihongo/components/my_textfield.dart';
@@ -32,7 +33,8 @@ class _DictionaryPageState extends State<DictionaryPage> {
     final tabs = [
       // Center(child: Text('Từ vựng')),
       WordDetailPage(word: _receivedValue),
-      Center(child: Text('Chữ Hán')),
+      KanjiList(searchWord: _receivedValue),
+      // Center(child: Text('Chữ Hán')),
       WordExamplePage(word: _receivedValue),
     ];
 
