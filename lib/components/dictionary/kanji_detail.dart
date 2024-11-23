@@ -1,5 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nihongo/services/fetch_kanji_detail_service.dart';
+import 'package:xml/xml.dart' as xml;
+
+String cleanSvg(String rawSvg) {
+  // Loại bỏ namespace
+  return rawSvg.replaceAll(RegExp(r'ns\d+:'), '');
+}
+
+String changeStrokeColor(String svgData) {
+  List<String> strokeColors = [
+    "#1E90FF",  
+    "#0000FF",  
+    "#FF1493",  
+    "#FF4500",  
+    "#DAA520",  
+    "#32CD32",  
+    "#008000",  
+    "#20B2AA",  
+    "#9370DB",  
+  ];
+
+  final document = xml.XmlDocument.parse(svgData);
+  final elements = document.findAllElements('ns0:path'); // Lọc các phần tử path
+
+  // Thay đổi màu stroke cho từng path
+  for (int i = 0; i < elements.length; i++) {
+    elements.elementAt(i).setAttribute('stroke', strokeColors[i % strokeColors.length]);
+  }
+
+  // Trả về dữ liệu SVG sau khi thay đổi
+  return document.toXmlString(pretty: true);
+}
 
 class KanjiDetailPage extends StatelessWidget {
   final String? kanji;
@@ -34,8 +66,21 @@ class KanjiDetailPage extends StatelessWidget {
             } else {
               // Hiển thị chi tiết từ vựng khi fetch thành công
               var kanjiDetail = snapshot.data!;
-              return Center(
-                child: Text(kanji ?? ''),
+              return Column(
+                children: [
+                  if (kanjiDetail.kanjiArt != null)
+                    Center(
+                      child: SvgPicture.string(
+                        cleanSvg(changeStrokeColor(kanjiDetail.kanjiArt!)),
+                        width: 200, // Đặt kích thước tùy ý
+                        height: 200,
+                      ),
+                    )
+                  else
+                    const Center(
+                      child: Text("Không có dữ liệu hình ảnh", style: TextStyle(color: Colors.red)),
+                    ),
+                ],
               );
             }
           }
