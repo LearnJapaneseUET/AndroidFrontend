@@ -76,25 +76,23 @@ class _TextFieldFocusState extends State<TextFieldFocus> {
   @override
   void initState() {
     super.initState();
-    _focus.addListener(_onFocusChange);
-    _focus.addListener(_onRecording);
+    _focus.addListener(_onFocusAndRecordingChange);
   }
 
   @override
   void dispose() {
-    _focus.removeListener(_onFocusChange);
+    _focus.removeListener(_onFocusAndRecordingChange);
     _focus.dispose();
     super.dispose();
   }
 
+  void _onFocusAndRecordingChange() {
+    _onFocusChange();
+    _onRecording();
+  }
+
   void _onRecording() {
-    // if (_focus.hasFocus) {
-    //   microphoneButton.onPressed = () async {
-    //     final text = await microphoneButton.startRecording();
-    //     widget.controller.text = text;
-    //     textToSpeech.speak(text);
-    //   };
-    // }
+    debugPrint("debug: Recording ${microphoneButton.isRecording}");
   }
 
   void _onFocusChange() {
