@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nihongo/pages/dictionary_page.dart';
-import 'package:nihongo/pages/chatbot_page.dart';
+import 'package:nihongo/pages/chatbot_test_page.dart';
 import 'package:nihongo/pages/library/library_page.dart';
 
 class HomePage extends StatefulWidget {

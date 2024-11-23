@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nihongo/microphone/microphone.dart';
+import 'package:nihongo/chatbot/microphone.dart';
 import 'package:nihongo/services/text_to_speech.dart';
 
 // Create a TextToSpeech instance
@@ -59,6 +59,64 @@ class ChatBody extends StatefulWidget {
 
   @override
   _ChatBodyState createState() => _ChatBodyState();
+}
+
+class TextFieldFocus extends StatefulWidget {
+  final TextEditingController controller;
+
+  const TextFieldFocus({super.key, required this.controller});
+
+  @override
+  _TextFieldFocusState createState() => _TextFieldFocusState();
+}
+
+class _TextFieldFocusState extends State<TextFieldFocus> {
+  final FocusNode _focus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focus.addListener(_onFocusAndRecordingChange);
+  }
+
+  @override
+  void dispose() {
+    _focus.removeListener(_onFocusAndRecordingChange);
+    _focus.dispose();
+    super.dispose();
+  }
+
+  void _onFocusAndRecordingChange() {
+    _onFocusChange();
+    _onRecording();
+  }
+
+  void _onRecording() {
+    debugPrint("debug: Recording ${microphoneButton.isRecording}");
+  }
+
+  void _onFocusChange() {
+    debugPrint("Focus: ${_focus.hasFocus.toString()}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.controller,
+      focusNode: _focus,
+      decoration: InputDecoration(
+        hintText: "Nhập tin nhắn...",
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      ),
+    );
+  }
 }
 
 class _ChatBodyState extends State<ChatBody> {
@@ -135,30 +193,8 @@ class ChatBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: TextField(
+            child: TextFieldFocus(
               controller: controller,
-              decoration: InputDecoration(
-                hintText: "Nhập tin nhắn...",
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              onSubmitted: (text) {
-                // Check if microphoneButton is recording
-                debugPrint(
-                    'MicrophoneButton isRecording: ${microphoneButton.isRecording}');
-              },
-              onChanged: (text) => {
-                debugPrint('debug: dmm $text'),
-              },
-              onTap: () => {
-                debugPrint('debug: onTap'),
-              },
             ),
           ),
           const SizedBox(width: 10),
