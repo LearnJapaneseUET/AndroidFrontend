@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nihongo/microphone/microphone.dart';
+import 'package:nihongo/chatbot/microphone.dart';
 import 'package:nihongo/services/text_to_speech.dart';
 
 // Create a TextToSpeech instance
