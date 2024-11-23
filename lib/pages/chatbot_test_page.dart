@@ -23,7 +23,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
   final TextToSpeech textToSpeech = TextToSpeech();
   final TextEditingController _textController = TextEditingController();
   final List<Map<String, dynamic>> _messages = [];
-  String? _filePath;
   bool _isThinking = false;
   bool _isRecording = false;
   bool _isPlaying = false;
@@ -110,7 +109,8 @@ class _ChatbotPageState extends State<ChatbotPage> {
           ),
           const SizedBox(width: 10),
           IconButton(
-            icon: const Icon(Icons.mic, color: Colors.purple),
+            icon: Icon(Icons.mic,
+                color: _isRecording ? Colors.red : Colors.purple),
             onPressed: () {
               if (_isRecording) {
                 audioRecord.stopRecording();
