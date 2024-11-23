@@ -51,38 +51,40 @@ class _DictionaryPageState extends State<DictionaryPage> {
               children: [
                 NavBar(onValueChanged: updateSearchWord),
                 const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    NavBarButton(
-                      text: 'Từ vựng',
-                      isSelected: selectedIndex == 0,
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 0;
-                        });
-                      },
-                    ),
-                    NavBarButton(
-                      text: 'Chữ Hán',
-                      isSelected: selectedIndex == 1,
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 1;
-                        });
-                      },
-                    ),
-                    NavBarButton(
-                      text: 'Ví dụ',
-                      isSelected: selectedIndex == 2,
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 2;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                if (_receivedValue.isNotEmpty) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      NavBarButton(
+                        text: 'Từ vựng',
+                        isSelected: selectedIndex == 0,
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = 0;
+                          });
+                        },
+                      ),
+                      NavBarButton(
+                        text: 'Chữ Hán',
+                        isSelected: selectedIndex == 1,
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = 1;
+                          });
+                        },
+                      ),
+                      NavBarButton(
+                        text: 'Ví dụ',
+                        isSelected: selectedIndex == 2,
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = 2;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
