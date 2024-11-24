@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nihongo/pages/dictionary_page.dart';
 import 'package:nihongo/pages/chatbot_page.dart';
 import 'package:nihongo/pages/library/library_page.dart';
+import 'package:nihongo/pages/camera_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     const Center(child: Text('Translate')),
     const LibraryPage(),
     const ChatbotPage(),
-    const Center(child: Text('Profile')),
+    CameraPage(),
   ];
 
   @override
