@@ -117,12 +117,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
                     _textController.text = newText;
                   });
                 });
-                // speechToText.speechToText().then((value) {
-                //   setState(() {
-                //     _textController.text = value;
-                //   });
-                // });
-                // audioPlay.startPlaying();
                 setState(() {
                   _isRecording = false;
                 });
@@ -142,36 +136,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
       ),
     );
   }
-
-  Future<void> _stopRecordAudio() async {
-    audioRecord.stopRecording();
-    speechToText.speechToText().then((value) {
-      setState(() {
-        _textController.text = value;
-      });
-    });
-    setState(() {
-      _isRecording = false;
-    });
-  }
-
-  // Future<File> _simulateAudioRecording() async {
-  //   // Simulate recording a .wav file
-  //   return File('path/to/audio.wav'); // Replace with actual recorded file
-  // }
-
-  // Future<String> _sendAudioToServer(File audioFile) async {
-  //   final request = http.MultipartRequest("POST", Uri.parse(serverUrl))
-  //     ..files.add(await http.MultipartFile.fromPath('file', audioFile.path));
-
-  //   final response = await request.send();
-  //   if (response.statusCode == 200) {
-  //     final responseData = await response.stream.bytesToString();
-  //     return jsonDecode(responseData)['text'];
-  //   } else {
-  //     return "Error processing audio.";
-  //   }
-  // }
 
   Future<void> _sendMessage() async {
     final userText = _textController.text;
@@ -195,6 +159,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
         setState(() {
           _isThinking = false;
           _messages.add({'text': responseText, 'isUser': false});
+          textToSpeech.processTTS(responseText);
         });
       } else {
         throw Exception("Failed to send message");
