@@ -4,6 +4,7 @@ import 'package:nihongo/pages/dictionary_page.dart';
 import 'package:nihongo/pages/chatbot_page.dart';
 import 'package:nihongo/pages/library/library_page.dart';
 import 'package:nihongo/pages/camera_page.dart';
+import 'package:nihongo/pages/translation_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,28 +16,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final User user = FirebaseAuth.instance.currentUser!;
   int _currentIndex = 0;
-  final tabs = [
+  final List<Widget> tabs = [
     const DictionaryPage(),
-    const Center(child: Text('Translate')),
+    const TranslationPage(),
     const LibraryPage(),
     const ChatbotPage(),
-    CameraPage(),
+    const CameraPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    print("id");
+    print("User ID:");
     print(user.uid);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF8980F0),
         toolbarHeight: 10.0,
       ),
-      body: Navigator(onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) => tabs[_currentIndex],
-        );
-      }),
+      body: tabs[_currentIndex], // Display the selected tab
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
@@ -78,6 +75,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  List<Object> get newMethod => tabs;
 }
