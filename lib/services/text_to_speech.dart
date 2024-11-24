@@ -85,8 +85,8 @@ class TextToSpeech {
 
   // Save the audio data to a file
   Future<void> _saveAudioToFile(Uint8List audioData) async {
-    final directory = await getExternalStorageDirectory();
-    final filePath = '${directory?.path}/output.mp3';
+    final directory = await getTemporaryDirectory();
+    final filePath = '${directory.path}/output.mp3';
     final file = File(filePath);
     await file.writeAsBytes(audioData);
     debugPrint('debug: Audio saved as $filePath');
@@ -95,8 +95,8 @@ class TextToSpeech {
   Future<void> _playAudioFile() async {
     debugPrint('debug: Playing audio file...');
     final player = AudioPlayer();
-    final directory = await getExternalStorageDirectory();
-    final filePath = '${directory?.path}/output.mp3';
+    final directory = await getTemporaryDirectory();
+    final filePath = '${directory.path}/output.mp3';
     debugPrint('debug: File path: $filePath');
 
     // Play the audio file

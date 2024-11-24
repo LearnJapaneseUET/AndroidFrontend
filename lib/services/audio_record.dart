@@ -40,6 +40,10 @@ class AudioRecord {
   Future<void> stopRecording() async {
     await _recorder.stopRecorder();
 
-    debugPrint("dangtiendung1201: Recording stopped");
+    debugPrint("dangtiendung1201: Recording stopped. File path: $_filePath");
+  }
+
+  Future<String> getFilePath() async {
+    return _filePath!;
   }
 }
