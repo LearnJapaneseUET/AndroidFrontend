@@ -22,7 +22,7 @@ class AudioRecord {
     await _recorder.openRecorder();
 
     // Optionally, set a default path
-    Directory tempDir = await getTemporaryDirectory();
+    Directory tempDir = (await getExternalStorageDirectory())!;
     _filePath = '${tempDir.path}/audio.wav';
   }
 

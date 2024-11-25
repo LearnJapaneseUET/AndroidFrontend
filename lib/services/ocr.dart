@@ -122,7 +122,7 @@ class Ocr {
     endpoint = dotenv.env['OCR_ENDPOINT'] ?? '';
 
     // Optionally, set a default path
-    Directory tempDir = await getTemporaryDirectory();
+    Directory tempDir = (await getExternalStorageDirectory())!;
     _filePath = '${tempDir.path}/image.png';
 
     debugPrint('API Key: $apiKey');
@@ -157,9 +157,14 @@ class Ocr {
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
+      debugPrint('JSON response: $jsonResponse');
       // Process the JSON response to extract text
-      // ...
-      return 'Extracted text';
+
+      // {"modelVersion":"2023-10-01","captionResult":{"text":"a screenshot of a cell phone","confidence":0.7385161519050598},"metadata":{"width":800,"height":797},"readResult":{"blocks":[{"lines":[{"text":"世界各地の絶景の中を空からゆったりと旅をす","boundingPolygon":[{"x":26,"y":9},{"x":772,"y":8},{"x":772,"y":46},{"x":26,"y":47}],"words":[{"text":"世","boundingPolygon":[{"x":29,"y":10},{"x":58,"y":10},{"x":57,"y":48},{"x":28,"y":48}],"confidence":0.995},{"text":"界","boundingPolygon":[{"x":64,"y":10},{"x":89,"y":10},{"x":88,"y":48},{"x":63,"y":48}],"confidence":0.996},{"text":"各","boundingPolygon":[{"x":99,"y":10},{"x":124,"y":10},{"x":123,"y":48},{"x":98,"y":48}],"confidence":0.995},{"text":"地","boundingPolygon":[{"x":134,"y":10},{"x":159,"y":9},{"x":158,"y":48},{"x":134,"y":48}],"confidence":0.996},{"text":"の","boundingPolygon":[{"x":170,"y":9},{"x":194,"y":9},{"x":193,"y":48},{"x":169,"y":48}],"confidence":0.996},{"text":"絶","boundingPolygon":[{"x":205,"y":9},{"
+      final text = jsonResponse['readResult']['blocks']
+          .map((block) => block['lines'].map((line) => line['text']).join('\n'))
+          .join('\n');
+      return text;
     } else {
       throw Exception(
           'Failed to extract text: ${response.body}, ${response.statusCode}');

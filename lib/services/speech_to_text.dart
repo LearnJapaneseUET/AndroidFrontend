@@ -23,7 +23,7 @@ class SpeechToText {
     region = dotenv.env['STT_REGION'] ?? '';
 
     // Optionally, set a default path
-    Directory tempDir = await getTemporaryDirectory();
+    Directory tempDir = (await getExternalStorageDirectory())!;
     _filePath = '${tempDir.path}/audio.wav';
   }
 

@@ -15,7 +15,7 @@ class AudioPlay {
     await _player.openPlayer();
 
     // Optionally, set a default path
-    Directory tempDir = await getTemporaryDirectory();
+    Directory tempDir = (await getExternalStorageDirectory())!;
     _filePath = '${tempDir.path}/audio.wav';
   }
 
