@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nihongo/pages/dictionary_page.dart';
 import 'package:nihongo/pages/chatbot_page.dart';
 import 'package:nihongo/pages/library/library_page.dart';
-import 'package:nihongo/pages/camera_page.dart';
+import 'package:nihongo/pages/profile_page.dart';
 import 'package:nihongo/pages/translation_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,12 +16,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final User user = FirebaseAuth.instance.currentUser!;
   int _currentIndex = 0;
-  final List<Widget> tabs = [
+  List<Widget> tabs = [
     const DictionaryPage(),
     const TranslationPage(),
     const LibraryPage(),
     const ChatbotPage(),
-    const CameraPage(),
+    ProfilePage()
   ];
 
   @override
