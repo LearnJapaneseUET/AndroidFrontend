@@ -14,7 +14,7 @@ class _AddWordPageState extends State<AddWordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Color(0xFFF5F6FA),
         appBar: _appBar(),
         body: const SingleChildScrollView(
             child: Column(
@@ -91,6 +91,9 @@ class _AddWordPageState extends State<AddWordPage> {
 
 AppBar _appBar() {
   return AppBar(
+    leading: const BackButton(
+        color: Colors.white
+    ),
     title: const Text(
       "Thêm từ vựng",
       style: TextStyle(

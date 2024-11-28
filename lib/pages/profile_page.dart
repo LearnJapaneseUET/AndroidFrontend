@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nihongo/pages/feedback_page.dart';
+// import 'package:nihongo/pages/feedback_page.dart';
 import 'package:nihongo/pages/mail_page.dart';
 
 class ProfilePage extends StatelessWidget {

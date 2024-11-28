@@ -17,19 +17,32 @@ class _LibraryPageState extends State<LibraryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: _appBar(),
       body: SlidingUpPanel(
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.transparent,
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+        backdropEnabled: true,
+        color: Colors.transparent,
         minHeight: 20,
+        maxHeight: MediaQuery.of(context).size.height * 0.5,
         controller: _panelController,
         panel: const AddFlashcardPanel(),
         body: const libraryBody(),
+
       ),
     );
   }
 
   AppBar _appBar() {
     return AppBar(
+
       title: const Text(
         "Library",
         style: TextStyle(
@@ -41,13 +54,6 @@ class _LibraryPageState extends State<LibraryPage> {
       ),
       backgroundColor: const Color(0xFF8980F0),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.search, size: 24),
-          color: Colors.white,
-          onPressed: () {
-            // do something
-          },
-        ),
         IconButton(
           icon: const Icon(Icons.add, size: 24),
           color: Colors.white,
@@ -77,50 +83,49 @@ class libraryBody extends StatefulWidget {
 class _libraryBodyState extends State<libraryBody> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: double.infinity,
-      width: double.infinity,
+    return Container(
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        children: const [
+        //children: notebookList,
+        children:  [
           Notebook(
             title: "Notebook 1",
-            wordCount: "100 words",
+            description: "100 words",
             updateDate: "Last updated 2 days ago",
           ),
           Notebook(
             title: "Notebook 2",
-            wordCount: "200 words",
+            description: "200 words",
             updateDate: "Last updated 3 days ago",
           ),
           Notebook(
             title: "Notebook 3",
-            wordCount: "300 words",
+            description: "300 words",
             updateDate: "Last updated 4 days ago",
           ),
           Notebook(
             title: "Notebook 4",
-            wordCount: "400 words",
+            description: "400 words",
             updateDate: "Last updated 5 days ago",
           ),
           Notebook(
             title: "Notebook 5",
-            wordCount: "500 words",
+            description: "500 words",
             updateDate: "Last updated 6 days ago",
           ),
           Notebook(
             title: "Notebook 6",
-            wordCount: "600 words",
+            description: "600 words",
             updateDate: "Last updated 7 days ago",
           ),
           Notebook(
             title: "Notebook 7",
-            wordCount: "700 words",
+            description: "700 words",
             updateDate: "Last updated 8 days ago",
           ),
           Notebook(
             title: "Notebook 8",
-            wordCount: "800 words",
+            description: "800 words",
             updateDate: "Last updated 9 days ago",
           ),
         ],
