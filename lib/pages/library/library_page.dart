@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nihongo/models/library/notebook.dart';
+import 'package:nihongo/services/library/sv_notebook.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import '../../components/library/addFlashcard_panel.dart';
+import 'addFlashcard_panel.dart';
 import '../../components/library/notebook.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -11,8 +13,23 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
+  final NotebookService _notebookService = NotebookService();
+  late Future<List<Notebook>> _notebookListFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchNotebookList();
+  }
+
+  void _fetchNotebookList() {
+    setState(() {
+      _notebookListFuture = _notebookService.getNotebook();
+    });
+  }
+
   final PanelController _panelController = PanelController();
-  List<Notebook> notebookList = [];
+  List<notebookComponent> notebookList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +50,14 @@ class _LibraryPageState extends State<LibraryPage> {
         minHeight: 20,
         maxHeight: MediaQuery.of(context).size.height * 0.5,
         controller: _panelController,
-        panel: const AddFlashcardPanel(),
+        panel: AddFlashcardPanel(panelController: _panelController),
         body: const libraryBody(),
-
       ),
     );
   }
 
   AppBar _appBar() {
     return AppBar(
-
       title: const Text(
         "Library",
         style: TextStyle(
@@ -64,13 +79,14 @@ class _LibraryPageState extends State<LibraryPage> {
         IconButton(
           icon: const Icon(Icons.download_rounded, size: 24),
           color: Colors.white,
-          onPressed: () {
-            // do something
-          },
+          onPressed: _fetchNotebookList,
         ),
       ],
     );
   }
+
+
+
 }
 
 class libraryBody extends StatefulWidget {
@@ -81,55 +97,56 @@ class libraryBody extends StatefulWidget {
 }
 
 class _libraryBodyState extends State<libraryBody> {
+  final NotebookService _notebookService = NotebookService();
+  late Future<List<Notebook>> _notebookListFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchNotebookList();
+  }
+
+  void _fetchNotebookList() {
+    setState(() {
+      _notebookListFuture = _notebookService.getNotebook();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        //children: notebookList,
-        children:  [
-          Notebook(
-            title: "Notebook 1",
-            description: "100 words",
-            updateDate: "Last updated 2 days ago",
-          ),
-          Notebook(
-            title: "Notebook 2",
-            description: "200 words",
-            updateDate: "Last updated 3 days ago",
-          ),
-          Notebook(
-            title: "Notebook 3",
-            description: "300 words",
-            updateDate: "Last updated 4 days ago",
-          ),
-          Notebook(
-            title: "Notebook 4",
-            description: "400 words",
-            updateDate: "Last updated 5 days ago",
-          ),
-          Notebook(
-            title: "Notebook 5",
-            description: "500 words",
-            updateDate: "Last updated 6 days ago",
-          ),
-          Notebook(
-            title: "Notebook 6",
-            description: "600 words",
-            updateDate: "Last updated 7 days ago",
-          ),
-          Notebook(
-            title: "Notebook 7",
-            description: "700 words",
-            updateDate: "Last updated 8 days ago",
-          ),
-          Notebook(
-            title: "Notebook 8",
-            description: "800 words",
-            updateDate: "Last updated 9 days ago",
-          ),
-        ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        _fetchNotebookList();
+      },
+      child: FutureBuilder<List<Notebook>>(
+        future: _notebookListFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(child: Text('No data available'));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final notebook = snapshot.data![index];
+                return notebookComponent(
+                  id: notebook.id,
+                  name: notebook.name,
+                  description: notebook.description,
+                  onPressed: () => _deleteNotebook(notebook.id)
+                );
+              },
+            );
+          }
+        },
       ),
     );
+  }
+  Future<void> _deleteNotebook(int id) async {
+    await _notebookService.deleteNotebook(id);
+    _fetchNotebookList();
   }
 }

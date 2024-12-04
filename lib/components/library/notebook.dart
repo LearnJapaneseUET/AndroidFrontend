@@ -1,19 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:nihongo/components/library/addFlashcard_panel.dart';
+import 'package:nihongo/pages/library/addFlashcard_panel.dart';
 import 'package:nihongo/pages/library/vocab_page.dart';
 // import 'notebook_detail_page.dart';
 
-class Notebook extends StatelessWidget {
-  final String title;
+class notebookComponent extends StatelessWidget {
+  final int id;
+  final String name;
   final String description;
-  final String updateDate;
+  final VoidCallback onPressed;
 
-  const Notebook({
+  const notebookComponent({
     super.key,
-    required this.title,
+    required this.name,
     required this.description,
-    required this.updateDate,
+    required this.onPressed,
+    required this.id,
+
   });
 
   @override
@@ -24,7 +29,7 @@ class Notebook extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (context) {
-              // do something
+              onPressed();
             },
             icon: Icons.delete,
             backgroundColor: Color(0xFFF5F6FA),
@@ -38,7 +43,7 @@ class Notebook extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const VocabPage(),
+              builder: (context) => VocabPage(notebookId: id),
             ),
           );
         },
@@ -65,7 +70,7 @@ class Notebook extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: Text(
-                        title,
+                        name,
                         style: const TextStyle(
                           color: Color(0xFF2A2D37),
                           fontSize: 20,
@@ -89,11 +94,12 @@ class Notebook extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: double.infinity,
                     child: Text(
-                      updateDate,
-                      style: const TextStyle(
+                      // updateDate,
+                      "",
+                      style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
                         fontFamily: 'Noto Sans',

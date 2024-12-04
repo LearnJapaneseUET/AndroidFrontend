@@ -5,7 +5,8 @@ import '../../components/library/word_card.dart';
 import 'add_word_page.dart';
 
 class VocabPage extends StatefulWidget {
-  const VocabPage({super.key});
+  final int notebookId;
+  const VocabPage({super.key, required this.notebookId});
 
   @override
   State<VocabPage> createState() => _VocabPageState();
