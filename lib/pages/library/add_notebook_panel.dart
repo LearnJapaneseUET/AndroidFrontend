@@ -7,16 +7,16 @@ import '../../components/library/input_field.dart';
 import '../../components/library/create_button.dart';
 import '../../models/library/notebook.dart';
 
-class AddFlashcardPanel extends StatefulWidget {
+class AddNotebookPanel extends StatefulWidget {
   final PanelController panelController;
 
-  const AddFlashcardPanel({super.key, required this.panelController});
+  const AddNotebookPanel({super.key, required this.panelController});
 
   @override
-  State<AddFlashcardPanel> createState() => _AddFlashcardPanelState();
+  State<AddNotebookPanel> createState() => _AddNotebookPanelState();
 }
 
-class _AddFlashcardPanelState extends State<AddFlashcardPanel> {
+class _AddNotebookPanelState extends State<AddNotebookPanel> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -57,7 +57,7 @@ class _AddFlashcardPanelState extends State<AddFlashcardPanel> {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
                   child: Text(
-                    'Thêm flashcard mới',
+                    'Thêm Notebook mới',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class BottomIndicator extends StatelessWidget {
       child: Container(
         width: 80,
         height: 4,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xFFD3D9EB),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),

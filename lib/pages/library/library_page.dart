@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nihongo/models/library/notebook.dart';
 import 'package:nihongo/services/library/sv_notebook.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'addFlashcard_panel.dart';
+import 'add_notebook_panel.dart';
 import '../../components/library/notebook.dart';
+import 'edit_notebook_page.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -50,8 +54,8 @@ class _LibraryPageState extends State<LibraryPage> {
         minHeight: 20,
         maxHeight: MediaQuery.of(context).size.height * 0.5,
         controller: _panelController,
-        panel: AddFlashcardPanel(panelController: _panelController),
-        body: const libraryBody(),
+        panel: AddNotebookPanel(panelController: _panelController),
+        body: const LibraryBody(),
       ),
     );
   }
@@ -73,7 +77,10 @@ class _LibraryPageState extends State<LibraryPage> {
           icon: const Icon(Icons.add, size: 24),
           color: Colors.white,
           onPressed: () {
-            _panelController.open();
+            if (_panelController.isAttached) {
+              _panelController.open();
+            }
+            _fetchNotebookList();
           },
         ),
         IconButton(
@@ -84,19 +91,16 @@ class _LibraryPageState extends State<LibraryPage> {
       ],
     );
   }
-
-
-
 }
 
-class libraryBody extends StatefulWidget {
-  const libraryBody({super.key});
+class LibraryBody extends StatefulWidget {
+  const LibraryBody({super.key});
 
   @override
-  _libraryBodyState createState() => _libraryBodyState();
+  _LibraryBodyState createState() => _LibraryBodyState();
 }
 
-class _libraryBodyState extends State<libraryBody> {
+class _LibraryBodyState extends State<LibraryBody> {
   final NotebookService _notebookService = NotebookService();
   late Future<List<Notebook>> _notebookListFuture;
 
@@ -128,23 +132,37 @@ class _libraryBodyState extends State<libraryBody> {
           } else if (!snapshot.hasData || snapshot.data == null) {
             return const Center(child: Text('No data available'));
           } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final notebook = snapshot.data![index];
-                return notebookComponent(
-                  id: notebook.id,
-                  name: notebook.name,
-                  description: notebook.description,
-                  onPressed: () => _deleteNotebook(notebook.id)
-                );
-              },
+            return SlidableAutoCloseBehavior(
+              child: ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final notebook = snapshot.data![index];
+                  return notebookComponent(
+                    id: notebook.id,
+                    name: notebook.name,
+                    description: notebook.description,
+                    deletePressed: () => _deleteNotebook(notebook.id),
+                    editPressed: () => navigateToEditNotebook(notebook)
+                  );
+                },
+              ),
             );
           }
         },
       ),
     );
   }
+
+  Future<void> navigateToEditNotebook(Notebook notebook) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditNotebookPage(notebook: notebook),
+      ),
+    );
+    _fetchNotebookList();
+  }
+
   Future<void> _deleteNotebook(int id) async {
     await _notebookService.deleteNotebook(id);
     _fetchNotebookList();

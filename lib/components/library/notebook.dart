@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:nihongo/pages/library/addFlashcard_panel.dart';
+import 'package:nihongo/pages/library/add_notebook_panel.dart';
 import 'package:nihongo/pages/library/vocab_page.dart';
 // import 'notebook_detail_page.dart';
 
@@ -10,31 +10,49 @@ class notebookComponent extends StatelessWidget {
   final int id;
   final String name;
   final String description;
-  final VoidCallback onPressed;
+  final VoidCallback deletePressed;
+  final VoidCallback editPressed;
 
   const notebookComponent({
     super.key,
     required this.name,
     required this.description,
-    required this.onPressed,
+    required this.deletePressed,
     required this.id,
-
+    required this.editPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       endActionPane: ActionPane(
+        extentRatio: 0.25,
         motion: const StretchMotion(),
         children: [
           SlidableAction(
             onPressed: (context) {
-              onPressed();
+              deletePressed();
             },
             icon: Icons.delete,
-            backgroundColor: Color(0xFFF5F6FA),
+            backgroundColor: const Color(0xFFF5F6FA),
             foregroundColor: Colors.red,
             label: 'Delete',
+          ),
+        ],
+      ),
+      startActionPane: ActionPane(
+        extentRatio: 0.25,
+        motion: const StretchMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) {
+              editPressed();
+            },
+            icon: Icons.edit,
+            backgroundColor: Color(0xFFF5F6FA),
+
+            foregroundColor: Colors.green,
+            label: 'Edit',
           ),
         ],
       ),
