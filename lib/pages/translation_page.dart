@@ -133,14 +133,20 @@ class TranslationPageState extends State<TranslationPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        title: const Text(
-          'Translation Page',
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: 'Noto Sans',
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+        title: const Row(
+          children: [
+            Icon(Icons.translate, color: Colors.white, size: 28),
+            SizedBox(width: 10),
+            Text(
+              'Translation Page',
+              style: TextStyle(
+                fontSize: 24,
+                fontFamily: 'Noto Sans',
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
         backgroundColor: const Color(0xFF8980F0),
 

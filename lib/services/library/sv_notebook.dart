@@ -16,7 +16,7 @@ class NotebookService {
 
     var uri = Uri.parse(url);
 
-    var response = await http.get(uri, headers: {"accept": "application/json, charset=utf-8"});
+    var response = await http.get(uri, headers: {"accept": "application/json"});
 
     if (response.statusCode == 200) {
       log("oke \n ${response.body}");
@@ -87,7 +87,7 @@ class NotebookService {
     };
 
     var response = await http.put(uri,
-        headers: {"Content-Type": "application/json, charset=utf-8"}, body: jsonEncode(body));
+        headers: {"Content-Type": "application/json"}, body: jsonEncode(body));
 
     log("${response.statusCode}");
     log("${response.headers}");
@@ -105,7 +105,7 @@ class NotebookService {
     var url = 'https://nihongobenkyou.online/api/flashcard/list/$id/delete/';
     var uri = Uri.parse(url);
 
-    var response = await http.delete(uri, headers: {"accept": "application/json, charset=utf-8"});
+    var response = await http.delete(uri, headers: {"accept": "application/json"});
     log("${response.statusCode}");
     log("${response.headers}");
     log(response.body);
@@ -115,7 +115,7 @@ class NotebookService {
     var url = 'https://nihongobenkyou.online/api/flashcard/list/$id/export/';
     var uri = Uri.parse(url);
 
-    var response = await http.get(uri, headers: {"accept": "application/json, charset=utf-8"});
+    var response = await http.get(uri, headers: {"accept": "application/json"});
 
     log("${response.statusCode}");
     log("${response.headers}");

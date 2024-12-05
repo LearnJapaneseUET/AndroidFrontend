@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nihongo/pages/library/flashcard.dart';
 import 'package:nihongo/services/library/sv_word.dart';
 
+import '../../components/library/show_snackbar.dart';
 import '../../components/library/word_card.dart';
 import '../../models/library/Word.dart';
+import '../../services/text_to_speech.dart';
 import 'add_word_page.dart';
+import 'edit_word_page.dart';
 
 class VocabPage extends StatefulWidget {
   final int notebookId;
@@ -19,6 +24,8 @@ class VocabPage extends StatefulWidget {
 class _VocabPageState extends State<VocabPage> {
   final WordService _wordService = WordService();
   late Future<List<Word>> _wordListFuture;
+  final TextToSpeech textToSpeech = TextToSpeech();
+
 
   @override
   void initState() {
@@ -36,12 +43,10 @@ class _VocabPageState extends State<VocabPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
-
-        appBar: _appBar(context),
+        appBar: _appBar(context, widget.notebookId),
         // color: const Color(0xFFF5F6FA),
         body: RefreshIndicator(
             onRefresh: () => _fetchWordList(),
-
             child: FutureBuilder(
                 future: _wordListFuture,
                 builder: (context, snapshot) {
@@ -55,91 +60,87 @@ class _VocabPageState extends State<VocabPage> {
                     return SlidableAutoCloseBehavior(
                         child: ListView.builder(
                             padding: const EdgeInsets.all(16),
-
                             itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            final word = snapshot.data![index];
-                            return WordCard(
-                              number: "${index + 1}",
-                              word: word.word,
-                              meaning: word.meaning,
-                              furigana: word.furigana,
-                              voicePressed: () {
+                            itemBuilder: (context, index) {
+                              final word = snapshot.data![index];
+                              // final word_id = word.id;
+                              return WordCard(
+                                index: "${index + 1}",
+                                word: word.word,
+                                meaning: word.meaning,
+                                furigana: word.furigana,
+                                voicePressed: () {
+                                  textToSpeech.processTTS(word.word);
+                                  log("Voice pressed");
+                                },
+
+                                editPressed: () async {
+                                  final route = MaterialPageRoute(builder: (context) => EditWordPage(word: word));
+                                  await Navigator.push(context, route);
+                                  _fetchWordList();
+                                },
+
+                                deletePressed:() => _handleDeleteWord(word.id),
+
                                 // do something
-                              },
-                              editPressed: () {
-                                // do something
-                              },
-                              deletePressed: () {
-                                // do something
-                              },
-                            );
-                          }
+                              );
+                            }
                         )
                     );
                   }
                 }
             )
         )
-
     );
   }
 
-  // Future<void> navigateToEditNotebook(Notebook notebook) async {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => EditNotebookPage(notebook: notebook),
-  //     ),
-  //   );
-  // }
+  AppBar _appBar(context, int notebook_id) {
+    return AppBar(
+      leading: const BackButton(color: Colors.white),
+      title: const Text(
+        "Từ vựng",
+        style: TextStyle(
+          fontSize: 24,
+          fontFamily: 'Noto Sans',
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: const Color(0xFF8980F0),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.add, size: 24),
+          color: Colors.white,
 
-  Future<void> _deleteNotebook(int id) async {
-    // await _wordService.deleteWord(id);
-    // _fetchNotebookList();
+          onPressed: () async {
+            final route = MaterialPageRoute(builder: (context) => AddWordPage(notebookId: notebook_id));
+            await Navigator.push(context, route);
+            _fetchWordList();
+          },
+        ),
+        IconButton(
+          icon: Image.asset('assets/images/Flash Card.png'),
+          iconSize: 24,
+          // icon: const Icon(Icons.card_membership, size: 24),
+          color: Colors.white,
+          onPressed: () async {
+            final route = MaterialPageRoute(builder: (context) => flashcardPage(notebookId: notebook_id));
+            // final route = MaterialPageRoute(builder: (context) => flashcardPage());
+            await Navigator.push(context, route);
+            _fetchWordList();
+          },
+        ),
+      ],
+    );
   }
 
-}
 
-AppBar _appBar(context) {
-  return AppBar(
-    leading: const BackButton(
-        color: Colors.white
-    ),
-    title: const Text(
-      "Từ vựng",
-      style: TextStyle(
-        fontSize: 24,
-        fontFamily: 'Noto Sans',
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
-    ),
-    backgroundColor: const Color(0xFF8980F0),
-    actions: [
-      IconButton(
-        icon: const Icon(Icons.add, size: 24),
-        color: Colors.white,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddWordPage()),
-          );
-        },
-      ),
 
-      IconButton(
-        icon: Image.asset('assets/images/Flash Card.png'),
-        iconSize: 24,
-        // icon: const Icon(Icons.card_membership, size: 24),
-        color: Colors.white,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const flashcardPage()),
-          );
-        },
-      ),
-    ],
-  );
+  Future<void> _handleDeleteWord (String wordId) async {
+    log("Delete word $wordId, notebook ${widget.notebookId}");
+    showSuccessMessage("Xóa từ thành công", context);
+
+    await _wordService.deleteWord(wordId, widget.notebookId);
+    _fetchWordList();
+  }
 }
