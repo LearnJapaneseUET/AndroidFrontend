@@ -15,11 +15,13 @@ class WordService {
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
 
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
     if (response.statusCode == 200) {
-      log("oke \n ${response.body}");
-      return jsonDecode(response.body)["name"];
+      log("oke \n ${jsonString }");
+      return jsonDecode(jsonString )["name"];
     } else {
-      log("deo duoc \n ${response.body}");
+      log("deo duoc \n ${jsonString }");
       throw Exception('Failed to load Word');
     }
   }
@@ -33,13 +35,15 @@ class WordService {
     var uri = Uri.parse(url);
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
 
     if (response.statusCode == 200) {
-      log("oke \n ${response.body}");
+      log("oke \n ${jsonString }");
       return Word.fromJsonList(
-          jsonDecode(response.body) as Map<String, dynamic>);
+          jsonDecode(jsonString ) as Map<String, dynamic>);
     } else {
-      log("deo duoc \n ${response.body}");
+      log("deo duoc \n ${jsonString }");
       throw Exception('Failed to load Word');
     }
 
@@ -82,9 +86,11 @@ class WordService {
       body: jsonEncode(body),
     );
 
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
     /*{
     "meaning": "Hello Thả1o",
     "furigana": "Hello Hoàng 1Anh"
@@ -104,9 +110,12 @@ class WordService {
     var response = await http.put(uri,
         headers: {"Content-Type": "application/json"}, body: jsonEncode(body));
 
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
+
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
 
     /*{
         "id": 10,
@@ -128,9 +137,27 @@ class WordService {
         },
         body: jsonEncode(body)
     );
-    log("dit me may");
+
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
   }
+
+  Future<String> exportNotebook(int id) async {
+    var url = 'https://nihongobenkyou.online/api/flashcard/list/$id/export/';
+    var uri = Uri.parse(url);
+
+    var response = await http.get(uri, headers: {"accept": "application/json"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
+
+    log("${response.statusCode}");
+    log("${response.headers}");
+    log(jsonString );
+
+    return jsonString ;
+  }
+
 }

@@ -1,10 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nihongo/components/library/show_snackbar.dart';
 import 'package:nihongo/models/library/notebook.dart';
 import 'package:nihongo/services/library/sv_notebook.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../components/library/notebook.dart';
 import '../../services/library/sv_word.dart';
@@ -92,13 +95,13 @@ class _LibraryPageState extends State<LibraryPage> {
             _fetchNotebookList();
           },
         ),
-        IconButton(
-          icon: const Icon(Icons.download_rounded, size: 24),
-          color: Colors.white,
-          onPressed: () => _fetchNotebookList(),
-        ),
+
       ],
     );
+  }
+
+  void _exportToFile() async {
+    showSuccessMessage("lậkdsfja", context);
   }
 }
 
@@ -159,7 +162,6 @@ class _LibraryBodyState extends State<LibraryBody> {
                         return Center(child: Text('Error: ${wordCountSnapshot.error}'));
                       } else {
                         return NotebookComponent(
-                          index: index + 1,
                           id: notebook.id,
                           name: notebook.name,
                           wordCount: wordCountSnapshot.data ?? 0,

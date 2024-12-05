@@ -19,12 +19,16 @@ class flashcardPage extends StatefulWidget {
 }
 
 class _flashcardPageState extends State<flashcardPage> {
-  late final String notebookName;
+  String? notebookName;
   final WordService _wordService = WordService();
 
   @override
   void initState() {
     super.initState();
+    _fetchNotebookName();
+  }
+
+  Future<void> _fetchNotebookName() async {
     _wordService.getName(widget.notebookId).then((value) {
       setState(() {
         notebookName = value;
@@ -53,7 +57,7 @@ class _flashcardPageState extends State<flashcardPage> {
                   Flexible(
                     child: Text(
                       textAlign: TextAlign.center,
-                      notebookName,
+                      notebookName?? "...",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -99,11 +103,17 @@ class _LessonState extends State<Lesson> {
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
 
+  Future<void> _fetchWordList() async {
+    setState(() {
+      _wordListFuture = _wordService.getWord(widget.notebookId);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _wordListFuture = _wordService.getWord(widget.notebookId);
+    _fetchWordList();
     _wordListFuture.then((value) {
       setState(() {
         _words = value;
@@ -128,7 +138,7 @@ class _LessonState extends State<Lesson> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20), // Set the border radius
                   ),
-                  content: Text("Chưa nhớ từ ${_words[i].word}"),
+                  content: Text("Chưa nhớ từ ${_words[i].word}", style: TextStyle(color: Colors.black)),
                   duration: Duration(milliseconds: 500),
                 ));
               },
@@ -138,7 +148,7 @@ class _LessonState extends State<Lesson> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20), // Set the border radius
                   ),
-                  content: Text("Siêu yêu thích ${_words[i].word}"),
+                  content: Text("Siêu yêu thích từ ${_words[i].word}"),
                   duration: Duration(milliseconds: 500),
                 ));
               },
@@ -209,10 +219,12 @@ class _LessonState extends State<Lesson> {
                     ),
                     alignment: Alignment.center,
                     child: Center(
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        _swipeItems[index].content.word,
-                        style: TextStyle(fontSize: 50, color: Colors.white),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          _swipeItems[index].content.word,
+                          style: TextStyle(fontSize: 50, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -225,10 +237,12 @@ class _LessonState extends State<Lesson> {
                     ),
                     alignment: Alignment.center,
                     child: Center(
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        _swipeItems[index].content.meaning,
-                        style: TextStyle(fontSize: 50, color: Colors.black),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          _swipeItems[index].content.meaning,
+                          style: TextStyle(fontSize: 50, color: Colors.black),
+                        ),
                       ),
                     ),
                   ),
@@ -241,7 +255,7 @@ class _LessonState extends State<Lesson> {
                 ));
               },
               itemChanged: (SwipeItem item, int index) {
-                print("item: ${item.content.text}, index: $index");
+                print("item: ${item.content.word}, index: $index");
               },
               leftSwipeAllowed: true,
               rightSwipeAllowed: true,

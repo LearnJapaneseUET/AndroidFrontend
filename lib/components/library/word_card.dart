@@ -87,6 +87,7 @@ class WordCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Flexible(
                                 child: Text(
@@ -99,18 +100,6 @@ class WordCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 6),
-                              Text(
-                                furigana ?? '',
-                                // if furigana is null, use empty string
-                                style: const TextStyle(
-                                  color: Color(0xFFE87A6D),
-                                  fontSize: 14,
-                                  fontFamily: 'Noto Sans',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              const Spacer(),
                               IconButton(
                                 icon: const Icon(Icons.volume_up),
                                 onPressed: () {
@@ -119,6 +108,17 @@ class WordCard extends StatelessWidget {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 8),
+                          if (furigana != null && furigana!.isNotEmpty)
+                            Text(
+                              furigana!,
+                              style: const TextStyle(
+                                color: Color(0xFFE87A6D),
+                                fontSize: 14,
+                                fontFamily: 'Noto Sans',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                           const SizedBox(height: 8),
                           Text(
                             meaning,

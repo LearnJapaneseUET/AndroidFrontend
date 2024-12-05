@@ -6,7 +6,6 @@ class NotebookComponent extends StatelessWidget {
   final int id;
   final String name;
   final int wordCount;
-  final int index;
   final VoidCallback deletePressed;
   final VoidCallback editPressed;
 
@@ -17,7 +16,6 @@ class NotebookComponent extends StatelessWidget {
     required this.id,
     required this.editPressed,
     required this.wordCount,
-    required this.index,
   });
 
   @override
@@ -67,7 +65,7 @@ class NotebookComponent extends StatelessWidget {
             Container(
               margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               width: double.infinity,
-              height: 80,
+              height: 90,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               decoration: ShapeDecoration(
                 color: Colors.white,

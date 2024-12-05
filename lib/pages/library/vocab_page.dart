@@ -1,9 +1,14 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nihongo/pages/library/flashcard.dart';
 import 'package:nihongo/services/library/sv_word.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../components/library/show_snackbar.dart';
 import '../../components/library/word_card.dart';
@@ -130,10 +135,50 @@ class _VocabPageState extends State<VocabPage> {
             _fetchWordList();
           },
         ),
+        IconButton(
+          icon: const Icon(Icons.download_rounded, size: 24),
+          color: Colors.white,
+          onPressed: () => _exportToFile(),
+        ),
       ],
     );
   }
 
+  Future<void> _exportToFile() async {
+    String content = await _getContent();
+    try {
+      // Request storage permissions
+      if (await Permission.storage.request().isGranted) {
+        // Let the user choose the directory
+        String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+        if (selectedDirectory == null) {
+          print("No directory selected.");
+          return; // User canceled the picker
+        }
+
+        // Define the file path and name
+        final filePath = '$selectedDirectory/notebooks.txt';
+        final file = File(filePath);
+
+        // Write the content to the file
+        await file.writeAsString(content);
+
+        // Show a success message and open the file
+        print('File saved to: $filePath');
+        OpenFile.open(filePath);
+      } else {
+        print("Storage permission denied.");
+      }
+    } catch (e) {
+      // Handle errors
+      print('Error: $e');
+    }
+  }
+
+  Future<String> _getContent() async {
+    return await _wordService.exportNotebook(widget.notebookId);
+  }
 
 
   Future<void> _handleDeleteWord (String wordId) async {
