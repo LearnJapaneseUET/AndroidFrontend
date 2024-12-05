@@ -8,6 +8,24 @@ import 'package:nihongo/models/library/Word.dart';
 class WordService {
   final User user = FirebaseAuth.instance.currentUser!;
 
+  Future<String> getName(int listId) async {
+    var url = 'https://nihongobenkyou.online/api/flashcard/$listId/';
+
+    var uri = Uri.parse(url);
+
+    var response = await http.get(uri, headers: {"accept": "application/json"});
+
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
+    if (response.statusCode == 200) {
+      log("oke \n ${jsonString }");
+      return jsonDecode(jsonString )["name"];
+    } else {
+      log("deo duoc \n ${jsonString }");
+      throw Exception('Failed to load Word');
+    }
+  }
+
   Future<List<Word>> getWord(int listId) async {
     // var url = 'http://192.168.1.6:8000/api/flashcard/all/1';
     // var url = 'https://refactored-meme-r9wpgj6jrjvcprw7-8000.app.github.dev/api/flashcard/all/1';
@@ -17,13 +35,15 @@ class WordService {
     var uri = Uri.parse(url);
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
 
     if (response.statusCode == 200) {
-      log("oke \n ${response.body}");
+      log("oke \n ${jsonString }");
       return Word.fromJsonList(
-          jsonDecode(response.body) as Map<String, dynamic>);
+          jsonDecode(jsonString ) as Map<String, dynamic>);
     } else {
-      log("deo duoc \n ${response.body}");
+      log("deo duoc \n ${jsonString }");
       throw Exception('Failed to load Word');
     }
 
@@ -40,6 +60,10 @@ class WordService {
       ],
       "name": "Thanh basc"
     }*/
+  }
+
+  Future<int> getWordCount(int listId) async {
+    return (await getWord(listId)).length;
   }
 
   Future<void> addWord(
@@ -62,9 +86,11 @@ class WordService {
       body: jsonEncode(body),
     );
 
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
     /*{
     "meaning": "Hello Thả1o",
     "furigana": "Hello Hoàng 1Anh"
@@ -72,8 +98,8 @@ class WordService {
        */
   }
 
-  Future<void> editWord(int id, String furigana, String meaning) async {
-    var url = "https://nihongobenkyou.online/api/flashcard/word/$id/update/";
+  Future<void> editWord(String wordId, String furigana, String meaning) async {
+    var url = "https://nihongobenkyou.online/api/flashcard/word/$wordId/update/";
     var uri = Uri.parse(url);
 
     var body = {
@@ -84,9 +110,12 @@ class WordService {
     var response = await http.put(uri,
         headers: {"Content-Type": "application/json"}, body: jsonEncode(body));
 
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
+
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
 
     /*{
         "id": 10,
@@ -95,17 +124,40 @@ class WordService {
        */
   }
 
-  Future<void> deleteWord(int wordId, int listId) async {
+  Future<void> deleteWord(String wordId, int listId) async {
     var url = 'https://nihongobenkyou.online/api/flashcard/word/delete/';
     var uri = Uri.parse(url);
 
     var body = {"wordId": wordId, "listId": listId};
 
     var response = await http.delete(uri,
-        headers: {"accept": "application/json"}, body: jsonEncode(body));
+        headers: {
+          'Content-Type': 'application/json',
+          'Connection': 'keep-alive',
+        },
+        body: jsonEncode(body)
+    );
+
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
   }
+
+  Future<String> exportNotebook(int id) async {
+    var url = 'https://nihongobenkyou.online/api/flashcard/list/$id/export/';
+    var uri = Uri.parse(url);
+
+    var response = await http.get(uri, headers: {"accept": "application/json"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
+
+    log("${response.statusCode}");
+    log("${response.headers}");
+    log(jsonString );
+
+    return jsonString ;
+  }
+
 }

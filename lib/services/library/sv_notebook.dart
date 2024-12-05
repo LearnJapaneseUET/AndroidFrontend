@@ -16,13 +16,14 @@ class NotebookService {
 
     var uri = Uri.parse(url);
 
-    var response = await http.get(uri, headers: {"accept": "application/json, charset=utf-8"});
+    var response = await http.get(uri, headers: {"accept": "application/json"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
 
     if (response.statusCode == 200) {
-      log("oke \n ${response.body}");
-      return Notebook.fromJsonList(jsonDecode(response.body) as List);
+      log("oke \n ${jsonString }");
+      return Notebook.fromJsonList(jsonDecode(jsonString ) as List);
     } else {
-      log("deo duoc \n ${response.body}");
+      log("deo duoc \n ${jsonString }");
       throw Exception('Failed to load notebook');
     }
 
@@ -62,6 +63,8 @@ class NotebookService {
       body: jsonEncode(body),
     );
 
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
     if (response.statusCode != 201) {
       log("Failed to add notebook");
 
@@ -70,7 +73,7 @@ class NotebookService {
 
     log("add notebook code ${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
     /*{
         "id": 10,
         "name": "hello"
@@ -87,11 +90,13 @@ class NotebookService {
     };
 
     var response = await http.put(uri,
-        headers: {"Content-Type": "application/json, charset=utf-8"}, body: jsonEncode(body));
+        headers: {"Content-Type": "application/json"}, body: jsonEncode(body));
+
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
+    log(jsonString );
 
     /*{
         "id": 10,
@@ -105,22 +110,14 @@ class NotebookService {
     var url = 'https://nihongobenkyou.online/api/flashcard/list/$id/delete/';
     var uri = Uri.parse(url);
 
-    var response = await http.delete(uri, headers: {"accept": "application/json, charset=utf-8"});
-    log("${response.statusCode}");
-    log("${response.headers}");
-    log(response.body);
-  }
+    var response = await http.delete(uri, headers: {"accept": "application/json"});
 
-  Future<String> exportNotebook(int id) async {
-    var url = 'https://nihongobenkyou.online/api/flashcard/list/$id/export/';
-    var uri = Uri.parse(url);
-
-    var response = await http.get(uri, headers: {"accept": "application/json, charset=utf-8"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(response.body);
-
-    return response.body;
+    log(jsonString );
   }
+
+
 }

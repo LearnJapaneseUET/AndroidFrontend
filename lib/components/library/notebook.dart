@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:nihongo/pages/library/add_notebook_panel.dart';
 import 'package:nihongo/pages/library/vocab_page.dart';
-// import 'notebook_detail_page.dart';
 
 class NotebookComponent extends StatelessWidget {
   final int id;
@@ -50,7 +46,6 @@ class NotebookComponent extends StatelessWidget {
             },
             icon: Icons.edit,
             backgroundColor: const Color(0xFFF5F6FA),
-
             foregroundColor: Colors.green,
             label: 'Edit',
           ),
@@ -70,7 +65,7 @@ class NotebookComponent extends StatelessWidget {
             Container(
               margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               width: double.infinity,
-              height: 80,
+              height: 90,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -84,6 +79,7 @@ class NotebookComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// name
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
@@ -99,12 +95,12 @@ class NotebookComponent extends StatelessWidget {
                       ),
                     ),
                   ),
-
+                  /// so tu
                   SizedBox(
                     width: double.infinity,
                     child: Text(
                       // updateDate,
-                      "$wordCount words",
+                      "$wordCount từ",
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,

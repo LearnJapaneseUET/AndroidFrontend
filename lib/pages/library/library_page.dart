@@ -1,11 +1,16 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:nihongo/components/library/show_snackbar.dart';
 import 'package:nihongo/models/library/notebook.dart';
 import 'package:nihongo/services/library/sv_notebook.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../components/library/notebook.dart';
+import '../../services/library/sv_word.dart';
 import 'add_notebook_panel.dart';
 import 'edit_notebook_page.dart';
 
@@ -33,6 +38,7 @@ class _LibraryPageState extends State<LibraryPage> {
   }
 
   final PanelController _panelController = PanelController();
+
   // List<NotebookComponent> notebookList = [];
 
   @override
@@ -62,14 +68,20 @@ class _LibraryPageState extends State<LibraryPage> {
 
   AppBar _appBar() {
     return AppBar(
-      title: const Text(
-        "Library",
-        style: TextStyle(
-          fontSize: 24,
-          fontFamily: 'Noto Sans',
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
+      title: const Row(
+        children: [
+          Icon(Icons.book, color: Colors.white, size: 28),
+          SizedBox(width: 10),
+          Text(
+            "Library",
+            style: TextStyle(
+              fontSize: 24,
+              fontFamily: 'Noto Sans',
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       backgroundColor: const Color(0xFF8980F0),
       actions: [
@@ -83,15 +95,14 @@ class _LibraryPageState extends State<LibraryPage> {
             _fetchNotebookList();
           },
         ),
-        IconButton(
-          icon: const Icon(Icons.download_rounded, size: 24),
-          color: Colors.white,
-          onPressed: () => _fetchNotebookList(),
-        ),
+
       ],
     );
   }
 
+  void _exportToFile() async {
+    showSuccessMessage("lậkdsfja", context);
+  }
 }
 
 class LibraryBody extends StatefulWidget {
@@ -103,6 +114,8 @@ class LibraryBody extends StatefulWidget {
 
 class _LibraryBodyState extends State<LibraryBody> {
   final NotebookService _notebookService = NotebookService();
+  final WordService _wordService = WordService();
+
   late Future<List<Notebook>> _notebookListFuture;
 
   @override
@@ -120,7 +133,6 @@ class _LibraryBodyState extends State<LibraryBody> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-
       onRefresh: () async {
         _fetchNotebookList();
       },
@@ -136,19 +148,28 @@ class _LibraryBodyState extends State<LibraryBody> {
           } else {
             return SlidableAutoCloseBehavior(
               child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 170), // Add padding to the bottom
-
+                padding: const EdgeInsets.only(bottom: 170),
                 // physics: const BouncingScrollPhysics(),
 
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final notebook = snapshot.data![index];
-                  return NotebookComponent(
-                    id: notebook.id,
-                    name: notebook.name,
-                    wordCount: 10,
-                    deletePressed: () => _deleteNotebook(notebook.id),
-                    editPressed: () => navigateToEditNotebook(notebook)
+
+                  return FutureBuilder<int>(
+                    future: _getWordCount(notebook.id),
+                    builder: (context, wordCountSnapshot) {
+                      if (wordCountSnapshot.hasError) {
+                        return Center(child: Text('Error: ${wordCountSnapshot.error}'));
+                      } else {
+                        return NotebookComponent(
+                          id: notebook.id,
+                          name: notebook.name,
+                          wordCount: wordCountSnapshot.data ?? 0,
+                          deletePressed: () => _deleteNotebook(notebook.id),
+                          editPressed: () => navigateToEditNotebook(notebook),
+                        );
+                      }
+                    },
                   );
                 },
               ),
@@ -160,18 +181,18 @@ class _LibraryBodyState extends State<LibraryBody> {
   }
 
   Future<void> navigateToEditNotebook(Notebook notebook) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditNotebookPage(notebook: notebook),
-      ),
-    );
+    final route = MaterialPageRoute(builder: (context) => EditNotebookPage(notebook: notebook));
+    await Navigator.push(context, route);
     _fetchNotebookList();
   }
 
   Future<void> _deleteNotebook(int id) async {
+    showSuccessMessage("Xóa notebook thành công", context);
     await _notebookService.deleteNotebook(id);
     _fetchNotebookList();
   }
 
+  Future<int> _getWordCount(int id) async {
+    return  _wordService.getWordCount(id);
+  }
 }

@@ -3,6 +3,7 @@ import 'package:nihongo/models/library/notebook.dart';
 
 import '../../components/library/create_button.dart';
 import '../../components/library/input_field.dart';
+import '../../components/library/show_snackbar.dart';
 import '../../services/library/sv_notebook.dart';
 
 class EditNotebookPage extends StatefulWidget {
@@ -62,24 +63,31 @@ class _EditNotebookPageState extends State<EditNotebookPage> {
   }
 
   Future<void> _handleEditNotebook(int id) async {
+    if (nameController.text.isEmpty) {
+      showErrorMessage("Nhập tên notebook!", context);
+      return;
+    }
+    showSuccessMessage("Đổi tên notebook thành công", context);
+
     await _notebookService.editNotebook(id, nameController.text);
     Navigator.pop(context);
 
   }
+
+  AppBar _appBar() {
+    return AppBar(
+      leading: const BackButton(color: Colors.white),
+      title: const Text(
+        "Sửa Notebook",
+        style: TextStyle(
+          fontSize: 24,
+          fontFamily: 'Noto Sans',
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: const Color(0xFF8980F0),
+    );
+  }
 }
 
-AppBar _appBar() {
-  return AppBar(
-    leading: const BackButton(color: Colors.white),
-    title: const Text(
-      "Sửa Notebook",
-      style: TextStyle(
-        fontSize: 24,
-        fontFamily: 'Noto Sans',
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
-    ),
-    backgroundColor: const Color(0xFF8980F0),
-  );
-}

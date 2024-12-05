@@ -5,6 +5,7 @@ import 'package:nihongo/services/library/sv_notebook.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../components/library/input_field.dart';
 import '../../components/library/create_button.dart';
+import '../../components/library/show_snackbar.dart';
 import '../../models/library/notebook.dart';
 
 class AddNotebookPanel extends StatefulWidget {
@@ -93,14 +94,16 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
   }
 
   Future<void> _handleAddNotebook() async {
-    log("Inside _handleAddNotebook");
-    widget.panelController.close();
+    if (nameController.text.isEmpty) {
+      showErrorMessage("Nhập tên notebook!", context);
+      return;
+    }
+    // widget.panelController.close();
     await _notebookService.addNotebook(nameController.text);
     nameController.clear();
-    _fetchNotebookList();
+
+    showSuccessMessage("Tạo notebook mới thành công", context);
   }
-
-
 }
 
 class BottomIndicator extends StatelessWidget {
