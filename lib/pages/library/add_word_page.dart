@@ -11,12 +11,17 @@ class AddWordPage extends StatefulWidget {
 }
 
 class _AddWordPageState extends State<AddWordPage> {
+  TextEditingController wordController = TextEditingController();
+  TextEditingController furiganaController = TextEditingController();
+  TextEditingController hanVietController = TextEditingController();
+  TextEditingController meaningController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Color(0xFFF5F6FA),
         appBar: _appBar(),
-        body: const SingleChildScrollView(
+        body: SingleChildScrollView(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -33,7 +38,7 @@ class _AddWordPageState extends State<AddWordPage> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(hintText: 'Nhập từ'),
+              child: InputField(hintText: 'Nhập từ', textController: wordController,),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
@@ -48,23 +53,9 @@ class _AddWordPageState extends State<AddWordPage> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(hintText: 'Nhập furigana'),
+              child: InputField(hintText: 'Nhập furigana', textController: furiganaController,),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
-              child: Text(
-                'Âm Hán Việt',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A2D37),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(hintText: 'Nhập âm Hán Việt'),
-            ),
+
             Padding(
               padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
               child: Text(
@@ -78,11 +69,14 @@ class _AddWordPageState extends State<AddWordPage> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(hintText: 'Nhập ý nghĩa'),
+              child: InputField(hintText: 'Nhập ý nghĩa', textController: meaningController,),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: CreateButton(text: 'Thêm'),
+              child: CreateButton(
+                text: 'Thêm',
+                onPressed: () {},
+              ),
             ),
           ],
         )));
@@ -91,6 +85,7 @@ class _AddWordPageState extends State<AddWordPage> {
 
 AppBar _appBar() {
   return AppBar(
+    leading: const BackButton(color: Colors.white),
     title: const Text(
       "Thêm từ vựng",
       style: TextStyle(

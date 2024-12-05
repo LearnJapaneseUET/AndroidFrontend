@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nihongo/pages/feedback_page.dart';
+// import 'package:nihongo/pages/feedback_page.dart';
 import 'package:nihongo/pages/mail_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -15,6 +15,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
+
       appBar: AppBar(
         backgroundColor: const Color(0xFF8980F0),
         title: const Row(

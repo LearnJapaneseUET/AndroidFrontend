@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 class CreateButton extends StatelessWidget {
   final String text;
-  const CreateButton({super.key, required this.text});
+  final VoidCallback onPressed;
+  const CreateButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        // TODO: Implement create functionality
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF8980F0),
         shape: RoundedRectangleBorder(

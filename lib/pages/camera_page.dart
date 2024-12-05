@@ -58,6 +58,8 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
+
       appBar: AppBar(
         title: const Text('Camera Screen'),
       ),
