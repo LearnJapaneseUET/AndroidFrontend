@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nihongo/pages/dictionary_page.dart';
@@ -26,9 +28,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("User ID:");
-    print(user.uid);
+    log("User ID: ${user.uid}");
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
+
       appBar: AppBar(
         backgroundColor: const Color(0xFF8980F0),
         toolbarHeight: 10.0,

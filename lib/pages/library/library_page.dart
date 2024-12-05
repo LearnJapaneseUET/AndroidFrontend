@@ -5,8 +5,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nihongo/models/library/notebook.dart';
 import 'package:nihongo/services/library/sv_notebook.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'add_notebook_panel.dart';
 import '../../components/library/notebook.dart';
+import 'add_notebook_panel.dart';
 import 'edit_notebook_page.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -33,7 +33,7 @@ class _LibraryPageState extends State<LibraryPage> {
   }
 
   final PanelController _panelController = PanelController();
-  List<notebookComponent> notebookList = [];
+  // List<NotebookComponent> notebookList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +86,12 @@ class _LibraryPageState extends State<LibraryPage> {
         IconButton(
           icon: const Icon(Icons.download_rounded, size: 24),
           color: Colors.white,
-          onPressed: _fetchNotebookList,
+          onPressed: () => _fetchNotebookList(),
         ),
       ],
     );
   }
+
 }
 
 class LibraryBody extends StatefulWidget {
@@ -119,6 +120,7 @@ class _LibraryBodyState extends State<LibraryBody> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+
       onRefresh: () async {
         _fetchNotebookList();
       },
@@ -134,13 +136,17 @@ class _LibraryBodyState extends State<LibraryBody> {
           } else {
             return SlidableAutoCloseBehavior(
               child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 170), // Add padding to the bottom
+
+                // physics: const BouncingScrollPhysics(),
+
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final notebook = snapshot.data![index];
-                  return notebookComponent(
+                  return NotebookComponent(
                     id: notebook.id,
                     name: notebook.name,
-                    description: notebook.description,
+                    wordCount: 10,
                     deletePressed: () => _deleteNotebook(notebook.id),
                     editPressed: () => navigateToEditNotebook(notebook)
                   );
@@ -167,4 +173,5 @@ class _LibraryBodyState extends State<LibraryBody> {
     await _notebookService.deleteNotebook(id);
     _fetchNotebookList();
   }
+
 }

@@ -6,20 +6,20 @@ import 'package:nihongo/pages/library/add_notebook_panel.dart';
 import 'package:nihongo/pages/library/vocab_page.dart';
 // import 'notebook_detail_page.dart';
 
-class notebookComponent extends StatelessWidget {
+class NotebookComponent extends StatelessWidget {
   final int id;
   final String name;
-  final String description;
+  final int wordCount;
   final VoidCallback deletePressed;
   final VoidCallback editPressed;
 
-  const notebookComponent({
+  const NotebookComponent({
     super.key,
     required this.name,
-    required this.description,
     required this.deletePressed,
     required this.id,
     required this.editPressed,
+    required this.wordCount,
   });
 
   @override
@@ -49,7 +49,7 @@ class notebookComponent extends StatelessWidget {
               editPressed();
             },
             icon: Icons.edit,
-            backgroundColor: Color(0xFFF5F6FA),
+            backgroundColor: const Color(0xFFF5F6FA),
 
             foregroundColor: Colors.green,
             label: 'Edit',
@@ -70,7 +70,7 @@ class notebookComponent extends StatelessWidget {
             Container(
               margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               width: double.infinity,
-              height: 144,
+              height: 80,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -99,27 +99,15 @@ class notebookComponent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      child: Text(
-                        description,
-                        style: const TextStyle(
-                          color: Color(0xFF8980F0),
-                          fontSize: 16,
-                          fontFamily: 'Noto Sans',
-                          height: 0.2,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
+
+                  SizedBox(
                     width: double.infinity,
                     child: Text(
                       // updateDate,
-                      "",
-                      style: TextStyle(
+                      "$wordCount words",
+                      style: const TextStyle(
                         color: Colors.grey,
-                        fontSize: 12,
+                        fontSize: 14,
                         fontFamily: 'Noto Sans',
                         height: 0,
                       ),

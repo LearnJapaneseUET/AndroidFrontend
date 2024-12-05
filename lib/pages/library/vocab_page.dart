@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:nihongo/pages/library/flashcard.dart';
+import 'package:nihongo/services/library/sv_word.dart';
 
 import '../../components/library/word_card.dart';
+import '../../models/library/Word.dart';
 import 'add_word_page.dart';
 
 class VocabPage extends StatefulWidget {
   final int notebookId;
+
   const VocabPage({super.key, required this.notebookId});
 
   @override
@@ -13,155 +17,88 @@ class VocabPage extends StatefulWidget {
 }
 
 class _VocabPageState extends State<VocabPage> {
+  final WordService _wordService = WordService();
+  late Future<List<Word>> _wordListFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchWordList();
+  }
+
+  Future<void> _fetchWordList() async {
+    setState(() {
+      _wordListFuture = _wordService.getWord(widget.notebookId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(context),
-      body: Container(
-        color: const Color(0xFFF5F6FA),
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
+        backgroundColor: const Color(0xFFF5F6FA),
 
-          padding: const EdgeInsets.all(16),
-          children: const [
-            WordCard(
-              number: '002',
-              word: '国会',
-              pronunciation: 'こっかい',
-              meaning: 'Quốc hội',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '003',
-              word: '学生',
-              pronunciation: 'がくせい',
-              meaning: 'Học sinh',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '004',
-              word: '一',
-              pronunciation: 'yī',
-              meaning:
-                  '"one" radical in Chinese characters; a (article); all; also; as soon as; entire; one (numeric); single; throughout; whole...',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '005',
-              word: '喜欢',
-              pronunciation: 'xǐ huan',
-              meaning: 'to be fond of; to like',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '001',
-              word: '猫',
-              pronunciation: 'ねこ',
-              meaning: 'Con mèo',
-              note: 'Rất dễ thương =))',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '002',
-              word: '国会',
-              pronunciation: 'こっかい',
-              meaning: 'Quốc hội',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '003',
-              word: '学生',
-              pronunciation: 'がくせい',
-              meaning: 'Học sinh',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '004',
-              word: '一',
-              pronunciation: 'yī',
-              meaning:
-              '"one" radical in Chinese characters; a (article); all; also; as soon as; entire; one (numeric); single; throughout; whole...',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '005',
-              word: '喜欢',
-              pronunciation: 'xǐ huan',
-              meaning: 'to be fond of; to like',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '001',
-              word: '猫',
-              pronunciation: 'ねこ',
-              meaning: 'Con mèo',
-              note: 'Rất dễ thương =))',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '002',
-              word: '国会',
-              pronunciation: 'こっかい',
-              meaning: 'Quốc hội',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '003',
-              word: '学生',
-              pronunciation: 'がくせい',
-              meaning: 'Học sinh',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '004',
-              word: '一',
-              pronunciation: 'yī',
-              meaning:
-              '"one" radical in Chinese characters; a (article); all; also; as soon as; entire; one (numeric); single; throughout; whole...',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '005',
-              word: '喜欢',
-              pronunciation: 'xǐ huan',
-              meaning: 'to be fond of; to like',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '001',
-              word: '猫',
-              pronunciation: 'ねこ',
-              meaning: 'Con mèo',
-              note: 'Rất dễ thương =))',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '002',
-              word: '国会',
-              pronunciation: 'こっかい',
-              meaning: 'Quốc hội',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '003',
-              word: '学生',
-              pronunciation: 'がくせい',
-              meaning: 'Học sinh',
-            ),
-            SizedBox(height: 12),
-            WordCard(
-              number: '004',
-              word: '一',
-              pronunciation: 'yī',
-              meaning:
-              '"one" radical in Chinese characters; a (article); all; also; as soon as; entire; one (numeric); single; throughout; whole...',
-            ),
-            SizedBox(height: 12),
-          ],
-        ),
-      ),
+        appBar: _appBar(context),
+        // color: const Color(0xFFF5F6FA),
+        body: RefreshIndicator(
+            onRefresh: () => _fetchWordList(),
+
+            child: FutureBuilder(
+                future: _wordListFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return const Center(child: Text('No data available'));
+                  } else {
+                    return SlidableAutoCloseBehavior(
+                        child: ListView.builder(
+                            padding: const EdgeInsets.all(16),
+
+                            itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            final word = snapshot.data![index];
+                            return WordCard(
+                              number: "${index + 1}",
+                              word: word.word,
+                              meaning: word.meaning,
+                              furigana: word.furigana,
+                              voicePressed: () {
+                                // do something
+                              },
+                              editPressed: () {
+                                // do something
+                              },
+                              deletePressed: () {
+                                // do something
+                              },
+                            );
+                          }
+                        )
+                    );
+                  }
+                }
+            )
+        )
+
     );
   }
+
+  // Future<void> navigateToEditNotebook(Notebook notebook) async {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => EditNotebookPage(notebook: notebook),
+  //     ),
+  //   );
+  // }
+
+  Future<void> _deleteNotebook(int id) async {
+    // await _wordService.deleteWord(id);
+    // _fetchNotebookList();
+  }
+
 }
 
 AppBar _appBar(context) {

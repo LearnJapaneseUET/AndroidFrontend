@@ -131,8 +131,19 @@ class TranslationPageState extends State<TranslationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        title: const Text('Translation Page'),
+        title: const Text(
+          'Translation Page',
+          style: TextStyle(
+            fontSize: 24,
+            fontFamily: 'Noto Sans',
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color(0xFF8980F0),
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -140,41 +151,71 @@ class TranslationPageState extends State<TranslationPage> {
           children: [
             TextField(
               controller: _textController,
-              decoration: const InputDecoration(
-                labelText: 'Enter text to translate',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: "Enter text to translate",
+                filled: true,
+                fillColor: Colors.white,
+
+                border: OutlineInputBorder(
+                  // borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                contentPadding:
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               ),
             ),
+
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.image),
-                  onPressed: _pickImageAndTranslate,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.camera_alt),
-                  onPressed: _takePhoto,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.mic),
-                  onPressed: () {
-                    // Implement voice input logic here
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    // Implement handwriting input logic here
-                  },
-                ),
-              ],
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.image),
+                    onPressed: _pickImageAndTranslate,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.camera_alt),
+                    onPressed: _takePhoto,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.mic),
+                    onPressed: () {
+                      // Implement voice input logic here
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      // Implement handwriting input logic here
+                    },
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _submitData,
-              child: const Text('Submit'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF8980F0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+
+                // padding: const EdgeInsets.symmetric(vertical: 13),
+              ),
+              child: const Text(
+                "Submit",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             if (_translationResult != null)

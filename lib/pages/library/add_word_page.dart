@@ -55,21 +55,7 @@ class _AddWordPageState extends State<AddWordPage> {
               padding: EdgeInsets.fromLTRB(16, 6, 16, 0),
               child: InputField(hintText: 'Nhập furigana', textController: furiganaController,),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
-              child: Text(
-                'Âm Hán Việt',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A2D37),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(hintText: 'Nhập âm Hán Việt', textController: hanVietController,),
-            ),
+
             Padding(
               padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
               child: Text(

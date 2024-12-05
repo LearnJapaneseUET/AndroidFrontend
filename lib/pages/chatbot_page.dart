@@ -31,7 +31,8 @@ class _ChatbotPageState extends State<ChatbotPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: const Color(0xFFF5F6FA),
+
       appBar: const ChatAppBar(),
       body: Column(
         children: [
@@ -108,7 +109,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
           const SizedBox(width: 10),
           IconButton(
             icon: Icon(Icons.mic,
-                color: _isRecording ? Colors.red : Colors.purple),
+                color: _isRecording ? Colors.red : const Color(0xFF8980F0)),
             onPressed: () {
               if (_isRecording) {
                 audioRecord.stopRecording();
@@ -129,7 +130,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.send, color: Colors.purple),
+            icon: const Icon(Icons.send, color: const Color(0xFF8980F0)),
             onPressed: _sendMessage,
           ),
         ],
@@ -188,7 +189,12 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           SizedBox(width: 10),
           Text(
             "ChatGPT",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+            style: TextStyle(
+              fontSize: 24,
+              fontFamily: 'Noto Sans',
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
           ),
         ],
       ),

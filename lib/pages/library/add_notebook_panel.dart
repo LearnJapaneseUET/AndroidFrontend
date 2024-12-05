@@ -18,7 +18,7 @@ class AddNotebookPanel extends StatefulWidget {
 
 class _AddNotebookPanelState extends State<AddNotebookPanel> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  // TextEditingController descriptionController = TextEditingController();
 
   final NotebookService _notebookService = NotebookService();
 
@@ -76,15 +76,9 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
                   child: InputField(
                       hintText: 'Nhập tên', textController: nameController),
                 ),
+
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
-                  child: InputField(
-                      hintText: 'Nhập chú thích',
-                      textController: descriptionController),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: CreateButton(
                     text: 'Thêm',
                     onPressed: _handleAddNotebook,
@@ -101,9 +95,8 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
   Future<void> _handleAddNotebook() async {
     log("Inside _handleAddNotebook");
     widget.panelController.close();
-    await _notebookService.addNotebook(nameController.text, descriptionController.text);
+    await _notebookService.addNotebook(nameController.text);
     nameController.clear();
-    descriptionController.clear();
     _fetchNotebookList();
   }
 

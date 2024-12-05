@@ -19,18 +19,16 @@ class _EditNotebookPageState extends State<EditNotebookPage> {
   void initState() {
     super.initState();
     nameController.text = widget.notebook.name;
-    descriptionController.text = widget.notebook.description;
   }
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
 
   final NotebookService _notebookService = NotebookService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFF5F6FA),
+        backgroundColor: const Color(0xFFF5F6FA),
         appBar: _appBar(),
         body: SingleChildScrollView(
             child: Column(
@@ -52,21 +50,6 @@ class _EditNotebookPageState extends State<EditNotebookPage> {
                   child: InputField(hintText: 'Nhập tên', textController: nameController,),
                 ),
 
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
-                  child: Text(
-                    'Chú thích',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2A2D37),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
-                  child: InputField(hintText: 'Nhập chú thích', textController: descriptionController,),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                   child: CreateButton(
@@ -79,7 +62,7 @@ class _EditNotebookPageState extends State<EditNotebookPage> {
   }
 
   Future<void> _handleEditNotebook(int id) async {
-    await _notebookService.editNotebook(id, nameController.text, descriptionController.text);
+    await _notebookService.editNotebook(id, nameController.text);
     Navigator.pop(context);
 
   }
