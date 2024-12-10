@@ -31,35 +31,44 @@ class _EditNotebookPageState extends State<EditNotebookPage> {
     return Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
         appBar: _appBar(),
-        body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
-                  child: Text(
-                    'Tên Notebook',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2A2D37),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/appbar.png'),
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter, // Align the image to the top
+            ),
+          ),
+          child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
+                    child: Text(
+                      'Tên Notebook',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2A2D37),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
-                  child: InputField(hintText: 'Nhập tên', textController: nameController,),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  child: CreateButton(
-                    text: 'Sửa',
-                    onPressed: () => _handleEditNotebook(widget.notebook.id),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
+                    child: InputField(hintText: 'Nhập tên', textController: nameController,),
                   ),
-                ),
-              ],
-            )));
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                    child: CreateButton(
+                      text: 'Sửa',
+                      onPressed: () => _handleEditNotebook(widget.notebook.id),
+                    ),
+                  ),
+                ],
+              )),
+        ));
   }
 
   Future<void> _handleEditNotebook(int id) async {

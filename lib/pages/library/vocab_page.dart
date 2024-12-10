@@ -50,51 +50,76 @@ class _VocabPageState extends State<VocabPage> {
         backgroundColor: const Color(0xFFF5F6FA),
         appBar: _appBar(context, widget.notebookId),
         // color: const Color(0xFFF5F6FA),
-        body: RefreshIndicator(
-            onRefresh: () => _fetchWordList(),
-            child: FutureBuilder(
-                future: _wordListFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data == null) {
-                    return const Center(child: Text('No data available'));
-                  } else {
-                    return SlidableAutoCloseBehavior(
-                        child: ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              final word = snapshot.data![index];
-                              // final word_id = word.id;
-                              return WordCard(
-                                index: "${index + 1}",
-                                word: word.word,
-                                meaning: word.meaning,
-                                furigana: word.furigana,
-                                voicePressed: () {
-                                  textToSpeech.processTTS(word.word);
-                                  log("Voice pressed");
-                                },
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/appbar.png'),
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter, // Align the image to the top
+            ),
+          ),
+          child: RefreshIndicator(
+              onRefresh: () => _fetchWordList(),
+              child: FutureBuilder(
+                  future: _wordListFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data == null) {
+                      return const Center(child: Text('No data available'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return ListView(
+                        children: [
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 140),
+                                Image.asset('assets/images/Empty Set.png', width: 200),
+                                const SizedBox(height: 10),
+                                const Text('No words available', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return SlidableAutoCloseBehavior(
+                          child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final word = snapshot.data![index];
+                                // final word_id = word.id;
+                                return WordCard(
+                                  index: "${index + 1}",
+                                  word: word.word,
+                                  meaning: word.meaning,
+                                  furigana: word.furigana,
+                                  voicePressed: () {
+                                    textToSpeech.processTTS(word.word);
+                                    log("Voice pressed");
+                                  },
 
-                                editPressed: () async {
-                                  final route = MaterialPageRoute(builder: (context) => EditWordPage(word: word));
-                                  await Navigator.push(context, route);
-                                  _fetchWordList();
-                                },
+                                  editPressed: () async {
+                                    final route = MaterialPageRoute(builder: (context) => EditWordPage(word: word));
+                                    await Navigator.push(context, route);
+                                    _fetchWordList();
+                                  },
 
-                                deletePressed:() => _handleDeleteWord(word.id),
+                                  deletePressed:() => _handleDeleteWord(word.id),
 
-                                // do something
-                              );
-                            }
-                        )
-                    );
+                                  // do something
+                                );
+                              }
+                          )
+                      );
+                    }
                   }
-                }
-            )
+              )
+          ),
         )
     );
   }

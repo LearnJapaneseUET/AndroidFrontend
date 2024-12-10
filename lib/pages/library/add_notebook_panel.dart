@@ -1,17 +1,20 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:nihongo/services/library/sv_notebook.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import '../../components/library/input_field.dart';
+
 import '../../components/library/create_button.dart';
+import '../../components/library/input_field.dart';
 import '../../components/library/show_snackbar.dart';
 import '../../models/library/notebook.dart';
 
 class AddNotebookPanel extends StatefulWidget {
   final PanelController panelController;
+  final VoidCallback onNotebookAdded; // Add the callback function
 
-  const AddNotebookPanel({super.key, required this.panelController});
+  const AddNotebookPanel(
+      {super.key,
+      required this.panelController,
+      required this.onNotebookAdded});
 
   @override
   State<AddNotebookPanel> createState() => _AddNotebookPanelState();
@@ -19,8 +22,6 @@ class AddNotebookPanel extends StatefulWidget {
 
 class _AddNotebookPanelState extends State<AddNotebookPanel> {
   TextEditingController nameController = TextEditingController();
-  // TextEditingController descriptionController = TextEditingController();
-
   final NotebookService _notebookService = NotebookService();
 
   late Future<List<Notebook>> _notebookListFuture;
@@ -28,6 +29,7 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
   @override
   void initState() {
     super.initState();
+    _fetchNotebookList();
   }
 
   void _fetchNotebookList() {
@@ -35,6 +37,7 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
       _notebookListFuture = _notebookService.getNotebook();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -72,14 +75,14 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
                   height: 16,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: InputField(
                       hintText: 'Nhập tên', textController: nameController),
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: CreateButton(
                     text: 'Thêm',
                     onPressed: _handleAddNotebook,
@@ -98,11 +101,13 @@ class _AddNotebookPanelState extends State<AddNotebookPanel> {
       showErrorMessage("Nhập tên notebook!", context);
       return;
     }
-    // widget.panelController.close();
+    showSuccessMessage("Tạo notebook mới thành công", context);
+
     await _notebookService.addNotebook(nameController.text);
     nameController.clear();
 
-    showSuccessMessage("Tạo notebook mới thành công", context);
+    widget.panelController.close();
+    widget.onNotebookAdded(); // Call the callback function
   }
 }
 

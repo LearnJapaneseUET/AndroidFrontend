@@ -62,40 +62,49 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      signUserOut(); // Added parentheses to call the method
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF8980F0),
-                    ),
-                    child: const Text('Đăng xuất', style: TextStyle(color: Colors.white)),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SendMail()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      // backgroundColor: Colors.white, // Màu nền nút
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color.fromRGBO(0, 0, 0, 1), // Màu viền
-                          width: 2, // Độ dày viền
-                        ),
-                        borderRadius: BorderRadius.circular(30), // Độ bo góc
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/appbar.png'),
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.topCenter, // Align the image to the top
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        signUserOut(); // Added parentheses to call the method
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF8980F0),
                       ),
+                      child: const Text('Đăng xuất', style: TextStyle(color: Colors.white)),
                     ),
-                    child: const Text('Đánh giá'),
-                  ),
-                ]
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SendMail()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        // backgroundColor: Colors.white, // Màu nền nút
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            color: Color.fromRGBO(0, 0, 0, 1), // Màu viền
+                            width: 2, // Độ dày viền
+                          ),
+                          borderRadius: BorderRadius.circular(30), // Độ bo góc
+                        ),
+                      ),
+                      child: const Text('Đánh giá'),
+                    ),
+                  ]
+                ),
               ),
             ),
           ],

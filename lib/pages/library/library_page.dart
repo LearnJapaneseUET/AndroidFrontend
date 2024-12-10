@@ -46,28 +46,42 @@ class _LibraryPageState extends State<LibraryPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
       appBar: _appBar(),
-      body: SlidingUpPanel(
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.transparent,
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
+
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/appbar.png'),
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.topCenter, // Align the image to the top
           ),
-        ],
-        backdropEnabled: true,
-        color: Colors.transparent,
-        minHeight: 20,
-        maxHeight: MediaQuery.of(context).size.height * 0.5,
-        controller: _panelController,
-        panel: AddNotebookPanel(panelController: _panelController),
-        body: const LibraryBody(),
+        ),
+        child: SlidingUpPanel(
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.transparent,
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ],
+          backdropEnabled: true,
+          color: Colors.transparent,
+          minHeight: 20,
+          maxHeight: MediaQuery.of(context).size.height * 0.5,
+          controller: _panelController,
+          panel: AddNotebookPanel(
+            panelController: _panelController,
+            onNotebookAdded: _fetchNotebookList, // Pass the callback function
+          ),        body: const LibraryBody(),
+        ),
       ),
     );
   }
 
   AppBar _appBar() {
     return AppBar(
+      // toolbarHeight: 65,
+      // flexibleSpace: Image.asset('assets/images/bb.png', fit: BoxFit.cover),
       title: const Row(
         children: [
           Icon(Icons.book, color: Colors.white, size: 28),
@@ -84,6 +98,7 @@ class _LibraryPageState extends State<LibraryPage> {
         ],
       ),
       backgroundColor: const Color(0xFF8980F0),
+      // backgroundColor: Colors.transparent,
       actions: [
         IconButton(
           icon: const Icon(Icons.add, size: 24),
@@ -143,14 +158,26 @@ class _LibraryBodyState extends State<LibraryBody> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(child: Text('No data available'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return ListView(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 140),
+                      Image.asset('assets/images/Empty Set.png', width: 200),
+                      const SizedBox(height: 10),
+                      const Text('No notebooks available', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
+                    ],
+                  ),
+                ),
+              ],
+            );
           } else {
             return SlidableAutoCloseBehavior(
               child: ListView.builder(
                 padding: const EdgeInsets.only(bottom: 170),
-                // physics: const BouncingScrollPhysics(),
-
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final notebook = snapshot.data![index];
@@ -193,6 +220,6 @@ class _LibraryBodyState extends State<LibraryBody> {
   }
 
   Future<int> _getWordCount(int id) async {
-    return  _wordService.getWordCount(id);
+    return _wordService.getWordCount(id);
   }
 }

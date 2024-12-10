@@ -7,6 +7,7 @@ import 'package:swipe_cards/swipe_cards.dart';
 
 import '../../models/library/Word.dart';
 import '../../services/library/sv_word.dart';
+import '../../services/text_to_speech.dart';
 
 
 class flashcardPage extends StatefulWidget {
@@ -54,23 +55,25 @@ class _flashcardPageState extends State<flashcardPage> {
                       Navigator.pop(context);
                     },
                   ),
-                  Flexible(
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      notebookName?? "...",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Noto Sans',
+                  Center(
+                    child: Flexible(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        notebookName?? "...",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Noto Sans',
+                        ),
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.volume_up, size: 24),
-                    color: Colors.white,
+                    icon: const Icon(Icons.more_vert, size: 24),
+                    color: Colors.white.withOpacity(0),
                     onPressed: () {
-                      // do something
+                      // showMenu(context: context, position: RelativeRect.fromLTRB(100, 100, 100, 100), items: []);
                     },
                   ),
                 ],
@@ -89,6 +92,8 @@ class _flashcardPageState extends State<flashcardPage> {
 
 class Lesson extends StatefulWidget {
   final int notebookId;
+  final TextToSpeech textToSpeech = TextToSpeech();
+
   Lesson({Key? key, required this.notebookId}) : super(key: key);
 
   @override
@@ -218,13 +223,34 @@ class _LessonState extends State<Lesson> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     alignment: Alignment.center,
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          _swipeItems[index].content.word,
-                          style: TextStyle(fontSize: 50, color: Colors.white),
-                        ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.center,
+                            _swipeItems[index].content.word,
+                            style: TextStyle(fontSize: 50, color: Colors.white),
+                          ),
+                          SizedBox(height: 30),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+
+                            child: IconButton(
+                              icon: const Icon(Icons.volume_up, size: 24),
+                              color: Colors.white,
+                              onPressed: () {
+                                widget.textToSpeech.processTTS(_swipeItems[index].content.word);
+                                log("Voice pressed");
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 30),
+
+                        ],
                       ),
                     ),
                   ),
@@ -236,13 +262,31 @@ class _LessonState extends State<Lesson> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     alignment: Alignment.center,
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          _swipeItems[index].content.meaning,
-                          style: TextStyle(fontSize: 50, color: Colors.black),
-                        ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.center,
+                            _swipeItems[index].content.meaning,
+                            style: TextStyle(fontSize: 50, color: Colors.black),
+                          ),
+                          SizedBox(height: 30),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: const Icon(Icons.volume_up, size: 24),
+                              color: Colors.black,
+                              onPressed: () {
+                                widget.textToSpeech.processTTS(_swipeItems[index].content.meaning);
+                                log("Voice pressed");
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

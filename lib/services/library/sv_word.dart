@@ -40,6 +40,9 @@ class WordService {
 
     if (response.statusCode == 200) {
       log("oke \n ${jsonString }");
+      if (jsonString == '""') {
+        return [];
+      }
       return Word.fromJsonList(
           jsonDecode(jsonString ) as Map<String, dynamic>);
     } else {
@@ -63,7 +66,29 @@ class WordService {
   }
 
   Future<int> getWordCount(int listId) async {
-    return (await getWord(listId)).length;
+    // var url = 'http://192.168.1.6:8000/api/flashcard/all/1';
+    // var url = 'https://refactored-meme-r9wpgj6jrjvcprw7-8000.app.github.dev/api/flashcard/all/1';
+
+    var url = 'https://nihongobenkyou.online/api/flashcard/$listId/';
+
+    var uri = Uri.parse(url);
+
+    var response = await http.get(uri, headers: {"accept": "application/json"});
+    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+
+
+    if (response.statusCode == 200) {
+      log("oke \n ${jsonString }");
+      if (jsonString == '""') {
+        return 0;
+      }
+      return Word.fromJsonList(
+          jsonDecode(jsonString ) as Map<String, dynamic>).length;
+    } else {
+      log("deo duoc \n ${jsonString }");
+      throw Exception('Failed to load Word');
+    }
+
   }
 
   Future<void> addWord(

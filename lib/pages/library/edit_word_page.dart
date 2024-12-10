@@ -34,55 +34,64 @@ class _EditWordPageState extends State<EditWordPage> {
     return Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
         appBar: _appBar(),
-        body: SingleChildScrollView(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
-              child: Text(
-                'Furigana',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A2D37),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/appbar.png'),
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter, // Align the image to the top
+            ),
+          ),
+          child: SingleChildScrollView(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
+                child: Text(
+                  'Furigana',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2A2D37),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(
-                hintText: 'Nhập furigana',
-                textController: furiganaController,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
-              child: Text(
-                'Ý nghĩa',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A2D37),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
+                child: InputField(
+                  hintText: 'Nhập furigana',
+                  textController: furiganaController,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
-              child: InputField(
-                hintText: 'Nhập ý nghĩa',
-                textController: meaningController,
+              const Padding(
+                padding: EdgeInsets.fromLTRB(32, 12, 16, 0),
+                child: Text(
+                  'Ý nghĩa',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2A2D37),
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: CreateButton(
-                text: 'Sửa',
-                onPressed: _handleEditWord,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
+                child: InputField(
+                  hintText: 'Nhập ý nghĩa',
+                  textController: meaningController,
+                ),
               ),
-            ),
-          ],
-        )));
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                child: CreateButton(
+                  text: 'Sửa',
+                  onPressed: _handleEditWord,
+                ),
+              ),
+            ],
+          )),
+        ));
   }
 
   Future<void> _handleEditWord() async {
@@ -90,6 +99,10 @@ class _EditWordPageState extends State<EditWordPage> {
       showErrorMessage("Điền đầy đủ nghĩa từ vựng!", context);
       return;
     }
+    showSuccessMessage("Đổi thông tin từ vựng thành công", context);
+
+    Navigator.pop(context);
+
 
     await _wordService.editWord(
       widget.word.id,
@@ -97,7 +110,6 @@ class _EditWordPageState extends State<EditWordPage> {
       meaningController.text
     );
 
-    showSuccessMessage("Đổi thông tin từ vựng thành công", context);
     furiganaController.clear();
     meaningController.clear();
   }

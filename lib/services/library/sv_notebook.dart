@@ -21,6 +21,9 @@ class NotebookService {
 
     if (response.statusCode == 200) {
       log("oke \n ${jsonString }");
+      if (jsonString == '""') {
+        return [];
+      }
       return Notebook.fromJsonList(jsonDecode(jsonString ) as List);
     } else {
       log("deo duoc \n ${jsonString }");

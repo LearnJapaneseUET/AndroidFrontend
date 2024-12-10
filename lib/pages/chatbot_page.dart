@@ -34,11 +34,20 @@ class _ChatbotPageState extends State<ChatbotPage> {
       backgroundColor: const Color(0xFFF5F6FA),
 
       appBar: const ChatAppBar(),
-      body: Column(
-        children: [
-          Expanded(child: _buildChatBody()),
-          _buildBottomNavigationBar(),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/appbar.png'),
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.topCenter, // Align the image to the top
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(child: _buildChatBody()),
+            _buildBottomNavigationBar(),
+          ],
+        ),
       ),
     );
   }

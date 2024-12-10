@@ -151,86 +151,95 @@ class TranslationPageState extends State<TranslationPage> {
         backgroundColor: const Color(0xFF8980F0),
 
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                hintText: "Enter text to translate",
-                filled: true,
-                fillColor: Colors.white,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/appbar.png'),
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.topCenter, // Align the image to the top
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: _textController,
+                decoration: InputDecoration(
+                  hintText: "Enter text to translate",
+                  filled: true,
+                  fillColor: Colors.white,
 
-                border: OutlineInputBorder(
-                  // borderSide: BorderSide.none,
+                  border: OutlineInputBorder(
+                    // borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  contentPadding:
+                  const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                contentPadding:
-                const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.image),
-                    onPressed: _pickImageAndTranslate,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.camera_alt),
-                    onPressed: _takePhoto,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.mic),
-                    onPressed: () {
-                      // Implement voice input logic here
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      // Implement handwriting input logic here
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitData,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF8980F0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-
-                // padding: const EdgeInsets.symmetric(vertical: 13),
-              ),
-              child: const Text(
-                "Submit",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.image),
+                      onPressed: _pickImageAndTranslate,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.camera_alt),
+                      onPressed: _takePhoto,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.mic),
+                      onPressed: () {
+                        // Implement voice input logic here
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        // Implement handwriting input logic here
+                      },
+                    ),
+                  ],
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            if (_translationResult != null)
-              Text(
-                'Translation: $_translationResult',
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _submitData,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF8980F0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+
+                  // padding: const EdgeInsets.symmetric(vertical: 13),
+                ),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-          ],
+              const SizedBox(height: 16),
+              if (_translationResult != null)
+                Text(
+                  'Translation: $_translationResult',
+                  style:
+                      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+            ],
+          ),
         ),
       ),
     );
