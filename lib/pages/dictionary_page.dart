@@ -15,22 +15,21 @@ class DictionaryPage extends StatefulWidget {
 
 class _DictionaryPageState extends State<DictionaryPage> {
   int selectedIndex = 0;
-  String _receivedValue = ""; // Hàm sẽ nhận giá trị từ component con
+  String _receivedValue = ''; // Hàm sẽ nhận giá trị từ component con
 
   void updateSearchWord(String value) {
+    print("value: $value");
     setState(() {
       _receivedValue = value;
-      print(value);
     });
+    print("value2: $value");
   }
 
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      // Center(child: Text('Từ vựng')),
       WordDetailPage(word: _receivedValue),
       KanjiList(searchWord: _receivedValue),
-      // Center(child: Text('Chữ Hán')),
       WordExamplePage(word: _receivedValue),
     ];
 
@@ -93,9 +92,18 @@ class _DictionaryPageState extends State<DictionaryPage> {
                 alignment: Alignment.topCenter,
               ),
             ),
-            child: SingleChildScrollView(  // Wrapping with SingleChildScrollView to avoid overflow
-              child: tabs[selectedIndex],  // Your content here
-            ),
+            child: _receivedValue.isEmpty
+              ? Center( // Nếu _receivedValue là null, hiển thị hình ảnh
+                  child: Image.asset(
+                    'assets/images/search_suggestion.png', // Đường dẫn đến hình ảnh muốn hiển thị
+                    width: 150, // Đặt chiều rộng ảnh (pixels)
+                    height: 150, // Đặt chiều cao ảnh (pixels)
+                    fit: BoxFit.contain,
+                  ),
+                )
+              : SingleChildScrollView( // Nếu _receivedValue không null, hiển thị nội dung tabs
+                  child: tabs[selectedIndex],
+                ),
           ),
         ),
       ],

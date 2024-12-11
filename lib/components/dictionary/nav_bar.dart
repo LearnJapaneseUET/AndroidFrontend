@@ -13,17 +13,20 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Wrap QuickSearchScreen in Expanded to avoid layout issues
-        Expanded(
-          child: QuickSearchScreen(
-            onValueChanged: widget.onValueChanged,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          // Wrap QuickSearchScreen in Expanded to avoid layout issues
+          Expanded(
+            child: QuickSearchScreen(
+              onValueChanged: widget.onValueChanged,
+            ),
           ),
-        ),
-        const SizedBox(width: 5.0),
-        const Icon(Icons.mic, color: Colors.white),
-      ],
+          const SizedBox(width: 5.0),
+          const Icon(Icons.mic, color: Colors.white),
+        ],
+      ),
     );
   }
 }
