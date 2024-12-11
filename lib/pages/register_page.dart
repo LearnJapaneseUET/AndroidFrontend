@@ -202,14 +202,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Already have an account?',
+                            'Bạn đã có tài khoản',
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                           const SizedBox(width: 4),
                           GestureDetector(
                             onTap: widget.onTap,
                             child: const Text(
-                              'Login now',
+                              'Đăng nhập',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
