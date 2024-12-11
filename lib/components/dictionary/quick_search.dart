@@ -42,6 +42,9 @@ class _QuickSearchScreenState extends State<QuickSearchScreen> {
           );
         },
         itemBuilder: (BuildContext context, WordSuggestion suggestion) {
+          if (suggestion.writing == null || suggestion.writing!.isEmpty) {
+            return const SizedBox.shrink(); // Không hiển thị gì cả
+          }
           return ListTile(
             title: Row(
               children: [

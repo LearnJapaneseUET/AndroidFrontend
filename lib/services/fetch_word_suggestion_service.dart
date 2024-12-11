@@ -20,6 +20,9 @@ class FetchWordSuggesstionService{
     } on Exception catch (e) {
       print('Error fetching word suggestion: $e');
     }
+    if (results.isEmpty) {
+      return [WordSuggestion(writing: null, furigana: null, meaning: null)];
+    }
     return results;
   }
 }
