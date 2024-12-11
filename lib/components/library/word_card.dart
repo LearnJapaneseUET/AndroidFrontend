@@ -35,9 +35,11 @@ class WordCard extends StatelessWidget {
                   deletePressed();
                 },
                 icon: Icons.delete,
-                backgroundColor: Color(0xFFF5F6FA),
+                // backgroundColor: Color(0xFFF5F6FA),
+                backgroundColor: Colors.transparent,
+
                 foregroundColor: Colors.red,
-                label: 'Delete',
+                label: 'Xóa',
               ),
             ],
           ),
@@ -50,9 +52,11 @@ class WordCard extends StatelessWidget {
                   editPressed();
                 },
                 icon: Icons.edit,
-                backgroundColor: Color(0xFFF5F6FA),
+                // backgroundColor: Color(0xFFF5F6FA),
+                backgroundColor: Colors.transparent,
+
                 foregroundColor: Colors.green,
-                label: "Edit",
+                label: "Sửa",
               ),
             ],
           ),

@@ -87,7 +87,7 @@ class _LibraryPageState extends State<LibraryPage> {
           Icon(Icons.book, color: Colors.white, size: 28),
           SizedBox(width: 10),
           Text(
-            "Library",
+            "Thư viện",
             style: TextStyle(
               fontSize: 24,
               fontFamily: 'Noto Sans',
@@ -116,7 +116,7 @@ class _LibraryPageState extends State<LibraryPage> {
   }
 
   void _exportToFile() async {
-    showSuccessMessage("lậkdsfja", context);
+    showSuccessMessage("exported", context);
   }
 }
 
@@ -168,7 +168,7 @@ class _LibraryBodyState extends State<LibraryBody> {
                       const SizedBox(height: 140),
                       Image.asset('assets/images/Empty Set.png', width: 200),
                       const SizedBox(height: 10),
-                      const Text('No notebooks available', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
+                      const Text('Chưa có danh sách', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
                     ],
                   ),
                 ),

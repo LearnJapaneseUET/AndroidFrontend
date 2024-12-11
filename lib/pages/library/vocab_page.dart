@@ -79,7 +79,7 @@ class _VocabPageState extends State<VocabPage> {
                                 const SizedBox(height: 140),
                                 Image.asset('assets/images/Empty Set.png', width: 200),
                                 const SizedBox(height: 10),
-                                const Text('No words available', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
+                                const Text('Chưa có từ vựng', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
                               ],
                             ),
                           ),
