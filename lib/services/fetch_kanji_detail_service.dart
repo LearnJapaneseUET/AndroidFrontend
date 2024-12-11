@@ -12,7 +12,7 @@ class FetchKanjiDetailService {
     var response = await http.get(uri, headers: {"Accept": "application/json"}).timeout(Duration(seconds: 30));
     String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);        
     var data = jsonDecode(jsonString);
-    print(data['meaning']);
+    // print(data['meaning']);
 
     // Parse art
     String? kanjiArt;

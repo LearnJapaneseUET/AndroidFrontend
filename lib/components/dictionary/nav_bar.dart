@@ -15,27 +15,14 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // Wrap QuickSearchScreen in Expanded to avoid layout issues
         Expanded(
-          child: Container(
-            height: 40.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30.0),
-              border: Border.all(color: const Color(0xFF8980F0)),
-            ),
-            child: QuickSearchScreen(
-              onValueChanged: widget.onValueChanged,  // Truyền callback vào QuickSearchScreen
-            ),
+          child: QuickSearchScreen(
+            onValueChanged: widget.onValueChanged,
           ),
         ),
-        const SizedBox(width: 10.0),
-        const Icon(Icons.cloud, color: Colors.white),
-        const SizedBox(width: 5.0),
-        const Icon(Icons.edit, color: Colors.white),
         const SizedBox(width: 5.0),
         const Icon(Icons.mic, color: Colors.white),
-        const SizedBox(width: 5.0),
-        const Icon(Icons.camera_alt, color: Colors.white),
       ],
     );
   }

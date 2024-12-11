@@ -31,11 +31,9 @@ class _KanjiListState extends State<KanjiList> {
     // Tách searchWord thành danh sách ký tự
     final kanjiList = widget.searchWord?.split('') ?? [];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Danh sách Kanji'),
-      ),
-      body: ListView.builder(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height, 
+      child: ListView.builder(
         itemCount: kanjiList.length,
         itemBuilder: (context, index) {
           final kanji = kanjiList[index];

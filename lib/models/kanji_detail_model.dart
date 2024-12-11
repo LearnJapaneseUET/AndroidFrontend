@@ -99,7 +99,6 @@ class ExampleDetail {
   });
 
   factory ExampleDetail.fromJson(Map<String, dynamic> json) {
-    print(json);
     return ExampleDetail(
       content: json['w'],
       mean: json['m'],
@@ -119,7 +118,6 @@ class PhoneticExample {
   });
 
   factory PhoneticExample.fromJson(String phonetic, List<dynamic> examplesJson) {
-    print(examplesJson);
     return PhoneticExample(
       phonetic: phonetic,
       examples: examplesJson.map((e) => ExampleDetail.fromJson(e)).toList()

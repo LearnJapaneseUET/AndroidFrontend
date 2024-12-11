@@ -18,7 +18,7 @@ class _QuickSearchScreenState extends State<QuickSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: TypeAheadField<WordSuggestion>(
         suggestionsCallback: (search) => _suggestionService.getSugesstionList(searchWord: search),
         builder: (context, controller, focusNode) {
@@ -26,7 +26,19 @@ class _QuickSearchScreenState extends State<QuickSearchScreen> {
             controller: controller,
             focusNode: focusNode,
             autofocus: true,
+            decoration: const InputDecoration(
+              hintText: 'Tìm kiếm...',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                borderSide: BorderSide(color: Color(0xFF8980F0)),
+              ),
+              contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0), 
+              prefixIcon: Icon(Icons.search, color: Color(0xFF8980F0)),
+              fillColor: Colors.white,
+              filled: true,
+            ),
             style: const TextStyle(fontSize: 18.0),
+            maxLines: 1,
           );
         },
         itemBuilder: (BuildContext context, WordSuggestion suggestion) {

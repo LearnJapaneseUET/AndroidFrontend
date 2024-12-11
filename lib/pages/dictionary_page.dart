@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nihongo/components/dictionary/example_detail.dart';
 import 'package:nihongo/components/dictionary/kanji_list.dart';
-import 'package:nihongo/components/dictionary/word_detail.dart';
-import 'package:nihongo/components/my_button.dart';
-import 'package:nihongo/components/my_textfield.dart';
 import 'package:nihongo/components/dictionary/nav_bar.dart';
+import 'package:nihongo/components/dictionary/quick_search.dart';
+import 'package:nihongo/components/dictionary/word_detail.dart';
 import 'package:nihongo/components/dictionary/detail_nav_bar.dart';
-import 'package:nihongo/models/word_detail_model.dart';
-import 'package:nihongo/models/word_suggestion_model.dart';
-import 'package:nihongo/services/fetch_word_detail_service.dart';
-import 'package:nihongo/services/fetch_word_suggestion_service.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage({super.key});
@@ -46,7 +41,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
             color: Color(0xFF8980F0),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
               children: [
                 NavBar(onValueChanged: updateSearchWord),
@@ -89,13 +84,20 @@ class _DictionaryPageState extends State<DictionaryPage> {
             ),
           ),
         ),
-        Expanded(
-          // // child: Text('Hehe')
-          // child: widget.word != null
-          //   ? Text(widget.word!)
-          //   : const Text('Không có từ nào được cung cấp'),
-          child: tabs[selectedIndex],
-        )
+        Expanded( // Ensure this is inside Expanded for the Scrollable content to fit
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/appbar.png'),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topCenter,
+              ),
+            ),
+            child: SingleChildScrollView(  // Wrapping with SingleChildScrollView to avoid overflow
+              child: tabs[selectedIndex],  // Your content here
+            ),
+          ),
+        ),
       ],
     );
   }

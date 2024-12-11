@@ -25,7 +25,7 @@ class WordDetailPage extends StatelessWidget {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data == null) {
           // Hiển thị thông báo nếu không có dữ liệu hoặc kết quả là null
-          return const Center(child: Text('No data available'));
+          return const Center(child: Text(''));
         } else {
           // Hiển thị chi tiết từ vựng khi fetch thành công
           var wordDetail = snapshot.data!;
