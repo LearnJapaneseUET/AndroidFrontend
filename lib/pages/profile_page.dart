@@ -2,13 +2,39 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nihongo/pages/mail_page.dart';
 
-class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
-  
+
+  String? email; 
+
   void signUserOut() {
     FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserEmail();
+  }
+
+  void _getUserEmail() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        email = user.email; // Lấy tên người dùng từ FirebaseAuth
+      });
+    } else {
+      setState(() {
+        email = ''; // Hiển thị khi không có người dùng
+      });
+    }
   }
 
   @override
@@ -30,7 +56,7 @@ class ProfilePage extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            Icon(Icons.edit_square, color: Colors.white)
+            // Icon(Icons.edit_square, color: Colors.white)
           ],
         ),
       ),
@@ -39,25 +65,25 @@ class ProfilePage extends StatelessWidget {
           children: [
             Container(
               color: const Color(0xFF8980F0),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40,
                     backgroundImage: AssetImage('assets/images/ava_cat.jpg')
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Center(
                     child: Text(
-                      'user_name',
-                      style: TextStyle(
+                      email!,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10)
+                  const SizedBox(height: 10)
                 ],
               ),
             ),
