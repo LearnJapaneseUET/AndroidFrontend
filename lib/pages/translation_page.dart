@@ -79,7 +79,8 @@ class TranslationPageState extends State<TranslationPage> {
           'dangtiendung1201: Response status code: ${response.statusCode}');
 
       // Print response body
-      debugPrint('dangtiendung1201: Response body: ${response.body}');
+      debugPrint(
+          'dangtiendung1201: Response body: ${jsonDecode(response.body)}');
 
       if (response.statusCode == 200) {
         String responseBody = response.body;
