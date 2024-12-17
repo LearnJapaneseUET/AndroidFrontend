@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +16,7 @@ class TranslationPage extends StatefulWidget {
 }
 
 class TranslationPageState extends State<TranslationPage> {
+  final String serverUrl = 'https://nihongobenkyou.online/api/translateVtoJ/';
   final AudioRecord audioRecord = AudioRecord();
   final AudioPlay audioPlay = AudioPlay();
   bool _isRecording = false;
@@ -40,28 +43,52 @@ class TranslationPageState extends State<TranslationPage> {
         });
       }
 
-      // Chuẩn bị yêu cầu HTTP
-      var request = http.MultipartRequest('POST',
-          Uri.parse('https://nihongobenkyou.online/api/translateVtoJ/'));
-      if (_textController.text.isNotEmpty) {
-        request.fields['text'] = _textController.text;
-      }
-      if (_image != null) {
-        request.files.add(await http.MultipartFile.fromPath(
-          'image',
-          _image!.path,
-        ));
-      }
+      // final response = await http.post(
+      //   Uri.parse(serverUrl),
+      //   body: {'text': _textController.text},
+      // );
 
-      // Gửi yêu cầu và xử lý phản hồi
-      var response = await request.send();
+      // // Print response body
+      // debugPrint('dangtiendung1201: Response body: ${response.body}');
+
+      // if (response.statusCode == 200) {
+      //   setState(() {
+      //     _translationResult = response.body;
+      //   });
+      // } else {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(content: Text('Error: ${response.statusCode}')),
+      //   );
+      // }
+
+      final response = await http.post(
+        Uri.parse(serverUrl),
+        body: jsonEncode({'text': _textController.text}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      // Print request body
+      debugPrint('dangtiendung1201: Request body: ${jsonEncode({
+            'text': _textController.text
+          })}');
+
+      // Print response status code
+      debugPrint(
+          'dangtiendung1201: Response status code: ${response.statusCode}');
+
+      // Print response body
+      debugPrint('dangtiendung1201: Response body: ${response.body}');
+
       if (response.statusCode == 200) {
-        String responseBody = await response.stream.bytesToString();
+        String responseBody = response.body;
         setState(() {
           _translationResult =
               responseBody; // Thay đổi theo phản hồi của API nếu cần
         });
       } else {
+        debugPrint('dangtiendung1201: Response body: ${response.statusCode}');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${response.statusCode}')),
         );
