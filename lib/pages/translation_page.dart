@@ -16,7 +16,7 @@ class TranslationPage extends StatefulWidget {
 }
 
 class TranslationPageState extends State<TranslationPage> {
-  final String serverUrl = 'https://nihongobenkyou.online/api/translateVtoJ/';
+  final String serverUrl = 'https://nihongobenkyou.online/api/translateJtoV/';
   final AudioRecord audioRecord = AudioRecord();
   final AudioPlay audioPlay = AudioPlay();
   bool _isRecording = false;
@@ -83,10 +83,12 @@ class TranslationPageState extends State<TranslationPage> {
           'dangtiendung1201: Response body: ${jsonDecode(response.body)}');
 
       if (response.statusCode == 200) {
+        // String responseBody = response.body;
         String responseBody = response.body;
         setState(() {
-          _translationResult =
-              responseBody; // Thay đổi theo phản hồi của API nếu cần
+          final Map<String, dynamic> decodedResponse = jsonDecode(responseBody);
+          _translationResult = decodedResponse['response']
+              .toString(); // Ensure the response is converted to a string
         });
       } else {
         debugPrint('dangtiendung1201: Response body: ${response.statusCode}');
