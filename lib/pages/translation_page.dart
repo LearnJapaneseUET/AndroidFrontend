@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,8 +88,13 @@ class TranslationPageState extends State<TranslationPage> {
         String responseBody = response.body;
         setState(() {
           final Map<String, dynamic> decodedResponse = jsonDecode(responseBody);
-          _translationResult = decodedResponse['response']
-              .toString(); // Ensure the response is converted to a string
+          _translationResult = decodedResponse['response'].toString();
+          log("dit eeeeeeeeeee ${_translationResult!.substring(1, _translationResult!.length - 2)}");
+          _translationResult = _translationResult!.substring(1, _translationResult!.length - 2);
+          // .toString(); // Ensure the response is converted to a string
+          // String? dumaaa = _translationResult?[0].substring(1, _translationResult!.length - 2);
+          // log("dit me mayyy ${dumaaa!}");
+
         });
       } else {
         debugPrint('dangtiendung1201: Response body: ${response.statusCode}');
@@ -206,7 +212,8 @@ class TranslationPageState extends State<TranslationPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            children: [
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
               TextField(
                 controller: _textController,
                 decoration: InputDecoration(
@@ -262,12 +269,7 @@ class TranslationPageState extends State<TranslationPage> {
                         }
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // Implement handwriting input logic here
-                      },
-                    ),
+
                   ],
                 ),
               ),
@@ -291,13 +293,48 @@ class TranslationPageState extends State<TranslationPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(width: 10, height: 16),
               if (_translationResult != null)
-                Text(
-                  'Translation: $_translationResult',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Màu nền trắng
+                    borderRadius: BorderRadius.circular(12), // Bo góc
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey
+                            .withOpacity(0.3), // Hiệu ứng đổ bóng nhẹ
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // Đổ bóng xuống dưới
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(
+                      12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Dịch',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                          height: 8),
+                      Text(
+
+                        '$_translationResult',
+                        style: const TextStyle(
+                            fontSize: 16),
+                      ),
+                    ],
+                  ),
                 ),
+              const SizedBox(
+                  width: 10,
+                  height: 10),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
