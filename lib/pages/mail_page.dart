@@ -30,10 +30,10 @@ class _SendMailState extends State<SendMail> {
     try {
       // Gửi email
       await send(message, smtpServer);
-      showSnackbar('Email sent successfully');
+      showSnackbar('Đã gửi thành công');
     } catch (e) {
       // Xử lý lỗi khi gửi email
-      showSnackbar('Failed to send email: $e');
+      showSnackbar('Lỗi khi gửi email: $e');
       if (kDebugMode) {
         print(e.toString());
       }
@@ -47,42 +47,68 @@ class _SendMailState extends State<SendMail> {
     print(dotenv.env['GMAIL_PASSWORD']);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Send Feedback'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        elevation: 0,
+        backgroundColor: const Color(0xFF8980F0),
+        title: const Row(
           children: [
-            const SizedBox(height: 30),
-            // Form nhập nội dung email
-            TextFormField(
-              maxLines: 5,
-              controller: _mailMessageController,
-              decoration: const InputDecoration(
-                labelText: 'Message',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            // Nút gửi email
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Gửi email khi nhấn nút
-                  sendMail(
-                    mailMessage: _mailMessageController.text.toString(),
-                  );
-                },
-                child: const Text('Send Mail'),
+            Icon(Icons.chat, color: Colors.white, size: 28),
+            SizedBox(width: 10),
+            Text(
+              "Đánh giá",
+              style: TextStyle(
+                fontSize: 24,
+                fontFamily: 'Noto Sans',
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
             ),
           ],
+        ),
+      ),
+      body: Expanded(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/appbar.png'),
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 30),
+                // Form nhập nội dung email
+                TextFormField(
+                  maxLines: 5,
+                  controller: _mailMessageController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nội dung',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                // Nút gửi email
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Gửi email khi nhấn nút
+                      sendMail(
+                        mailMessage: _mailMessageController.text.toString(),
+                      );
+                    },
+                    child: const Text('Gửi Mail'),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

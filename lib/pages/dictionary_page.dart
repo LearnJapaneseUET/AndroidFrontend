@@ -18,11 +18,9 @@ class _DictionaryPageState extends State<DictionaryPage> {
   String _receivedValue = ''; // Hàm sẽ nhận giá trị từ component con
 
   void updateSearchWord(String value) {
-    print("value: $value");
     setState(() {
       _receivedValue = value;
     });
-    print("value2: $value");
   }
 
   @override
