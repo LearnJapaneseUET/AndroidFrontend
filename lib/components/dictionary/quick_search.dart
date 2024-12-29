@@ -29,8 +29,9 @@ class _QuickSearchScreenState extends State<QuickSearchScreen> {
             decoration: const InputDecoration(
               hintText: 'Tìm kiếm...',
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                borderSide: BorderSide(color: Color(0xFF8980F0)),
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                // borderSide: BorderSide(color: Color(0xFF8980F0)),
+                borderSide: BorderSide.none,
               ),
               contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0), 
               prefixIcon: Icon(Icons.search, color: Color(0xFF8980F0)),

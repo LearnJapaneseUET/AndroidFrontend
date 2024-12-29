@@ -160,11 +160,11 @@ class _VocabPageState extends State<VocabPage> {
             _fetchWordList();
           },
         ),
-        IconButton(
-          icon: const Icon(Icons.download_rounded, size: 24),
-          color: Colors.white,
-          onPressed: () => _exportToFile(),
-        ),
+        // IconButton(
+        //   icon: const Icon(Icons.download_rounded, size: 24),
+        //   color: Colors.white,
+        //   onPressed: () => _exportToFile(),
+        // ),
       ],
     );
   }

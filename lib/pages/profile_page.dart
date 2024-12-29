@@ -12,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  String? email; 
+  String? email;
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
@@ -41,7 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
-
       appBar: AppBar(
         backgroundColor: const Color(0xFF8980F0),
         title: const Row(
@@ -60,44 +59,42 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      body: 
-        Column(
-          children: [
-            Container(
-              color: const Color(0xFF8980F0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const CircleAvatar(
+      body: Column(
+        children: [
+          Container(
+            color: const Color(0xFF8980F0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('assets/images/ava_cat.jpg')
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                      email!,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    backgroundImage: AssetImage('assets/images/ava_cat.jpg')),
+                const SizedBox(height: 10),
+                Center(
+                  child: Text(
+                    email!,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 10)
-                ],
+                ),
+                const SizedBox(height: 10)
+              ],
+            ),
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/appbar.png'),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topCenter, // Align the image to the top
               ),
             ),
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/appbar.png'),
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter, // Align the image to the top
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Column(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
@@ -105,35 +102,47 @@ class _ProfilePageState extends State<ProfilePage> {
                         signUserOut(); // Added parentheses to call the method
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF8980F0),
+                        backgroundColor: Colors.white70,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 13),
                       ),
-                      child: const Text('Đăng xuất', style: TextStyle(color: Colors.white)),
+                      child: const Text('Đăng xuất',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SendMail()),
+                          MaterialPageRoute(
+                              builder: (context) => const SendMail()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        // backgroundColor: Colors.white, // Màu nền nút
+                        backgroundColor: const Color(0xFF8980F0),
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                            color: Color.fromRGBO(0, 0, 0, 1), // Màu viền
-                            width: 2, // Độ dày viền
-                          ),
-                          borderRadius: BorderRadius.circular(30), // Độ bo góc
+                          borderRadius: BorderRadius.circular(100),
                         ),
+                        padding: const EdgeInsets.symmetric(vertical: 13),
                       ),
-                      child: const Text('Đánh giá'),
+                      child: const Text('Đánh giá',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
-                  ]
-                ),
-              ),
+                  ]),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

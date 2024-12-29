@@ -23,8 +23,8 @@ class _NavBarState extends State<NavBar> {
               onValueChanged: widget.onValueChanged,
             ),
           ),
-          const SizedBox(width: 5.0),
-          const Icon(Icons.mic, color: Colors.white),
+          // const SizedBox(width: 5.0),
+          // const Icon(Icons.mic, color: Colors.white),
         ],
       ),
     );

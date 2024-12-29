@@ -72,8 +72,8 @@ class TranslationPageState extends State<TranslationPage> {
 
       // Print request body
       debugPrint('dangtiendung1201: Request body: ${jsonEncode({
-            'text': _textController.text
-          })}');
+        'text': _textController.text
+      })}');
 
       // Print response status code
       debugPrint(
@@ -209,134 +209,149 @@ class TranslationPageState extends State<TranslationPage> {
             alignment: Alignment.topCenter, // Align the image to the top
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextField(
-                controller: _textController,
-                decoration: InputDecoration(
-                  hintText: "Enter text to translate",
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    // borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                ),
-                maxLines: 5,
-                minLines: 3,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.image),
-                      onPressed: _pickImageAndTranslate,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                TextField(
+                  controller: _textController,
+                  decoration: InputDecoration(
+                    hintText: "Enter text to translate",
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      // borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.camera_alt),
-                      onPressed: _takePhoto,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.mic,
-                          color: _isRecording ? Colors.red : Color(0xFF0E0C0C)),
-                      onPressed: () {
-                        if (_isRecording) {
-                          audioRecord.stopRecording();
-                          speechToText.speechToText().then((newText) {
-                            setState(() {
-                              _textController.text = newText;
-                            });
-                          });
-                          setState(() {
-                            _isRecording = false;
-                          });
-                        } else {
-                          audioRecord.startRecording();
-                          setState(() {
-                            _isRecording = true;
-                          });
-                        }
-                      },
-                    ),
-
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _submitData,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8980F0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
+                    contentPadding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   ),
-
-                  // padding: const EdgeInsets.symmetric(vertical: 13),
+                  maxLines: 5,
+                  minLines: 3,
                 ),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10, height: 16),
-              if (_translationResult != null)
+                const SizedBox(height: 16),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white, // Màu nền trắng
-                    borderRadius: BorderRadius.circular(12), // Bo góc
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey
-                            .withOpacity(0.3), // Hiệu ứng đổ bóng nhẹ
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Đổ bóng xuống dưới
-                      ),
-                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: const EdgeInsets.all(
-                      12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Text(
-                        'Dịch',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: _pickImageAndTranslate,
                       ),
-                      const SizedBox(
-                          height: 8),
-                      Text(
-
-                        '$_translationResult',
-                        style: const TextStyle(
-                            fontSize: 16),
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt),
+                        onPressed: _takePhoto,
                       ),
+                      IconButton(
+                        icon: Icon(Icons.mic,
+                            color: _isRecording ? Colors.red : Color(0xFF0E0C0C)),
+                        onPressed: () {
+                          if (_isRecording) {
+                            audioRecord.stopRecording();
+                            speechToText.speechToText().then((newText) {
+                              setState(() {
+                                _textController.text = newText;
+                              });
+                            });
+                            setState(() {
+                              _isRecording = false;
+                            });
+                          } else {
+                            audioRecord.startRecording();
+                            setState(() {
+                              _isRecording = true;
+                            });
+                          }
+                        },
+                      ),
+          
                     ],
                   ),
                 ),
-              const SizedBox(
-                  width: 10,
-                  height: 10),
-              Expanded(
-                child: Container(
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _submitData,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF8980F0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+          
+                    // padding: const EdgeInsets.symmetric(vertical: 13),
+                  ),
+                  child: const Text(
+                    "Submit",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 10, height: 16),
+                if (_translationResult != null)
+                  Container(
+
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Màu nền trắng
+                      borderRadius: BorderRadius.circular(12), // Bo góc
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey
+                              .withOpacity(0.3), // Hiệu ứng đổ bóng nhẹ
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // Đổ bóng xuống dưới
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(
+                        12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Dịch',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                            height: 8),
+
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0.0), // Khoảng cách giữa các mục
+                                child: Text(
+
+                                  _translationResult!,
+                                  style: const TextStyle(
+                                      fontSize: 16),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                const SizedBox(
+                    width: 10,
+                    height: 10),
+                Container(
                   decoration: BoxDecoration(
                     color: Colors.white, // Màu nền trắng
                     borderRadius: BorderRadius.circular(12), // Bo góc
@@ -364,7 +379,8 @@ class TranslationPageState extends State<TranslationPage> {
                       ),
                       const SizedBox(
                           height: 8), // Khoảng cách giữa tiêu đề và danh sách
-                      Expanded(
+                      Container(
+                        height: 340,
                         child: ListView.builder(
                           itemCount: _history.length,
                           itemBuilder: (context, index) {
@@ -397,8 +413,8 @@ class TranslationPageState extends State<TranslationPage> {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
