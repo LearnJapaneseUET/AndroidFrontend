@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:nihongo/models/library/Word.dart';
+import 'package:nihongo/models/library/word.dart';
 
 class WordService {
   final User user = FirebaseAuth.instance.currentUser!;
@@ -15,13 +15,13 @@ class WordService {
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
 
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     if (response.statusCode == 200) {
-      log("oke \n ${jsonString }");
-      return jsonDecode(jsonString )["name"];
+      log("oke \n ${jsonString}");
+      return jsonDecode(jsonString)["name"];
     } else {
-      log("deo duoc \n ${jsonString }");
+      log("deo duoc \n ${jsonString}");
       throw Exception('Failed to load Word');
     }
   }
@@ -35,18 +35,16 @@ class WordService {
     var uri = Uri.parse(url);
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
-
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     if (response.statusCode == 200) {
-      log("oke \n ${jsonString }");
+      log("oke \n ${jsonString}");
       if (jsonString == '""') {
         return [];
       }
-      return Word.fromJsonList(
-          jsonDecode(jsonString ) as Map<String, dynamic>);
+      return Word.fromJsonList(jsonDecode(jsonString) as Map<String, dynamic>);
     } else {
-      log("deo duoc \n ${jsonString }");
+      log("deo duoc \n ${jsonString}");
       throw Exception('Failed to load Word');
     }
 
@@ -74,21 +72,19 @@ class WordService {
     var uri = Uri.parse(url);
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
-
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     if (response.statusCode == 200) {
-      log("oke \n ${jsonString }");
+      log("oke \n ${jsonString}");
       if (jsonString == '""') {
         return 0;
       }
-      return Word.fromJsonList(
-          jsonDecode(jsonString ) as Map<String, dynamic>).length;
+      return Word.fromJsonList(jsonDecode(jsonString) as Map<String, dynamic>)
+          .length;
     } else {
-      log("deo duoc \n ${jsonString }");
+      log("deo duoc \n ${jsonString}");
       throw Exception('Failed to load Word');
     }
-
   }
 
   Future<void> addWord(
@@ -111,11 +107,11 @@ class WordService {
       body: jsonEncode(body),
     );
 
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(jsonString );
+    log(jsonString);
     /*{
     "meaning": "Hello Thả1o",
     "furigana": "Hello Hoàng 1Anh"
@@ -124,7 +120,8 @@ class WordService {
   }
 
   Future<void> editWord(String wordId, String furigana, String meaning) async {
-    var url = "https://nihongobenkyou.online/api/flashcard/word/$wordId/update/";
+    var url =
+        "https://nihongobenkyou.online/api/flashcard/word/$wordId/update/";
     var uri = Uri.parse(url);
 
     var body = {
@@ -135,12 +132,11 @@ class WordService {
     var response = await http.put(uri,
         headers: {"Content-Type": "application/json"}, body: jsonEncode(body));
 
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
-
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(jsonString );
+    log(jsonString);
 
     /*{
         "id": 10,
@@ -160,14 +156,13 @@ class WordService {
           'Content-Type': 'application/json',
           'Connection': 'keep-alive',
         },
-        body: jsonEncode(body)
-    );
+        body: jsonEncode(body));
 
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(jsonString );
+    log(jsonString);
   }
 
   Future<String> exportNotebook(int id) async {
@@ -175,14 +170,12 @@ class WordService {
     var uri = Uri.parse(url);
 
     var response = await http.get(uri, headers: {"accept": "application/json"});
-    String jsonString = utf8.decode(response.bodyBytes,  allowMalformed: true);
-
+    String jsonString = utf8.decode(response.bodyBytes, allowMalformed: true);
 
     log("${response.statusCode}");
     log("${response.headers}");
-    log(jsonString );
+    log(jsonString);
 
-    return jsonString ;
+    return jsonString;
   }
-
 }

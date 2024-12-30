@@ -12,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../components/library/show_snackbar.dart';
 import '../../components/library/word_card.dart';
-import '../../models/library/Word.dart';
+import '../../models/library/word.dart';
 import '../../services/text_to_speech.dart';
 import 'add_word_page.dart';
 import 'edit_word_page.dart';
@@ -30,7 +30,6 @@ class _VocabPageState extends State<VocabPage> {
   final WordService _wordService = WordService();
   late Future<List<Word>> _wordListFuture;
   final TextToSpeech textToSpeech = TextToSpeech();
-
 
   @override
   void initState() {
@@ -77,9 +76,13 @@ class _VocabPageState extends State<VocabPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 140),
-                                Image.asset('assets/images/Empty Set.png', width: 200),
+                                Image.asset('assets/images/Empty Set.png',
+                                    width: 200),
                                 const SizedBox(height: 10),
-                                const Text('Chưa có từ vựng', style: TextStyle(fontSize: 18, color: Color(0xFF9B9CB8))),
+                                const Text('Chưa có từ vựng',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFF9B9CB8))),
                               ],
                             ),
                           ),
@@ -104,24 +107,22 @@ class _VocabPageState extends State<VocabPage> {
                                   },
 
                                   editPressed: () async {
-                                    final route = MaterialPageRoute(builder: (context) => EditWordPage(word: word));
+                                    final route = MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditWordPage(word: word));
                                     await Navigator.push(context, route);
                                     _fetchWordList();
                                   },
 
-                                  deletePressed:() => _handleDeleteWord(word.id),
+                                  deletePressed: () =>
+                                      _handleDeleteWord(word.id),
 
                                   // do something
                                 );
-                              }
-                          )
-                      );
+                              }));
                     }
-                  }
-              )
-          ),
-        )
-    );
+                  })),
+        ));
   }
 
   AppBar _appBar(context, int notebook_id) {
@@ -141,9 +142,9 @@ class _VocabPageState extends State<VocabPage> {
         IconButton(
           icon: const Icon(Icons.add, size: 24),
           color: Colors.white,
-
           onPressed: () async {
-            final route = MaterialPageRoute(builder: (context) => AddWordPage(notebookId: notebook_id));
+            final route = MaterialPageRoute(
+                builder: (context) => AddWordPage(notebookId: notebook_id));
             await Navigator.push(context, route);
             _fetchWordList();
           },
@@ -154,7 +155,8 @@ class _VocabPageState extends State<VocabPage> {
           // icon: const Icon(Icons.card_membership, size: 24),
           color: Colors.white,
           onPressed: () async {
-            final route = MaterialPageRoute(builder: (context) => flashcardPage(notebookId: notebook_id));
+            final route = MaterialPageRoute(
+                builder: (context) => flashcardPage(notebookId: notebook_id));
             // final route = MaterialPageRoute(builder: (context) => flashcardPage());
             await Navigator.push(context, route);
             _fetchWordList();
@@ -175,7 +177,8 @@ class _VocabPageState extends State<VocabPage> {
       // Request storage permissions
       if (await Permission.storage.request().isGranted) {
         // Let the user choose the directory
-        String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+        String? selectedDirectory =
+            await FilePicker.platform.getDirectoryPath();
 
         if (selectedDirectory == null) {
           print("No directory selected.");
@@ -205,8 +208,7 @@ class _VocabPageState extends State<VocabPage> {
     return await _wordService.exportNotebook(widget.notebookId);
   }
 
-
-  Future<void> _handleDeleteWord (String wordId) async {
+  Future<void> _handleDeleteWord(String wordId) async {
     log("Delete word $wordId, notebook ${widget.notebookId}");
     showSuccessMessage("Xóa từ thành công", context);
 

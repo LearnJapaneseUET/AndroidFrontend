@@ -3,7 +3,7 @@ import 'package:nihongo/components/library/show_snackbar.dart';
 
 import '../../components/library/create_button.dart';
 import '../../components/library/input_field.dart';
-import '../../models/library/Word.dart';
+import '../../models/library/word.dart';
 import '../../services/library/sv_word.dart';
 
 class EditWordPage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _EditWordPageState extends State<EditWordPage> {
     furiganaController.text = widget.word.furigana!;
     meaningController.text = widget.word.meaning;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +82,8 @@ class _EditWordPageState extends State<EditWordPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 child: CreateButton(
                   text: 'Sửa',
                   onPressed: _handleEditWord,
@@ -103,12 +103,8 @@ class _EditWordPageState extends State<EditWordPage> {
 
     Navigator.pop(context);
 
-
     await _wordService.editWord(
-      widget.word.id,
-      furiganaController.text,
-      meaningController.text
-    );
+        widget.word.id, furiganaController.text, meaningController.text);
 
     furiganaController.clear();
     meaningController.clear();

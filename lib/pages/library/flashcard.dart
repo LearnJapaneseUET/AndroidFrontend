@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
-import '../../models/library/Word.dart';
+import '../../models/library/word.dart';
 import '../../services/library/sv_word.dart';
 import '../../services/text_to_speech.dart';
-
 
 class flashcardPage extends StatefulWidget {
   final int notebookId;
@@ -36,6 +35,7 @@ class _flashcardPageState extends State<flashcardPage> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,47 +43,45 @@ class _flashcardPageState extends State<flashcardPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 56, 16, 146),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, size: 24),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  Center(
-                    child: Flexible(
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        notebookName?? "...",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Noto Sans',
-                        ),
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back, size: 24),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Center(
+                  child: Flexible(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      notebookName ?? "...",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Noto Sans',
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.more_vert, size: 24),
-                    color: Colors.white.withOpacity(0),
-                    onPressed: () {
-                      // showMenu(context: context, position: RelativeRect.fromLTRB(100, 100, 100, 100), items: []);
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 60),
-              Expanded(
-                child: Lesson(notebookId: widget.notebookId),
-              ),
-            ]
-          ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_vert, size: 24),
+                  color: Colors.white.withOpacity(0),
+                  onPressed: () {
+                    // showMenu(context: context, position: RelativeRect.fromLTRB(100, 100, 100, 100), items: []);
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 60),
+            Expanded(
+              child: Lesson(notebookId: widget.notebookId),
+            ),
+          ]),
         ),
       ),
     );
@@ -125,13 +123,17 @@ class _LessonState extends State<Lesson> {
         for (int i = 0; i < _words.length; i++) {
           log("Word: ${_words[i].word}, Meaning: ${_words[i].meaning}");
           _swipeItems.add(SwipeItem(
-              content: Word(word: _words[i].word, meaning: _words[i].meaning, id: _words[i].id),
+              content: Word(
+                  word: _words[i].word,
+                  meaning: _words[i].meaning,
+                  id: _words[i].id),
               // content: Content(text: _names[i], color: _colors[i]),
               likeAction: () {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.green, // Set the background color
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20), // Set the border radius
+                    borderRadius:
+                        BorderRadius.circular(20), // Set the border radius
                   ),
                   content: Text("Đã nhớ từ ${_words[i].word}"),
                   duration: Duration(milliseconds: 500),
@@ -141,17 +143,21 @@ class _LessonState extends State<Lesson> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.yellow, // Set the background color
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20), // Set the border radius
+                    borderRadius:
+                        BorderRadius.circular(20), // Set the border radius
                   ),
-                  content: Text("Chưa nhớ từ ${_words[i].word}", style: TextStyle(color: Colors.black)),
+                  content: Text("Chưa nhớ từ ${_words[i].word}",
+                      style: TextStyle(color: Colors.black)),
                   duration: Duration(milliseconds: 500),
                 ));
               },
               superlikeAction: () {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: Colors.pinkAccent, // Set the background color
+                  backgroundColor:
+                      Colors.pinkAccent, // Set the background color
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20), // Set the border radius
+                    borderRadius:
+                        BorderRadius.circular(20), // Set the border radius
                   ),
                   content: Text("Siêu yêu thích từ ${_words[i].word}"),
                   duration: Duration(milliseconds: 500),
@@ -166,10 +172,7 @@ class _LessonState extends State<Lesson> {
       });
     });
 
-
-
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
-
   }
 
   @override
@@ -189,7 +192,6 @@ class _LessonState extends State<Lesson> {
               ),
             ),
           ),
-
           Transform.rotate(
             angle: -0.12,
             child: Container(
@@ -201,7 +203,6 @@ class _LessonState extends State<Lesson> {
               ),
             ),
           ),
-
           Container(
             height: 485,
             width: 295,
@@ -209,7 +210,6 @@ class _LessonState extends State<Lesson> {
               // color: const Color(0xFF8980F0),
               borderRadius: BorderRadius.circular(16),
             ),
-
             child: SwipeCards(
               matchEngine: _matchEngine!,
               itemBuilder: (BuildContext context, int index) {
@@ -238,18 +238,17 @@ class _LessonState extends State<Lesson> {
                               color: Colors.white.withOpacity(0.2),
                               shape: BoxShape.circle,
                             ),
-
                             child: IconButton(
                               icon: const Icon(Icons.volume_up, size: 24),
                               color: Colors.white,
                               onPressed: () {
-                                widget.textToSpeech.processTTS(_swipeItems[index].content.word);
+                                widget.textToSpeech.processTTS(
+                                    _swipeItems[index].content.word);
                                 log("Voice pressed");
                               },
                             ),
                           ),
                           SizedBox(height: 30),
-
                         ],
                       ),
                     ),
@@ -281,7 +280,8 @@ class _LessonState extends State<Lesson> {
                               icon: const Icon(Icons.volume_up, size: 24),
                               color: Colors.black,
                               onPressed: () {
-                                widget.textToSpeech.processTTS(_swipeItems[index].content.meaning);
+                                widget.textToSpeech.processTTS(
+                                    _swipeItems[index].content.meaning);
                                 log("Voice pressed");
                               },
                             ),
@@ -307,10 +307,7 @@ class _LessonState extends State<Lesson> {
               fillSpace: true,
             ),
           ),
-
-        ]
-        ),
-
+        ]),
       ],
     );
   }
