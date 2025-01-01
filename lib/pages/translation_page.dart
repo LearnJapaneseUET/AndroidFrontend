@@ -89,8 +89,8 @@ class TranslationPageState extends State<TranslationPage> {
         setState(() {
           final Map<String, dynamic> decodedResponse = jsonDecode(responseBody);
           _translationResult = decodedResponse['response'].toString();
-          log("dit eeeeeeeeeee ${_translationResult!.substring(1, _translationResult!.length - 2)}");
-          _translationResult = _translationResult!.substring(1, _translationResult!.length - 2);
+          log("dit eeeeeeeeeee ${_translationResult!.substring(1, _translationResult!.length - 1)}");
+          _translationResult = _translationResult!.substring(1, _translationResult!.length - 1);
           // .toString(); // Ensure the response is converted to a string
           // String? dumaaa = _translationResult?[0].substring(1, _translationResult!.length - 2);
           // log("dit me mayyy ${dumaaa!}");

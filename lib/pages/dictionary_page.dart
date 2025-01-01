@@ -31,80 +31,83 @@ class _DictionaryPageState extends State<DictionaryPage> {
       WordExamplePage(word: _receivedValue),
     ];
 
-    return Column(
-      children: [
-        DecoratedBox(
-          decoration: const BoxDecoration(
-            color: Color(0xFF8980F0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              children: [
-                NavBar(onValueChanged: updateSearchWord),
-                const SizedBox(height: 10.0),
-                if (_receivedValue.isNotEmpty) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      NavBarButton(
-                        text: 'Từ vựng',
-                        isSelected: selectedIndex == 0,
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = 0;
-                          });
-                        },
-                      ),
-                      NavBarButton(
-                        text: 'Chữ Hán',
-                        isSelected: selectedIndex == 1,
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = 1;
-                          });
-                        },
-                      ),
-                      NavBarButton(
-                        text: 'Ví dụ',
-                        isSelected: selectedIndex == 2,
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = 2;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        Expanded( // Ensure this is inside Expanded for the Scrollable content to fit
-          child: Container(
+    return Scaffold( // Thêm Scaffold làm ancestor
+      body: Column(
+        children: [
+          DecoratedBox(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/appbar.png'),
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.topCenter,
+              color: Color(0xFF8980F0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Column(
+                children: [
+                  NavBar(onValueChanged: updateSearchWord),
+                  const SizedBox(height: 10.0),
+                  if (_receivedValue.isNotEmpty) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        NavBarButton(
+                          text: 'Từ vựng',
+                          isSelected: selectedIndex == 0,
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = 0;
+                            });
+                          },
+                        ),
+                        NavBarButton(
+                          text: 'Chữ Hán',
+                          isSelected: selectedIndex == 1,
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = 1;
+                            });
+                          },
+                        ),
+                        NavBarButton(
+                          text: 'Ví dụ',
+                          isSelected: selectedIndex == 2,
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = 2;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
               ),
             ),
-            child: _receivedValue.isEmpty
-              ? Center( // Nếu _receivedValue là null, hiển thị hình ảnh
-                  child: Image.asset(
-                    'assets/images/search_suggestion.png', // Đường dẫn đến hình ảnh muốn hiển thị
-                    width: 150, // Đặt chiều rộng ảnh (pixels)
-                    height: 150, // Đặt chiều cao ảnh (pixels)
-                    fit: BoxFit.contain,
-                  ),
-                )
-              : SingleChildScrollView( // Nếu _receivedValue không null, hiển thị nội dung tabs
-                  child: tabs[selectedIndex],
-                ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/appbar.png'),
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.topCenter,
+                ),
+              ),
+              child: _receivedValue.isEmpty
+                  ? Center(
+                      child: Image.asset(
+                        'assets/images/search_suggestion.png',
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.contain,
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      child: tabs[selectedIndex],
+                    ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
 }

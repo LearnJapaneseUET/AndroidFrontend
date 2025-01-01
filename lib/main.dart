@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:nihongo/api/firebase_api.dart';
 import 'package:nihongo/pages/auth_page.dart';
+import 'package:nihongo/pages/home_page.dart';
 import 'package:nihongo/pages/notification_page.dart';
 import 'firebase_options.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       home: const AuthPage(),
       navigatorKey: navigatorKey,
       routes: {
-        '/notification_screen': (context) => const NotificationPage(),
+        '/home': (context) => const HomePage(),
       },
     );
   }
