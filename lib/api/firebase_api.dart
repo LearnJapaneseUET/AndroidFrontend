@@ -23,7 +23,7 @@ class FirebaseApi {
   // functions to handle received messages
   void handleMessage(RemoteMessage? message) {
     // Nếu không cần xử lý nội dung thông báo, chỉ cần điều hướng đến trang từ điển
-    navigatorKey.currentState?.pushNamed('/home');
+    navigatorKey.currentState?.popAndPushNamed('/home');
   }
 
   // functions to initialize foreground and background settings
