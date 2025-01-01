@@ -83,6 +83,50 @@ class TextToSpeech {
     }
   }
 
+  Future<void> convertTextToSpeechVN(String text) async {
+    // Define the API URL
+    final url = Uri.parse(
+        'https://$region.tts.speech.microsoft.com/cognitiveservices/v1');
+
+    // Set the headers
+    final headers = {
+      'Content-Type': 'application/ssml+xml',
+      'Ocp-Apim-Subscription-Key': apiKey,
+      'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
+      'User-Agent': 'curl',
+    };
+
+    // Define the SSML (Speech Synthesis Markup Language) body
+    final ssml = '''
+    <speak version='1.0' xml:lang='vi-VN'>
+      <voice xml:lang='vi-VN' xml:gender='Female' name='vi-VN-HoaiMyNeural'>
+      $text
+      </voice>
+    </speak>
+    ''';
+
+    // Send the POST request to the Azure TTS API
+    final response = await http.post(
+      url,
+      headers: headers,
+      body: ssml,
+    );
+
+    if (response.statusCode == 200) {
+      // Success: the response contains the audio file
+      debugPrint('debug: Text-to-Speech conversion successful!');
+
+      // Get the audio data from the response
+      final audioData = response.bodyBytes;
+
+      // Save the audio to a file
+      await _saveAudioToFile(audioData);
+    } else {
+      // If the request failed, print the error
+      debugPrint('debug: Error: ${response.statusCode}, ${response.body}');
+    }
+  }
+
   // Save the audio data to a file
   Future<void> _saveAudioToFile(Uint8List audioData) async {
     final directory = (await getExternalStorageDirectory())!;
@@ -117,6 +161,11 @@ class TextToSpeech {
   // Call convertTextToSpeech when text is submitted, then _saveAudioToFile, then playAudioFile
   void processTTS(String text) async {
     await convertTextToSpeech(text);
+    _playAudioFile();
+  }
+
+  void processTTS_VN(String text) async {
+    await convertTextToSpeechVN(text);
     _playAudioFile();
   }
 }

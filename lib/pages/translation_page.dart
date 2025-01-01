@@ -328,8 +328,9 @@ class TranslationPageState extends State<TranslationPage> {
                             height: 8),
 
                         Container(
-                          height: 200,
+                          height: 100,
                           child: ListView.builder(
+                            itemCount: 1,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
