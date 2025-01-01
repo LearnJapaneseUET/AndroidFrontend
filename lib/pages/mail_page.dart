@@ -133,15 +133,20 @@ class _SendMailState extends State<SendMail> {
     );
   }
 
+
+
   void showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: FittedBox(
-          child: Text(
-            message,
-            style: const TextStyle(
-              fontSize: 10,
-            ),
+        duration: const Duration(seconds: 1),
+        backgroundColor: Colors.green,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20), // Set the border radius
+        ),
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16,
           ),
         ),
       ),

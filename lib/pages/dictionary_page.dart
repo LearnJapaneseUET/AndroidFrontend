@@ -32,6 +32,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
     ];
 
     return Scaffold( // Thêm Scaffold làm ancestor
+
       body: Column(
         children: [
           DecoratedBox(
@@ -85,6 +86,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
+                color: Color(0xFFF5F6FA),
                 image: DecorationImage(
                   image: AssetImage('assets/images/appbar.png'),
                   fit: BoxFit.fitWidth,

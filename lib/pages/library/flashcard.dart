@@ -280,12 +280,9 @@ class _LessonState extends State<Lesson> {
                               icon: const Icon(Icons.volume_up, size: 24),
                               color: Colors.black,
                               onPressed: () {
-<<<<<<< Updated upstream
-                                widget.textToSpeech.processTTS(
-                                    _swipeItems[index].content.meaning);
-=======
+                                // widget.textToSpeech.processTTS(
+                                //     _swipeItems[index].content.meaning);
                                 widget.textToSpeech.processTTS_VN(_swipeItems[index].content.meaning);
->>>>>>> Stashed changes
                                 log("Voice pressed");
                               },
                             ),
