@@ -72,8 +72,8 @@ class TranslationPageState extends State<TranslationPage> {
 
       // Print request body
       debugPrint('dangtiendung1201: Request body: ${jsonEncode({
-        'text': _textController.text
-      })}');
+            'text': _textController.text
+          })}');
 
       // Print response status code
       debugPrint(
@@ -90,11 +90,11 @@ class TranslationPageState extends State<TranslationPage> {
           final Map<String, dynamic> decodedResponse = jsonDecode(responseBody);
           _translationResult = decodedResponse['response'].toString();
           log("dit eeeeeeeeeee ${_translationResult!.substring(1, _translationResult!.length - 1)}");
-          _translationResult = _translationResult!.substring(1, _translationResult!.length - 1);
+          _translationResult =
+              _translationResult!.substring(1, _translationResult!.length - 1);
           // .toString(); // Ensure the response is converted to a string
           // String? dumaaa = _translationResult?[0].substring(1, _translationResult!.length - 2);
           // log("dit me mayyy ${dumaaa!}");
-
         });
       } else {
         debugPrint('dangtiendung1201: Response body: ${response.statusCode}');
@@ -129,10 +129,11 @@ class TranslationPageState extends State<TranslationPage> {
       setState(() {
         _image = takenPhoto;
       });
+      debugPrint('dangtiendung1201: Image path: ${_image!.path}');
+      _extractTextFromImage();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Please take a valid image (PNG or JPEG)')),
+        const SnackBar(content: Text('Please take a valid image (PNG or JPEG')),
       );
     }
   }
@@ -225,8 +226,8 @@ class TranslationPageState extends State<TranslationPage> {
                       // borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    contentPadding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
                   ),
                   maxLines: 5,
                   minLines: 3,
@@ -250,7 +251,8 @@ class TranslationPageState extends State<TranslationPage> {
                       ),
                       IconButton(
                         icon: Icon(Icons.mic,
-                            color: _isRecording ? Colors.red : Color(0xFF0E0C0C)),
+                            color:
+                                _isRecording ? Colors.red : Color(0xFF0E0C0C)),
                         onPressed: () {
                           if (_isRecording) {
                             audioRecord.stopRecording();
@@ -270,7 +272,6 @@ class TranslationPageState extends State<TranslationPage> {
                           }
                         },
                       ),
-          
                     ],
                   ),
                 ),
@@ -282,7 +283,7 @@ class TranslationPageState extends State<TranslationPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
-          
+
                     // padding: const EdgeInsets.symmetric(vertical: 13),
                   ),
                   child: const Text(
@@ -294,11 +295,9 @@ class TranslationPageState extends State<TranslationPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(width: 10, height: 16),
                 if (_translationResult != null)
                   Container(
-
                     decoration: BoxDecoration(
                       color: Colors.white, // Màu nền trắng
                       borderRadius: BorderRadius.circular(12), // Bo góc
@@ -312,8 +311,7 @@ class TranslationPageState extends State<TranslationPage> {
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(
-                        12.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -324,9 +322,7 @@ class TranslationPageState extends State<TranslationPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                            height: 8),
-
+                        const SizedBox(height: 8),
                         Container(
                           height: 100,
                           child: ListView.builder(
@@ -336,22 +332,17 @@ class TranslationPageState extends State<TranslationPage> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 0.0), // Khoảng cách giữa các mục
                                 child: Text(
-
                                   _translationResult!,
-                                  style: const TextStyle(
-                                      fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               );
                             },
                           ),
                         ),
-
                       ],
                     ),
                   ),
-                const SizedBox(
-                    width: 10,
-                    height: 10),
+                const SizedBox(width: 10, height: 10),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white, // Màu nền trắng
