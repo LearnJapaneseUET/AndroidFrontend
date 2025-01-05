@@ -24,7 +24,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
   void _connectToServer() {
     _socket = IO.io(
-      'http://localhost:3000', // Replace with your server URL
+      'https://socket-40w2.onrender.com',
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .enableAutoConnect()
