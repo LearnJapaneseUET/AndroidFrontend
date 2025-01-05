@@ -7,6 +7,7 @@ import 'package:nihongo/pages/chatbot_page.dart';
 import 'package:nihongo/pages/library/library_page.dart';
 import 'package:nihongo/pages/profile_page.dart';
 import 'package:nihongo/pages/translation_page.dart';
+import 'package:nihongo/pages/socket_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +24,8 @@ class _HomePageState extends State<HomePage> {
     const TranslationPage(),
     const LibraryPage(),
     const ChatbotPage(),
-    ProfilePage()
+    const ChatRoomPage(),
+    ProfilePage(),
   ];
 
   @override
@@ -61,6 +63,11 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.wechat),
+            label: '',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
             label: '',
             backgroundColor: Colors.purple,
           ),

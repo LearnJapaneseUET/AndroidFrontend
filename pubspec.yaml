@@ -59,6 +59,7 @@ dependencies:
   mailer: ^6.2.0
   flutter_sound: ^9.17.6
   flip_card: ^0.7.0
+  socket_io_client: ^3.0.2
   
 dev_dependencies:
   flutter_test:
