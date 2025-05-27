@@ -54,7 +54,7 @@ jobs:
 
     # Step 6: Upload the APK as an artifact
     - name: Upload APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: release-apk
         path: build/app/outputs/flutter-apk/app-release.apk
