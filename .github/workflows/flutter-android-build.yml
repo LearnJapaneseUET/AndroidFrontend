@@ -48,17 +48,27 @@ jobs:
     - name: Install Dependencies
       run: flutter pub get
 
-    # Step 5: Run Flutter build
+    # Step 5: Force-update Gradle and AGP version
+    - name: Update Gradle & Android Gradle Plugin
+      run: |
+        # Update AGP version in build.gradle
+        sed -i 's/com.android.tools.build:gradle:[^"]*/com.android.tools.build:gradle:8.6.0/' android/build.gradle
+
+        # Update Gradle wrapper version in gradle-wrapper.properties
+        sed -i 's|distributionUrl=.*|distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-all.zip|' android/gradle/wrapper/gradle-wrapper.properties
+
+    # Step 6: Run Flutter build
     - name: Build APK
       run: flutter build apk --release
 
-    # Step 6: Upload the APK as an artifact
+    # Step 7: Upload the APK as an artifact
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: release-apk
         path: build/app/outputs/flutter-apk/app-release.apk
-    
+
+    # Step 8: Create releases
     - name: Upload Release
       uses: softprops/action-gh-release@v1
       with:
